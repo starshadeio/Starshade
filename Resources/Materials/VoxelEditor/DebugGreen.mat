@@ -1,0 +1,13 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Materials/VoxelEditor/DebugGreen.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_DEBUG
+
+DataBuffer.Color (0.25f, 1.0f, 0.25f, 1.0f)

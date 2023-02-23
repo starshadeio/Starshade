@@ -1,0 +1,19 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel App
+//
+// File: ../Resources/UI/WUI/VoxelApp/Main.wui
+//
+//-------------------------------------------------------------------------------------------------
+
+PropBlock Main : WPanel {
+	main: true;
+	title: "Starshade App";
+	screenMode: Windowed;
+	dimensions: "1280, 720";
+	allowResize: true;
+	allowDoubleClick: true;
+	useVersionNumber: false;
+}

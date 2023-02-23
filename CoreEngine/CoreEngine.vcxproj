@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Production|x64">
+      <Configuration>Production</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{3e9d4a9a-b048-495d-86fa-a7983c6a0eb5}</ProjectGuid>
+    <RootNamespace>NetRunnerEngine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Libraries\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Libraries\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
+    <OutDir>$(SolutionDir)Libraries\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;PLATFORM_WINDOWS;NOMINMAX;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;PLATFORM_WINDOWS;NOMINMAX;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;PRODUCTION_BUILD;PLATFORM_WINDOWS;NOMINMAX;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\CAppBase.h" />
+    <ClInclude Include="Application\CAppVersion.h" />
+    <ClInclude Include="Application\CCommand.h" />
+    <ClInclude Include="Application\CCommandBuffer.h" />
+    <ClInclude Include="Application\CCommandManager.h" />
+    <ClInclude Include="Application\CCommandRecord.h" />
+    <ClInclude Include="Application\CCoreManager.h" />
+    <ClInclude Include="Application\CLocalization.h" />
+    <ClInclude Include="Application\CLocalizedString.h" />
+    <ClInclude Include="Globals\CGlobals.h" />
+    <ClInclude Include="Logic\CCallback.h" />
+    <ClInclude Include="Logic\CCamera.h" />
+    <ClInclude Include="Logic\CCameraManager.h" />
+    <ClInclude Include="Logic\CNodeTransform.h" />
+    <ClInclude Include="Logic\CTransform.h" />
+    <ClInclude Include="Math\CMathBounds2D.h" />
+    <ClInclude Include="Math\CMathColor.h" />
+    <ClInclude Include="Math\CMathFloat.h" />
+    <ClInclude Include="Math\CMathFNV.h" />
+    <ClInclude Include="Math\CMathMatrix2x2.h" />
+    <ClInclude Include="Math\CMathMatrix3x2.h" />
+    <ClInclude Include="Math\CMathMatrix3x3.h" />
+    <ClInclude Include="Math\CMathPrimes.h" />
+    <ClInclude Include="Math\CMathRect.h" />
+    <ClInclude Include="Math\CMathVector2.h" />
+    <ClInclude Include="Math\CMathVector3.h" />
+    <ClInclude Include="Math\CMathVector4.h" />
+    <ClInclude Include="Math\CMathVectorInt2.h" />
+    <ClInclude Include="Math\CMathVectorInt3.h" />
+    <ClInclude Include="Math\CMathVectorInt4.h" />
+    <ClInclude Include="Math\CSIMDMatrix.h" />
+    <ClInclude Include="Math\CSIMDPlane.h" />
+    <ClInclude Include="Math\CSIMDQuaternion.h" />
+    <ClInclude Include="Math\CSIMDRay.h" />
+    <ClInclude Include="Math\CSIMDVector.h" />
+    <ClInclude Include="Objects\CCompBatch.h" />
+    <ClInclude Include="Objects\CCompBatch.hpp" />
+    <ClInclude Include="Objects\CCompQueue.h" />
+    <ClInclude Include="Objects\CCompQueue.hpp" />
+    <ClInclude Include="Objects\CNodeComponent.h" />
+    <ClInclude Include="Objects\CNodeObject.h" />
+    <ClInclude Include="Objects\CNodeRegistry.h" />
+    <ClInclude Include="Objects\CVComponent.h" />
+    <ClInclude Include="Objects\CVObject.h" />
+    <ClInclude Include="Physics\CForceField.h" />
+    <ClInclude Include="Physics\CGJK.h" />
+    <ClInclude Include="Physics\CPhysics.h" />
+    <ClInclude Include="Physics\CPhysicsData.h" />
+    <ClInclude Include="Physics\CPhysicsUpdate.h" />
+    <ClInclude Include="Physics\CPhysicsWorld.h" />
+    <ClInclude Include="Physics\CRigidbody.h" />
+    <ClInclude Include="Physics\CVolume.h" />
+    <ClInclude Include="Physics\CVolumeCapsule.h" />
+    <ClInclude Include="Physics\CVolumeOBB.h" />
+    <ClInclude Include="Physics\CVolumeSphere.h" />
+    <ClInclude Include="Utilities\CArchive.h" />
+    <ClInclude Include="Utilities\CCompilerUtil.h" />
+    <ClInclude Include="Utilities\CConvertUtil.h" />
+    <ClInclude Include="Utilities\CDebugError.h" />
+    <ClInclude Include="Utilities\CDetectComment.h" />
+    <ClInclude Include="Utilities\CDSTrie.h" />
+    <ClInclude Include="Utilities\CFileSystem.h" />
+    <ClInclude Include="Utilities\CFileUtil.h" />
+    <ClInclude Include="Utilities\CFuture.h" />
+    <ClInclude Include="Utilities\CLayer.h" />
+    <ClInclude Include="Utilities\CMacroUtil.h" />
+    <ClInclude Include="Utilities\CMemAlign.h" />
+    <ClInclude Include="Utilities\CMemoryFree.h" />
+    <ClInclude Include="Utilities\CDeque.h" />
+    <ClInclude Include="Utilities\CResScript.h" />
+    <ClInclude Include="Utilities\CScriptObject.h" />
+    <ClInclude Include="Utilities\CTag.h" />
+    <ClInclude Include="Utilities\CTextUtil.h" />
+    <ClInclude Include="Utilities\CTimer.h" />
+    <ClInclude Include="Utilities\CTSDeque.h" />
+    <ClInclude Include="Utilities\CWinFileUtil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application\CAppBase.cpp" />
+    <ClCompile Include="Application\CCommand.cpp" />
+    <ClCompile Include="Application\CCommandBuffer.cpp" />
+    <ClCompile Include="Application\CCommandManager.cpp" />
+    <ClCompile Include="Application\CCommandRecord.cpp" />
+    <ClCompile Include="Application\CCoreManager.cpp" />
+    <ClCompile Include="Application\CLocalization.cpp" />
+    <ClCompile Include="Application\CLocalizedString.cpp" />
+    <ClCompile Include="Logic\CCamera.cpp" />
+    <ClCompile Include="Logic\CCameraManager.cpp" />
+    <ClCompile Include="Logic\CNodeTransform.cpp" />
+    <ClCompile Include="Logic\CTransform.cpp" />
+    <ClCompile Include="Math\CMathColor.cpp" />
+    <ClCompile Include="Math\CMathMatrix2x2.cpp" />
+    <ClCompile Include="Math\CMathMatrix3x2.cpp" />
+    <ClCompile Include="Math\CMathMatrix3x3.cpp" />
+    <ClCompile Include="Math\CSIMDMatrix.cpp" />
+    <ClCompile Include="Math\CSIMDPlane.cpp" />
+    <ClCompile Include="Math\CSIMDQuaternion.cpp" />
+    <ClCompile Include="Math\CSIMDVector.cpp" />
+    <ClCompile Include="Objects\CNodeComponent.cpp" />
+    <ClCompile Include="Objects\CNodeObject.cpp" />
+    <ClCompile Include="Objects\CNodeRegistry.cpp" />
+    <ClCompile Include="Objects\CVComponent.cpp" />
+    <ClCompile Include="Objects\CVObject.cpp" />
+    <ClCompile Include="Physics\CGJK.cpp" />
+    <ClCompile Include="Physics\CPhysics.cpp" />
+    <ClCompile Include="Physics\CPhysicsUpdate.cpp" />
+    <ClCompile Include="Physics\CPhysicsWorld.cpp" />
+    <ClCompile Include="Physics\CRigidbody.cpp" />
+    <ClCompile Include="Physics\CVolume.cpp" />
+    <ClCompile Include="Physics\CVolumeCapsule.cpp" />
+    <ClCompile Include="Physics\CVolumeOBB.cpp" />
+    <ClCompile Include="Physics\CVolumeSphere.cpp" />
+    <ClCompile Include="Utilities\CArchive.cpp" />
+    <ClCompile Include="Utilities\CDetectComment.cpp" />
+    <ClCompile Include="Utilities\CFileSystem.cpp" />
+    <ClCompile Include="Utilities\CResScript.cpp" />
+    <ClCompile Include="Utilities\CScriptObject.cpp" />
+    <ClCompile Include="Utilities\CTimer.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

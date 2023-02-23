@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Production|x64">
+      <Configuration>Production</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{D5D183D2-9DB0-4690-8E11-0726797BD8F5}</ProjectGuid>
+    <RootNamespace>NetRunnerAI</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Builds\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>Starshade</TargetName>
+    <IncludePath>$(SolutionDir)CoreEngine;$(SolutionDir)CoreGraphics;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\CoreEngine\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\CoreGraphics\$(Platform)\$(Configuration)\;$(SolutionDir)Externals\libogg-1.3.5\build\$(Configuration);$(SolutionDir)Externals\libvorbis-1.3.7\build\lib\$(Configuration);$(SolutionDir)Externals\DirectXTK12\Bin\Desktop_2022_Win10\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Builds\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>Starshade</TargetName>
+    <IncludePath>$(SolutionDir)CoreEngine;$(SolutionDir)CoreGraphics;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\CoreEngine\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\CoreGraphics\$(Platform)\$(Configuration)\;$(SolutionDir)Externals\libogg-1.3.5\build\$(Configuration);$(SolutionDir)Externals\libvorbis-1.3.7\build\lib\$(Configuration);$(SolutionDir)Externals\DirectXTK12\Bin\Desktop_2022_Win10\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
+    <OutDir>$(SolutionDir)Production\Editor\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>Starshade</TargetName>
+    <IncludePath>$(SolutionDir)CoreEngine;$(SolutionDir)CoreGraphics;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\CoreEngine\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\CoreGraphics\$(Platform)\$(Configuration)\;$(SolutionDir)Externals\libogg-1.3.5\build\Release\;$(SolutionDir)Externals\libvorbis-1.3.7\build\lib\Release\;$(SolutionDir)Externals\DirectXTK12\Bin\Desktop_2022_Win10\$(Platform)\Release\;$(LibraryPath)</LibraryPath>
+    <CopyCppRuntimeToOutputDir>false</CopyCppRuntimeToOutputDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;GRAPHICS_DX12;PLATFORM_WINDOWS;NOMINMAX;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;GRAPHICS_DX12;PLATFORM_WINDOWS;NOMINMAX;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;PRODUCTION_BUILD;GRAPHICS_DX12;PLATFORM_WINDOWS;NOMINMAX;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Actors\CMotorMonitor.h" />
+    <ClInclude Include="Actors\CUser.h" />
+    <ClInclude Include="AI\CAIMath.h" />
+    <ClInclude Include="Application\CAppData.h" />
+    <ClInclude Include="Application\CApplication.h" />
+    <ClInclude Include="Application\CAppReg.h" />
+    <ClInclude Include="Application\CAppState.h" />
+    <ClInclude Include="Application\CBlockMarker.h" />
+    <ClInclude Include="Application\CEditor.h" />
+    <ClInclude Include="Application\CGizmo.h" />
+    <ClInclude Include="Application\CGizmoCircle.h" />
+    <ClInclude Include="Application\CGizmoCone.h" />
+    <ClInclude Include="Application\CGizmoCube.h" />
+    <ClInclude Include="Application\CGizmoData.h" />
+    <ClInclude Include="Application\CGizmoDraw.h" />
+    <ClInclude Include="Application\CGIzmoInteract.h" />
+    <ClInclude Include="Application\CGizmoLine.h" />
+    <ClInclude Include="Application\CGizmoPivot.h" />
+    <ClInclude Include="Application\CGizmoQuad.h" />
+    <ClInclude Include="Application\CGizmoRotate.h" />
+    <ClInclude Include="Application\CGizmoScale.h" />
+    <ClInclude Include="Application\CGizmoTranslate.h" />
+    <ClInclude Include="Application\CNodeEditor.h" />
+    <ClInclude Include="Application\CNodeEx.h" />
+    <ClInclude Include="Application\CNodeObjectEx.h" />
+    <ClInclude Include="Application\CNodeSelect.h" />
+    <ClInclude Include="Application\CProjectManager.h" />
+    <ClInclude Include="Application\CSceneGlobal.h" />
+    <ClInclude Include="Application\CSceneNode.h" />
+    <ClInclude Include="Application\CViewOverlay.h" />
+    <ClInclude Include="Application\CViewScene.h" />
+    <ClInclude Include="Graphics\CMeshSpawnPoint.h" />
+    <ClInclude Include="Graphics\CPostOverlay.h" />
+    <ClInclude Include="Physics\CTestCube.h" />
+    <ClInclude Include="Resources\CAssetManager.h" />
+    <ClInclude Include="Resources\CPaletteManager.h" />
+    <ClInclude Include="UI\CEditorPanel.h" />
+    <ClInclude Include="UI\CPane.h" />
+    <ClInclude Include="Universe\CChunkEditor.h" />
+    <ClInclude Include="Universe\CCyberGrid.h" />
+    <ClInclude Include="Universe\CCyberNode.h" />
+    <ClInclude Include="Universe\CNodeGrid.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Actors\CMotorMonitor.cpp" />
+    <ClCompile Include="Actors\CUser.cpp" />
+    <ClCompile Include="Application\CApplication.cpp" />
+    <ClCompile Include="Application\CAppReg.cpp" />
+    <ClCompile Include="Application\CAppState.cpp" />
+    <ClCompile Include="Application\CBlockMarker.cpp" />
+    <ClCompile Include="Application\CEditor.cpp" />
+    <ClCompile Include="Application\CGizmo.cpp" />
+    <ClCompile Include="Application\CGizmoCircle.cpp" />
+    <ClCompile Include="Application\CGizmoCone.cpp" />
+    <ClCompile Include="Application\CGizmoCube.cpp" />
+    <ClCompile Include="Application\CGizmoDraw.cpp" />
+    <ClCompile Include="Application\CGIzmoInteract.cpp" />
+    <ClCompile Include="Application\CGizmoLine.cpp" />
+    <ClCompile Include="Application\CGizmoPivot.cpp" />
+    <ClCompile Include="Application\CGizmoQuad.cpp" />
+    <ClCompile Include="Application\CGizmoRotate.cpp" />
+    <ClCompile Include="Application\CGizmoScale.cpp" />
+    <ClCompile Include="Application\CGizmoTranslate.cpp" />
+    <ClCompile Include="Application\CNodeEditor.cpp" />
+    <ClCompile Include="Application\CNodeEx.cpp" />
+    <ClCompile Include="Application\CNodeObjectEx.cpp" />
+    <ClCompile Include="Application\CNodeSelect.cpp" />
+    <ClCompile Include="Application\CProjectManager.cpp" />
+    <ClCompile Include="Application\CSceneGlobal.cpp" />
+    <ClCompile Include="Application\CSceneNode.cpp" />
+    <ClCompile Include="Application\CViewOverlay.cpp" />
+    <ClCompile Include="Application\CViewScene.cpp" />
+    <ClCompile Include="Graphics\CMeshSpawnPoint.cpp" />
+    <ClCompile Include="Graphics\CPostOverlay.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Physics\CTestCube.cpp" />
+    <ClCompile Include="Resources\CAssetManager.cpp" />
+    <ClCompile Include="Resources\CPaletteManager.cpp" />
+    <ClCompile Include="UI\CEditorPanel.cpp" />
+    <ClCompile Include="UI\CPane.cpp" />
+    <ClCompile Include="Universe\CChunkEditor.cpp" />
+    <ClCompile Include="Universe\CCyberGrid.cpp" />
+    <ClCompile Include="Universe\CCyberNode.cpp" />
+    <ClCompile Include="Universe\CNodeGrid.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Editor.res" />
+    <None Include="..\Resources\Localization\VoxelEditor\localizedText_en.loc" />
+    <None Include="..\Resources\Materials\VoxelEditor\CyberGrid.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\CyberNode.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\DebugGreen.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\DeletionQuad.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\GizmoLine.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\GizmoTri.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\GizmoTriUnlit.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\NodeGrid.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\PlacementQuad.mat" />
+    <None Include="..\Resources\Materials\VoxelEditor\PostOverlay.mat" />
+    <None Include="..\Resources\Shaders\VoxelEditor\CyberGrid.shader" />
+    <None Include="..\Resources\Shaders\VoxelEditor\CyberNode.shader" />
+    <None Include="..\Resources\Shaders\VoxelEditor\Gizmo.shader" />
+    <None Include="..\Resources\Shaders\VoxelEditor\NodeGrid.shader" />
+    <None Include="..\Resources\Shaders\VoxelEditor\PostOverlay.shader" />
+    <None Include="..\Resources\UI\Panes\VoxelEditor\Editor.pane" />
+    <None Include="..\Resources\UI\Panes\VoxelEditor\SceneView.pane" />
+    <None Include="..\Resources\UI\WUI\VoxelEditor\Main.wui" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Shaders\VoxelEditor\TexturedQuad.shader">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

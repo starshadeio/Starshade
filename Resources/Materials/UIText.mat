@@ -1,0 +1,16 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Static Library: Core Graphics
+//
+// File: ../Resources/Shader/UIText.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_UI_TEXT.SOFT_EDGES.OUTLINE
+
+FontBuffer.SoftEdgeRange ( 0.1f, 0.6f )
+FontBuffer.OutlineMin ( 0.0f, 0.0f )
+FontBuffer.OutlineMax ( 0.0f, 0.5f )
+FontBuffer.OutlineColor ( 1.0f, 1.0f, 1.0f, 1.0f )

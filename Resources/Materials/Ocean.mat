@@ -1,0 +1,14 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: NetRunner App
+//
+// File: ../Resources/Materials/Ocean.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_OCEAN
+
+DataBuffer.TessellationScale 0.02f
+DataBuffer.TessellationMax 32.0f

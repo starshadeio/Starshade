@@ -1,0 +1,11 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Materials/VoxelEditor/GizmoTriUnlit.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_GIZMO.TRIANGLE

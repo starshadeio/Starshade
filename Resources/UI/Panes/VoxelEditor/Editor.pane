@@ -1,0 +1,679 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/UI/Panes/VoxelEditor/SceneView.pane
+//
+//-------------------------------------------------------------------------------------------------
+
+//
+// Texture Properties.
+//
+
+PropBlock Texture : icons {
+	texture: "TEXTURE_UI_ICONS";
+	cells: "8, 3";
+}
+
+PropBlock Texture : palette_arrow {
+	texture: "TEXTURE_UI_PANEL_ARROW";
+	cells: "2, 1";
+}
+
+PropBlock Texture : palette {
+	texture: "TEXTURE_ASSET_PALETTE_0";
+	cells: "8, 32";
+}
+
+//
+// Classes.
+//
+
+PropBlock Class : button_class {
+	size: "24.0f, 24.0f";
+	
+	type: button {
+		bAllowOverlap: "false";
+
+		bUseBackgroud: "true";
+		bUseForegroud: "true";
+		
+		bgColorDisable: "0.15f, 0.15f, 0.15f, 1.0f";
+		bgColorEnter: "0.2f, 0.2f, 0.2f, 1.0f";
+		bgColorExit: "0.15f, 0.15f, 0.15f, 1.0f";
+		bgColorClick: "0.3f, 0.3f, 0.3f, 1.0f";
+
+		fgColorDisable: "0.5f, 0.5f, 0.5f, 1.0f";
+
+		bg.bSplitImage: "true";
+		bg.bFillCenter: "true";
+		bg.centerPartition: "6.0f, 6.0f, 4.0f, 4.0f"; 
+		bg.color: "0.15f, 0.15f, 0.15f, 1.0f"; 
+		bg.material: "MATERIAL_UI_IMAGE_PT";
+		bg.texture: "TEXTURE_UI_FRAME_FILLED_1PT";
+			
+		fg.material: "MATERIAL_UI_IMAGE_PT";
+		fg.texture: "TEXTURE_UI_ICONS";
+	}
+}
+
+//
+// UI Elements.
+//
+
+PropBlock UIFrame : main_ui {
+	left: "0.0f";
+	right: "0.0f";
+	top: "0.0f";
+	bottom: "0.0f";
+
+	anchorMin: "0.0f, 0.0f";
+	anchorMax: "1.0f, 1.0f";
+	pivot: "0.5f, 0.5f";
+
+	//
+	// Top bar.
+	//
+
+	frame: top_bar {
+		position: "0.0f, -12.0f";
+		size: "0.0f, 51.0f";
+
+		left: "12.0f";
+		right: "270.0f";
+
+		anchorMin: "0.0f, 1.0f";
+		anchorMax: "1.0f, 1.0f";
+		pivot: "0.0f, 1.0f";
+
+		/*type: image {
+			bSplitImage: "true";
+			bFillCenter: "true";
+			centerPartition: "6.0f, 6.0f, 4.0f, 4.0f"; 
+			color: "0.0f, 0.0f, 0.0f, 1.0f"; 
+			material: "MATERIAL_UI_IMAGE_PT";
+			texture: "TEXTURE_UI_FRAME_1PT";
+		}*/
+		
+		frame: button_new {
+			class: "button_class";
+
+			position: "0.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "0";
+				onRelease: "new_project";
+
+				tooltip: "UI:TOOLTIP_NEW_PROJECT";
+				keybind: "editor:new_project";
+			}
+		}
+	
+		frame: button_open {
+			class: "button_class";
+
+			position: "27.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "3";
+				onRelease: "open_project";
+
+				tooltip: "UI:TOOLTIP_OPEN_PROJECT";
+				keybind: "editor:open_project";
+			}
+		}
+	
+		frame: button_save {
+			class: "button_class";
+
+			position: "60.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "1";
+				onRelease: "save_project";
+
+				tooltip: "UI:TOOLTIP_SAVE_PROJECT";
+				keybind: "editor:save_project";
+			}
+		}
+	
+		frame: button_save_as {
+			class: "button_class";
+
+			position: "87.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "2";
+				onRelease: "save_project_as";
+
+				tooltip: "UI:TOOLTIP_SAVE_PROJECT_AS";
+				keybind: "editor:save_project_as";
+			}
+		}
+	
+		frame: button_build {
+			class: "button_class";
+
+			position: "120.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "20";
+				onRelease: "build_project";
+				
+				tooltip: "UI:TOOLTIP_BUILD_PROJECT";
+				keybind: "editor:build_project";
+			}
+		}
+	
+		frame: button_undo {
+			class: "button_class";
+
+			position: "162.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				bEnable: "false";
+
+				fg.index: "8";
+				onRelease: "undo";
+
+				actionEnable: "undo_fill";
+				actionDisable: "undo_empty";
+
+				tooltip: "UI:TOOLTIP_UNDO";
+				keybind: "editor:undo";
+			}
+		}
+	
+		frame: button_redo {
+			class: "button_class";
+
+			position: "189.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				bEnable: "false";
+
+				fg.index: "9";
+				onRelease: "redo";
+			
+				actionEnable: "redo_fill";
+				actionDisable: "redo_empty";
+
+				tooltip: "UI:TOOLTIP_REDO";
+				keybind: "editor:redo";
+			}
+		}
+	
+		frame: button_erase {
+			class: "button_class";
+
+			position: "231.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "7";
+				onRelease: "select_erase";
+
+				actionHold: "select_erase";
+				actionRelease: "select_erase_off";
+
+				tooltip: "UI:TOOLTIP_ERASE_MODE";
+				keybind: "editor:mode_erase";
+			}
+		}
+	
+		frame: button_fill {
+			class: "button_class";
+
+			position: "258.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				bHold: "true";
+
+				fg.index: "6";
+				onRelease: "select_fill";
+
+				actionHold: "select_fill";
+				actionRelease: "select_fill_off";
+
+				tooltip: "UI:TOOLTIP_FILL_MODE";
+				keybind: "editor:mode_fill";
+			}
+		}
+	
+		frame: button_paint {
+			class: "button_class";
+
+			position: "285.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "15";
+				onRelease: "select_paint";
+
+				actionHold: "select_paint";
+				actionRelease: "select_paint_off";
+				
+				tooltip: "UI:TOOLTIP_PAINT_MODE";
+				keybind: "editor:mode_paint";
+			}
+		}
+	
+		frame: button_size_1 {
+			class: "button_class";
+
+			position: "231.0f, -27.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "16";
+				onRelease: "select_brush_1";
+
+				actionHold: "select_brush_1";
+				actionRelease: "select_brush_1_off";
+				
+				tooltip: "UI:TOOLTIP_BRUSH_SIZE_1";
+				keybind: "editor:brush_1";
+			}
+		}
+	
+		frame: button_size_2 {
+			class: "button_class";
+
+			position: "258.0f, -27.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "17";
+				onRelease: "select_brush_2";
+
+				actionHold: "select_brush_2";
+				actionRelease: "select_brush_2_off";
+
+				tooltip: "UI:TOOLTIP_BRUSH_SIZE_2";
+				keybind: "editor:brush_2";
+			}
+		}
+	
+		frame: button_size_4 {
+			class: "button_class";
+
+			position: "285.0f, -27.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				bHold: "true";
+
+				fg.index: "18";
+				onRelease: "select_brush_4";
+
+				actionHold: "select_brush_4";
+				actionRelease: "select_brush_4_off";
+
+				tooltip: "UI:TOOLTIP_BRUSH_SIZE_4";
+				keybind: "editor:brush_4";
+			}
+		}
+	
+		frame: button_play_spawn {
+			class: "button_class";
+
+			position: "327.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "19";
+				onRelease: "play_spawn";
+
+				tooltip: "UI:TOOLTIP_PLAY_SCENE_SPAWN";
+				keybind: "editor:play_spawn";
+			}
+		}
+	
+		frame: button_play_at {
+			class: "button_class";
+
+			position: "354.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "5";
+				onRelease: "play_at";
+
+				tooltip: "UI:TOOLTIP_PLAY_SCENE_AT";
+				keybind: "editor:play_at";
+			}
+		}
+	}
+
+	//
+	// Left bar.
+	//
+
+	frame: button_select {
+		class: "button_class";
+
+		position: "12.0f, -63.0f";
+		anchorMin: "0.0f, 1.0f";
+		anchorMax: "0.0f, 1.0f";
+		pivot: "0.0f, 1.0f";
+
+		type: button {
+			bHold: "true";
+			fg.index: "14";
+
+			tooltip: "UI:TOOLTIP_GIZMO_SELECT";
+			onRelease: "gizmo_select";
+
+			actionHold: "gizmo_select";
+			actionRelease: "gizmo_select_off";
+
+			keybind: "editor:gizmo_select";
+		}
+	}
+	
+	frame: button_translate {
+		class: "button_class";
+
+		position: "12.0f, -96.0f";
+		anchorMin: "0.0f, 1.0f";
+		anchorMax: "0.0f, 1.0f";
+		pivot: "0.0f, 1.0f";
+
+		type: button {
+			//bEnable: "false";
+			fg.index: "11";
+
+			tooltip: "UI:TOOLTIP_GIZMO_TRANSLATE";
+			onRelease: "gizmo_translate";
+
+			actionHold: "gizmo_translate";
+			actionRelease: "gizmo_translate_off";
+
+			keybind: "editor:gizmo_translate";
+		}
+	}
+
+	frame: button_rotate {
+		class: "button_class";
+
+		position: "12.0f, -123.0f";
+		anchorMin: "0.0f, 1.0f";
+		anchorMax: "0.0f, 1.0f";
+		pivot: "0.0f, 1.0f";
+
+		type: button {
+			//bEnable: "false";
+			fg.index: "12";
+
+			tooltip: "UI:TOOLTIP_GIZMO_ROTATE";
+			onRelease: "gizmo_rotate";
+
+			actionHold: "gizmo_rotate";
+			actionRelease: "gizmo_rotate_off";
+
+			keybind: "editor:gizmo_rotate";
+		}
+	}
+	
+	frame: button_scale {
+		class: "button_class";
+
+		position: "12.0f, -150.0f";
+		anchorMin: "0.0f, 1.0f";
+		anchorMax: "0.0f, 1.0f";
+		pivot: "0.0f, 1.0f";
+
+		type: button {
+			//bEnable: "false";
+			fg.index: "13";
+
+			tooltip: "UI:TOOLTIP_GIZMO_SCALE";
+			onRelease: "gizmo_scale";
+
+			actionHold: "gizmo_scale";
+			actionRelease: "gizmo_scale_off";
+
+			keybind: "editor:gizmo_scale";
+		}
+	}
+
+	//
+	// Palette bar.
+	//
+
+	frame: container_palette {
+		position: "0.0f, 0.0f";
+		size: "36.0f, 0.0f";
+		top: "12.0f";
+		bottom: "12.0f";
+		
+		anchorMin: "1.0f, 0.0f";
+		anchorMax: "1.0f, 1.0f";
+		pivot: "1.0f, 0.5f";
+
+		type: frame {
+			regCommand: toggle_palette {
+				type: toggle {
+					default: "false";
+
+					state: true {
+						container_palette.size.x: "232.0f";
+						image_palette_expansion.active: "true";
+						button_palette_arrow.fg.index: "1";
+					}
+
+					state: false {
+						container_palette.size.x: "36.0f";
+						image_palette_expansion.active: "false";
+						button_palette_arrow.fg.index: "0";
+					}
+				}
+			}
+		}
+
+		frame: image_palette_expansion {
+			bottom: "36.0f";
+			
+			position: "-12.0f, 8.0f";
+			size: "192.0f, 24.0f";
+
+			maxHeight: "768.0f";
+
+			anchorMin: "1.0f, 0.0f";
+			anchorMax: "1.0f, 1.0f";
+			pivot: "1.0f, 1.0f";
+
+			type: grid_select {
+				bUseSelector: "true";
+				cells: "8, 32";
+
+				bg.bIgnoreCells: "true";
+				bg.color: "1.0f, 1.0f, 1.0f, 1.0f"; 
+				bg.material: "MATERIAL_UI_IMAGE_PT";
+				bg.texture: "TEXTURE_ASSET_PALETTE_0";
+				
+				selector.thickness: "2.0f";
+				selector.color: "1.0f, 1.0f, 0.0f, 1.0f";
+				selector.material: "MATERIAL_UI_IMAGE_PT";
+				selector.texture: "TEXTURE_UI_BLANK";
+				
+				grid.thickness: "2.0f";
+				grid.color: "0.0f, 0.0f, 0.0f, 1.0f";
+				grid.material: "MATERIAL_UI_IMAGE_PT";
+				grid.texture: "TEXTURE_UI_BLANK";
+
+				onRelease: "palette_color_select";
+				actionIndexChange: "palette_color_select";
+			}
+		}
+
+		frame: image_palette_recent {
+			bottom: "36.0f";
+			
+			position: "0.0f, 8.0f";
+			size: "24.0f, 24.0f";
+
+			maxHeight: "768.0f";
+
+			anchorMin: "0.0f, 0.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: grid_select {
+				bSeparateCells: "true";
+				cells: "1, 32";
+
+				bg.color: "1.0f, 1.0f, 1.0f, 1.0f"; 
+				bg.uvCells: "8, 32";
+				bg.actionCellIndexChange: "palette_recent_index_change";
+				bg.material: "MATERIAL_UI_IMAGE_PT";
+				bg.texture: "TEXTURE_ASSET_PALETTE_0";
+				
+				grid.thickness: "2.0f";
+				grid.color: "0.0f, 0.0f, 0.0f, 1.0f";
+				grid.material: "MATERIAL_UI_IMAGE_PT";
+				grid.texture: "TEXTURE_UI_BLANK";
+
+				onRelease: "palette_recent_select";
+			}
+
+			frame: button_palette_arrow {
+				class: "button_class";
+
+				position: "-4.0f, 0.0f";
+				size: "12.0f, 48.0f";
+
+				anchorMin: "0.0f, 0.5f";
+				anchorMax: "0.0f, 0.5f";
+				pivot: "1.0f, 0.5f";
+
+				type: button {
+					bAllowOverlap: "true";
+
+					fg.index: "0";
+					fg.texture: "TEXTURE_UI_PANEL_ARROW";
+					onRelease: "toggle_palette";
+
+					tooltip: "UI:TOOLTIP_PALETTE_TOGGLE";
+				}
+			}
+		}
+	}
+
+	frame: image_palette_selection {
+		position: "-12.0f, 12.0f";
+		size: "24.0f, 24.0f";
+
+		anchorMin: "1.0f, 0.0f";
+		anchorMax: "1.0f, 0.0f";
+		pivot: "1.0f, 0.0f";
+
+		type: button {
+			bUseBackgroud: "true";
+			bUseForegroud: "true";
+			
+			bgColorDisable: "1.0f, 1.0f, 1.0f, 1.0f"; 
+			bgColorEnter: "1.0f, 1.0f, 1.0f, 1.0f"; 
+			bgColorExit: "1.0f, 1.0f, 1.0f, 1.0f"; 
+			bgColorClick: "1.0f, 1.0f, 1.0f, 1.0f"; 
+
+			fgColorDisable: "0.0f, 0.0f, 0.0f, 1.0f"; 
+			fgColorEnter: "0.0f, 0.0f, 0.0f, 1.0f"; 
+			fgColorExit: "0.0f, 0.0f, 0.0f, 1.0f"; 
+			fgColorClick: "0.0f, 0.0f, 0.0f, 1.0f"; 
+
+			bg.color: "1.0f, 1.0f, 1.0f, 1.0f"; 
+			bg.material: "MATERIAL_UI_IMAGE_PT";
+			bg.texture: "TEXTURE_ASSET_PALETTE_0";
+
+			bg.actionIndexChange: "palette_color_select";
+
+			fg.bSplitImage: "true";
+			fg.bFillCenter: "true";
+			fg.centerPartition: "6.0f, 6.0f, 4.0f, 4.0f"; 
+			fg.color: "0.0f, 0.0f, 0.0f, 1.0f"; 
+			fg.material: "MATERIAL_UI_IMAGE_PT";
+			fg.texture: "TEXTURE_UI_FRAME_2PT";
+		}
+	}
+
+	//
+	// Bottom bar.
+	//
+
+	frame: button_trash {
+		class: "button_class";
+
+		position: "12.0f, 12.0f";
+		anchorMin: "0.0f, 0.0f";
+		anchorMax: "0.0f, 0.0f";
+		pivot: "0.0f, 0.0f";
+
+		type: button {
+			fg.index: "4";
+			onRelease: "chunk_clear";
+
+			tooltip: "UI:TOOLTIP_CLEAR_SCENE";
+		}
+	}
+
+	frame: text_tooltip {
+		position: "48.0f, 12.0f";
+		size: "256.0f, 24.0f";
+		anchorMin: "0.0f, 0.0f";
+		anchorMax: "0.0f, 0.0f";
+		pivot: "0.0f, 0.0f";
+		
+		type: tooltip {
+			tx.material: "MATERIAL_UI_TEXT";
+			tx.font: "FONT_DEFAULT";
+
+			tx.color: "0.0f, 0.0f, 0.0f, 1.0f";
+
+			tx.hAlign: "Left";
+			tx.vAlign: "Center";
+			tx.fontSize: "8.0f";
+			tx.maxText: "64";
+		}
+	}
+}

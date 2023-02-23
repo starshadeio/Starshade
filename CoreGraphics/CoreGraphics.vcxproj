@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Production|x64">
+      <Configuration>Production</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7edad5a1-6438-4614-9cad-4811264f989c}</ProjectGuid>
+    <RootNamespace>NetRunnerGraphics</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)Libraries\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)CoreEngine;$(SolutionDir)Externals\libogg-1.3.5\include;$(SolutionDir)Externals\libvorbis-1.3.7\include;$(SolutionDir)Externals\DirectXTK12\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\CoreEngine\$(Platform)\$(Configuration)\;$(SolutionDir)Externals\libogg-1.3.5\build\$(Configuration);$(SolutionDir)Externals\libvorbis-1.3.7\build\lib\$(Configuration);$(SolutionDir)Externals\DirectXTK12\Bin\Desktop_2022_Win10\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)Libraries\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)CoreEngine;$(SolutionDir)Externals\libogg-1.3.5\include;$(SolutionDir)Externals\libvorbis-1.3.7\include;$(SolutionDir)Externals\DirectXTK12\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\CoreEngine\$(Platform)\$(Configuration)\;$(SolutionDir)Externals\libogg-1.3.5\build\$(Configuration);$(SolutionDir)Externals\libvorbis-1.3.7\build\lib\$(Configuration);$(SolutionDir)Externals\DirectXTK12\Bin\Desktop_2022_Win10\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
+    <OutDir>$(SolutionDir)Libraries\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)CoreEngine;$(SolutionDir)Externals\libogg-1.3.5\include;$(SolutionDir)Externals\libvorbis-1.3.7\include;$(SolutionDir)Externals\DirectXTK12\Inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Libraries\CoreEngine\$(Platform)\$(Configuration)\;$(SolutionDir)Externals\libogg-1.3.5\build\Release\;$(SolutionDir)Externals\libvorbis-1.3.7\build\lib\Release\;$(SolutionDir)Externals\DirectXTK12\Bin\Desktop_2022_Win10\$(Platform)\Release\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;GRAPHICS_DX12;PLATFORM_WINDOWS;NOMINMAX;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;GRAPHICS_DX12;PLATFORM_WINDOWS;NOMINMAX;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;PRODUCTION_BUILD;GRAPHICS_DX12;PLATFORM_WINDOWS;NOMINMAX;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <TreatLibWarningAsErrors>true</TreatLibWarningAsErrors>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Materials\Post2.mat" />
+    <None Include="..\Resources\Materials\Post3.mat" />
+    <None Include="..\Resources\Materials\Post4.mat" />
+    <None Include="..\Resources\Materials\Post5.mat" />
+    <None Include="..\Resources\Materials\Post6.mat" />
+    <None Include="..\Resources\Materials\Post7.mat" />
+    <None Include="..\Resources\Materials\Post8.mat" />
+    <None Include="..\Resources\Materials\Primitive.mat" />
+    <None Include="..\Resources\Materials\PrimitiveTex.mat" />
+    <None Include="..\Resources\Materials\UIView.mat" />
+    <None Include="..\Resources\Materials\UIImagePt.mat">
+      <FileType>Document</FileType>
+    </None>
+    <ClInclude Include="Actors\CHUD.h" />
+    <ClInclude Include="Actors\CMotor.h" />
+    <ClInclude Include="Actors\CMotorHumanoid.h" />
+    <ClInclude Include="Actors\CMotorNull.h" />
+    <ClInclude Include="Actors\CPawn.h" />
+    <ClInclude Include="Actors\CPlayer.h" />
+    <ClInclude Include="Actors\CPlayerHUD.h" />
+    <ClInclude Include="Actors\CPlayerPawn.h" />
+    <ClInclude Include="Actors\CSpawner.h" />
+    <ClInclude Include="Actors\CUIBase.h" />
+    <ClInclude Include="Actors\CUINull.h" />
+    <ClInclude Include="Actors\CUIPlayer.h" />
+    <ClInclude Include="Application\CInput.h" />
+    <ClInclude Include="Application\CInputData.h" />
+    <ClInclude Include="Application\CInputDevice.h" />
+    <ClInclude Include="Application\CInputDeviceList.h" />
+    <ClInclude Include="Application\CInputGamepad.h" />
+    <ClInclude Include="Application\CInputKeyboard.h" />
+    <ClInclude Include="Application\CInputLayout.h" />
+    <ClInclude Include="Application\CInputMouse.h" />
+    <ClInclude Include="Application\CNode.h" />
+    <ClInclude Include="Application\CNodeManager.h" />
+    <ClInclude Include="Application\CPanel.h" />
+    <ClInclude Include="Application\CPanelData.h" />
+    <ClInclude Include="Application\CPlatform.h" />
+    <ClInclude Include="Application\CPlatformData.h" />
+    <ClInclude Include="Application\CPlatformMain.h" />
+    <ClInclude Include="Application\CScene.h" />
+    <ClInclude Include="Application\CSceneFileIO.h" />
+    <ClInclude Include="Application\CSceneManager.h" />
+    <ClInclude Include="Application\CView.h" />
+    <ClInclude Include="Application\CWinDeviceList.h" />
+    <ClInclude Include="Application\CWinGamepad.h" />
+    <ClInclude Include="Application\CWinPanel.h" />
+    <ClInclude Include="Application\CWinPlatform.h" />
+    <ClInclude Include="Application\CWUIScript.h" />
+    <ClInclude Include="Audio\CAudio.h" />
+    <ClInclude Include="Audio\CAudioClip.h" />
+    <ClInclude Include="Audio\CAudioData.h" />
+    <ClInclude Include="Audio\CAudioGroup.h" />
+    <ClInclude Include="Audio\CAudioListener.h" />
+    <ClInclude Include="Audio\CAudioLoader.h" />
+    <ClInclude Include="Audio\CAudioMixer.h" />
+    <ClInclude Include="Audio\CAudioOgg.h" />
+    <ClInclude Include="Audio\CAudioSource.h" />
+    <ClInclude Include="Audio\CAudioVoice.h" />
+    <ClInclude Include="Audio\CAudioWave.h" />
+    <ClInclude Include="Audio\CWinAudio.h" />
+    <ClInclude Include="Audio\CWinAudioGroup.h" />
+    <ClInclude Include="Audio\CWinAudioVoice.h" />
+    <ClInclude Include="Factory\CFactory.h" />
+    <ClInclude Include="Graphics\CCompute.h" />
+    <ClInclude Include="Graphics\CComputeSystem.h" />
+    <ClInclude Include="Graphics\CConstantBuffer.h" />
+    <ClInclude Include="Graphics\CDebug2D.h" />
+    <ClInclude Include="Graphics\CDebug3D.h" />
+    <ClInclude Include="Graphics\CDebugDraw.h" />
+    <ClInclude Include="Graphics\CDebugOBB.h" />
+    <ClInclude Include="Graphics\CDebugGrid.h" />
+    <ClInclude Include="Graphics\CDebugRect.h" />
+    <ClInclude Include="Graphics\CDX12Compute.h" />
+    <ClInclude Include="Graphics\CDX12ConstantBuffer.h" />
+    <ClInclude Include="Graphics\CDX12Data.h" />
+    <ClInclude Include="Graphics\CDX12Graphics.h" />
+    <ClInclude Include="Graphics\CDX12HeapManager.h" />
+    <ClInclude Include="Graphics\CDX12MeshRenderer.h" />
+    <ClInclude Include="Graphics\CDX12Worker.h" />
+    <ClInclude Include="Graphics\CDX12MeshRenderer_.h" />
+    <ClInclude Include="Graphics\CDX12RootSignature.h" />
+    <ClInclude Include="Graphics\CDX12Shader.h" />
+    <ClInclude Include="Graphics\CDX12ShaderCompiler.h" />
+    <ClInclude Include="Graphics\CDX12Texture.h" />
+    <ClInclude Include="Graphics\CDX12UAVBuffer.h" />
+    <ClInclude Include="Graphics\CGraphicsAPI.h" />
+    <ClInclude Include="Graphics\CGraphicsData.h" />
+    <ClInclude Include="Graphics\CGraphicsWorker.h" />
+    <ClInclude Include="Graphics\CMaterial.h" />
+    <ClInclude Include="Graphics\CMaterialFile.h" />
+    <ClInclude Include="Graphics\CMesh.h" />
+    <ClInclude Include="Graphics\CMeshContainer_.h" />
+    <ClInclude Include="Graphics\CMeshCube.h" />
+    <ClInclude Include="Graphics\CMeshFilter.h" />
+    <ClInclude Include="Graphics\CMeshData_.h" />
+    <ClInclude Include="Graphics\CMeshRenderer.h" />
+    <ClInclude Include="Graphics\CMeshRenderer_.h" />
+    <ClInclude Include="Graphics\CPost.h" />
+    <ClInclude Include="Graphics\CPostEdge.h" />
+    <ClInclude Include="Graphics\CPostEffect.h" />
+    <ClInclude Include="Graphics\CPostFXAA.h" />
+    <ClInclude Include="Graphics\CPostLighting.h" />
+    <ClInclude Include="Graphics\CPostOverlay.h" />
+    <ClInclude Include="Graphics\CPostProcessor.h" />
+    <ClInclude Include="Graphics\CPostSky.h" />
+    <ClInclude Include="Graphics\CPostSSAO.h" />
+    <ClInclude Include="Graphics\CPostToneMapping.h" />
+    <ClInclude Include="Graphics\CPrimCube.h" />
+    <ClInclude Include="Graphics\CPrimQuad.h" />
+    <ClInclude Include="Graphics\CPrimTriangle.h" />
+    <ClInclude Include="Graphics\CRenderer.h" />
+    <ClInclude Include="Graphics\CRenderer_.h" />
+    <ClInclude Include="Graphics\CRenderingSystem.h" />
+    <ClInclude Include="Graphics\CRenderTexture.h" />
+    <ClInclude Include="Graphics\CRootSignature.h" />
+    <ClInclude Include="Graphics\CRootSigRegistrar.h" />
+    <ClInclude Include="Graphics\CShader.h" />
+    <ClInclude Include="Graphics\CShaderCompiler.h" />
+    <ClInclude Include="Graphics\CShaderFile.h" />
+    <ClInclude Include="Graphics\CShaderFileBlock.h" />
+    <ClInclude Include="Graphics\CShaderFileProp.h" />
+    <ClInclude Include="Graphics\CShaderTrie.h" />
+    <ClInclude Include="Graphics\CTexture.h" />
+    <ClInclude Include="Graphics\CUAVBuffer.h" />
+    <ClInclude Include="Graphics\d3dx12.h" />
+    <ClInclude Include="Physics\CVolumeChunk.h" />
+    <ClInclude Include="Resources\CResourceFile.h" />
+    <ClInclude Include="Resources\CResourceManager.h" />
+    <ClInclude Include="UI\CFont.h" />
+    <ClInclude Include="UI\CFontData.h" />
+    <ClInclude Include="UI\CUIButton.h" />
+    <ClInclude Include="UI\CUICanvas.h" />
+    <ClInclude Include="UI\CUICommandList.h" />
+    <ClInclude Include="UI\CUIContainer.h" />
+    <ClInclude Include="UI\CUIElement.h" />
+    <ClInclude Include="UI\CUIEventSystem.h" />
+    <ClInclude Include="UI\CUIFrame.h" />
+    <ClInclude Include="UI\CUIGrid.h" />
+    <ClInclude Include="UI\CUIGridSelect.h" />
+    <ClInclude Include="UI\CUIImage.h" />
+    <ClInclude Include="UI\CUIImageGrid.h" />
+    <ClInclude Include="UI\CUIQuad.h" />
+    <ClInclude Include="UI\CUIRenderer.h" />
+    <ClInclude Include="UI\CUIScript.h" />
+    <ClInclude Include="UI\CUISelect.h" />
+    <ClInclude Include="UI\CUIText.h" />
+    <ClInclude Include="UI\CUITooltip.h" />
+    <ClInclude Include="UI\CUITransform.h" />
+    <ClInclude Include="Universe\CChunk.h" />
+    <ClInclude Include="Universe\CChunkData.h" />
+    <ClInclude Include="Universe\CChunkManager.h" />
+    <ClInclude Include="Universe\CChunkNode.h" />
+    <ClInclude Include="Universe\CEnvironment.h" />
+    <ClInclude Include="Universe\CUniverseManager.h" />
+    <ClInclude Include="Utilities\CDebug.h" />
+    <ClInclude Include="Utilities\CGarbage.h" />
+    <ClInclude Include="Utilities\CJobSystem.h" />
+    <ClInclude Include="Utilities\CWorker.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Actors\CHUD.cpp" />
+    <ClCompile Include="Actors\CMotorHumanoid.cpp" />
+    <ClCompile Include="Actors\CMotorNull.cpp" />
+    <ClCompile Include="Actors\CPawn.cpp" />
+    <ClCompile Include="Actors\CPlayer.cpp" />
+    <ClCompile Include="Actors\CPlayerHUD.cpp" />
+    <ClCompile Include="Actors\CPlayerPawn.cpp" />
+    <ClCompile Include="Actors\CSpawner.cpp" />
+    <ClCompile Include="Actors\CUINull.cpp" />
+    <ClCompile Include="Actors\CUIPlayer.cpp" />
+    <ClCompile Include="Application\CInput.cpp" />
+    <ClCompile Include="Application\CInputGamepad.cpp" />
+    <ClCompile Include="Application\CInputKeyboard.cpp" />
+    <ClCompile Include="Application\CInputLayout.cpp" />
+    <ClCompile Include="Application\CInputMouse.cpp" />
+    <ClCompile Include="Application\CNode.cpp" />
+    <ClCompile Include="Application\CNodeManager.cpp" />
+    <ClCompile Include="Application\CPanel.cpp" />
+    <ClCompile Include="Application\CPlatform.cpp" />
+    <ClCompile Include="Application\CScene.cpp" />
+    <ClCompile Include="Application\CSceneFileIO.cpp" />
+    <ClCompile Include="Application\CSceneManager.cpp" />
+    <ClCompile Include="Application\CView.cpp" />
+    <ClCompile Include="Application\CWinDeviceList.cpp" />
+    <ClCompile Include="Application\CWinGamepad.cpp" />
+    <ClCompile Include="Application\CWinPanel.cpp" />
+    <ClCompile Include="Application\CWinPlatform.cpp" />
+    <ClCompile Include="Application\CWUIScript.cpp" />
+    <ClCompile Include="Audio\CAudio.cpp" />
+    <ClCompile Include="Audio\CAudioClip.cpp" />
+    <ClCompile Include="Audio\CAudioLoader.cpp" />
+    <ClCompile Include="Audio\CAudioMixer.cpp" />
+    <ClCompile Include="Audio\CAudioOgg.cpp" />
+    <ClCompile Include="Audio\CAudioSource.cpp" />
+    <ClCompile Include="Audio\CAudioWave.cpp" />
+    <ClCompile Include="Audio\CWinAudio.cpp" />
+    <ClCompile Include="Audio\CWinAudioGroup.cpp" />
+    <ClCompile Include="Audio\CWinAudioVoice.cpp" />
+    <ClCompile Include="Factory\CFactory.cpp" />
+    <ClCompile Include="Graphics\CCompute.cpp" />
+    <ClCompile Include="Graphics\CComputeSystem.cpp" />
+    <ClCompile Include="Graphics\CConstantBuffer.cpp" />
+    <ClCompile Include="Graphics\CDebugDraw.cpp" />
+    <ClCompile Include="Graphics\CDebugGrid.cpp" />
+    <ClCompile Include="Graphics\CDebugOBB.cpp" />
+    <ClCompile Include="Graphics\CDebugRect.cpp" />
+    <ClCompile Include="Graphics\CDX12Compute.cpp" />
+    <ClCompile Include="Graphics\CDX12ConstantBuffer.cpp" />
+    <ClCompile Include="Graphics\CDX12Graphics.cpp" />
+    <ClCompile Include="Graphics\CDX12HeapManager.cpp" />
+    <ClCompile Include="Graphics\CDX12MeshRenderer.cpp" />
+    <ClCompile Include="Graphics\CDX12MeshRenderer_.cpp" />
+    <ClCompile Include="Graphics\CDX12RootSignature.cpp" />
+    <ClCompile Include="Graphics\CDX12Shader.cpp" />
+    <ClCompile Include="Graphics\CDX12ShaderCompiler.cpp" />
+    <ClCompile Include="Graphics\CDX12Texture.cpp" />
+    <ClCompile Include="Graphics\CDX12UAVBuffer.cpp" />
+    <ClCompile Include="Graphics\CDX12Worker.cpp" />
+    <ClCompile Include="Graphics\CGraphicsAPI.cpp" />
+    <ClCompile Include="Graphics\CMaterial.cpp" />
+    <ClCompile Include="Graphics\CMaterialFile.cpp" />
+    <ClCompile Include="Graphics\CMesh.cpp" />
+    <ClCompile Include="Graphics\CMeshContainer_.cpp" />
+    <ClCompile Include="Graphics\CMeshCube.cpp" />
+    <ClCompile Include="Graphics\CMeshFilter.cpp" />
+    <ClCompile Include="Graphics\CMeshData_.cpp" />
+    <ClCompile Include="Graphics\CMeshRenderer.cpp" />
+    <ClCompile Include="Graphics\CMeshRenderer_.cpp" />
+    <ClCompile Include="Graphics\CPost.cpp" />
+    <ClCompile Include="Graphics\CPostEdge.cpp" />
+    <ClCompile Include="Graphics\CPostFXAA.cpp" />
+    <ClCompile Include="Graphics\CPostLighting.cpp" />
+    <ClCompile Include="Graphics\CPostOverlay.cpp" />
+    <ClCompile Include="Graphics\CPostProcessor.cpp" />
+    <ClCompile Include="Graphics\CPostSky.cpp" />
+    <ClCompile Include="Graphics\CPostSSAO.cpp" />
+    <ClCompile Include="Graphics\CPostToneMapping.cpp" />
+    <ClCompile Include="Graphics\CPrimCube.cpp" />
+    <ClCompile Include="Graphics\CPrimQuad.cpp" />
+    <ClCompile Include="Graphics\CPrimTriangle.cpp" />
+    <ClCompile Include="Graphics\CRenderer.cpp" />
+    <ClCompile Include="Graphics\CRenderer_.cpp" />
+    <ClCompile Include="Graphics\CRenderTexture.cpp" />
+    <ClCompile Include="Graphics\CRootSigRegistrar.cpp" />
+    <ClCompile Include="Graphics\CShader.cpp" />
+    <ClCompile Include="Graphics\CShaderCompiler.cpp" />
+    <ClCompile Include="Graphics\CShaderFile.cpp" />
+    <ClCompile Include="Graphics\CShaderFileBlock.cpp" />
+    <ClCompile Include="Graphics\CShaderFileProp.cpp" />
+    <ClCompile Include="Graphics\CShaderTrie.cpp" />
+    <ClCompile Include="Graphics\CRenderingSystem.cpp" />
+    <ClCompile Include="Graphics\CTexture.cpp" />
+    <ClCompile Include="Physics\CVolumeChunk.cpp" />
+    <ClCompile Include="Resources\CResourceFile.cpp" />
+    <ClCompile Include="Resources\CResourceManager.cpp" />
+    <ClCompile Include="UI\CFont.cpp" />
+    <ClCompile Include="UI\CUIButton.cpp" />
+    <ClCompile Include="UI\CUICanvas.cpp" />
+    <ClCompile Include="UI\CUICommandList.cpp" />
+    <ClCompile Include="UI\CUIContainer.cpp" />
+    <ClCompile Include="UI\CUIElement.cpp" />
+    <ClCompile Include="UI\CUIEventSystem.cpp" />
+    <ClCompile Include="UI\CUIFrame.cpp" />
+    <ClCompile Include="UI\CUIGrid.cpp" />
+    <ClCompile Include="UI\CUIGridSelect.cpp" />
+    <ClCompile Include="UI\CUIImage.cpp" />
+    <ClCompile Include="UI\CUIImageGrid.cpp" />
+    <ClCompile Include="UI\CUIQuad.cpp" />
+    <ClCompile Include="UI\CUIRenderer.cpp" />
+    <ClCompile Include="UI\CUIScript.cpp" />
+    <ClCompile Include="UI\CUISelect.cpp" />
+    <ClCompile Include="UI\CUIText.cpp" />
+    <ClCompile Include="UI\CUITooltip.cpp" />
+    <ClCompile Include="UI\CUITransform.cpp" />
+    <ClCompile Include="Universe\CChunk.cpp" />
+    <ClCompile Include="Universe\CChunkManager.cpp" />
+    <ClCompile Include="Universe\CChunkNode.cpp" />
+    <ClCompile Include="Universe\CEnvironment.cpp" />
+    <ClCompile Include="Universe\CUniverseManager.cpp" />
+    <ClCompile Include="Utilities\CDebug.cpp" />
+    <ClCompile Include="Utilities\CGarbage.cpp" />
+    <ClCompile Include="Utilities\CJobSystem.cpp" />
+    <ClCompile Include="Utilities\CWorker.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Materials\Compute.mat" />
+    <None Include="..\Resources\Materials\Debug.mat" />
+    <None Include="..\Resources\Materials\Debug2D.mat" />
+    <None Include="..\Resources\Materials\Post1.mat" />
+    <None Include="..\Resources\Materials\PostEdge.mat" />
+    <None Include="..\Resources\Materials\PostFXAA.mat" />
+    <None Include="..\Resources\Materials\PostHBlur.mat" />
+    <None Include="..\Resources\Materials\PostLighting.mat" />
+    <None Include="..\Resources\Materials\PostSky.mat" />
+    <None Include="..\Resources\Materials\PostSSAO.mat" />
+    <None Include="..\Resources\Materials\PostToneMapping.mat" />
+    <None Include="..\Resources\Materials\PostVBlur.mat" />
+    <None Include="..\Resources\Materials\UIImage.mat" />
+    <None Include="..\Resources\Materials\UIViewPt.mat" />
+    <None Include="..\Resources\Materials\UIText.mat" />
+    <None Include="..\Resources\Materials\Voxel.mat" />
+    <None Include="..\Resources\Materials\VoxelWire.mat" />
+    <None Include="..\Resources\Shaders\compute.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Resources\Shaders\Compute.shader" />
+    <None Include="..\Resources\Shaders\Debug.shader" />
+    <None Include="..\Resources\Shaders\Debug2D.shader" />
+    <None Include="..\Resources\Shaders\Includes\Color.hlsli" />
+    <None Include="..\Resources\Shaders\Includes\Math.hlsli" />
+    <None Include="..\Resources\Shaders\Includes\ProcSky.hlsli" />
+    <None Include="..\Resources\Shaders\Post.shader" />
+    <None Include="..\Resources\Shaders\PostBlur.shader" />
+    <None Include="..\Resources\Shaders\PostEdge.shader" />
+    <None Include="..\Resources\Shaders\PostFXAA.shader" />
+    <None Include="..\Resources\Shaders\PostLighting.shader" />
+    <None Include="..\Resources\Shaders\PostSky.shader" />
+    <None Include="..\Resources\Shaders\PostSSAO.shader" />
+    <None Include="..\Resources\Shaders\PostToneMapping.shader" />
+    <None Include="..\Resources\Shaders\Primitive.shader" />
+    <None Include="..\Resources\Shaders\shader.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="..\Resources\Shaders\UIImage.shader" />
+    <None Include="..\Resources\Shaders\UIText.shader" />
+    <None Include="..\Resources\Shaders\Voxel.shader" />
+    <None Include="..\Resources\UI\WUI\Default.wui" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Materials\Triangle.mat" />
+    <None Include="..\Resources\Shaders\Triangle.shader">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Engine.res" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,13 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Materials/VoxelEditor/NodeGrid.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_NODE_GRID
+
+DataBuffer.Color (0.25f, 0.25f, 0.25f, 0.5f)

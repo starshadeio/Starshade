@@ -1,0 +1,11 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Static Library: Core Graphics
+//
+// File: ../Resources/Materials/VoxelWireframe.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_VOXEL.WIRE

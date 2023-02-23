@@ -1,0 +1,18 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Static Library: Core Graphics
+//
+// File: ../Resources/UI/WUI/Default.wui
+//
+//-------------------------------------------------------------------------------------------------
+
+PropBlock Main : WPanel {
+	main: true;
+	title: "App";
+	screenMode: Windowed;
+	dimensions: "1280, 720";
+	allowResize: true;
+	allowDoubleClick: true;
+}

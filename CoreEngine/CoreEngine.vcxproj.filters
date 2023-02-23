@@ -1,0 +1,567 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{07ea335f-54ca-4784-afc9-52c457e809ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{f1e27266-c037-40da-b45b-307e985c81e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Globals">
+      <UniqueIdentifier>{9a2bcac6-411b-460c-8d03-e335d335bf3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{b3a3f01f-9ce0-4955-a7d5-588007bd98ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Debug">
+      <UniqueIdentifier>{6a972031-22ec-4af9-9079-652bbd730f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Timer">
+      <UniqueIdentifier>{38739ec4-3928-41eb-b9d7-f678626b03b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{b5e29337-655f-4419-ac9f-c007c696081a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Timer">
+      <UniqueIdentifier>{1810ab97-c79b-47ba-8281-166ff72c3333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{51b71047-a095-4d10-a902-4b6a6ec8b048}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\Bounds">
+      <UniqueIdentifier>{73f6c0a3-91d1-46fe-abfb-81fed31ab459}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\Float">
+      <UniqueIdentifier>{b6b458df-5965-463b-8f96-aca3a92a059e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\Hash">
+      <UniqueIdentifier>{13917c46-4d67-436a-8c85-3b366722b2d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\Vectors">
+      <UniqueIdentifier>{9bce3ea9-0df9-4a68-abfd-c4565afa4a1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{a2a15dd5-1adc-47b3-bad8-0934d5971433}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\Vectors">
+      <UniqueIdentifier>{207fa34d-e5c4-4b3e-a020-ebb6286af39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Memory">
+      <UniqueIdentifier>{35675673-7631-470e-a0b8-eb1581b09d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Data Structures">
+      <UniqueIdentifier>{ec324cfa-55fb-4b6d-9907-2b28b368889d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Compiler">
+      <UniqueIdentifier>{aa3f4863-7616-4405-bc6d-30ffad9e920e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Compiler\Utilities">
+      <UniqueIdentifier>{2efa035f-e2b4-4077-bfeb-7cb49b29c54c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Compiler\Detectors">
+      <UniqueIdentifier>{0eabb1d6-2d67-4311-97d2-49b64f556a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Macros">
+      <UniqueIdentifier>{dc3236f3-1694-474d-a7ab-6c8bd3eab0f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{1297104e-9b8d-4fab-81fa-e6188eb0ead6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Components">
+      <UniqueIdentifier>{65dcedaf-acd8-459b-a7f3-afc30ee0330e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\SIMD">
+      <UniqueIdentifier>{c639d14f-a3d9-4823-ba89-bcde52f10888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\SIMD">
+      <UniqueIdentifier>{c47ecb85-f538-4e00-aaf1-f81a9d401ed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logic">
+      <UniqueIdentifier>{0d405134-3a76-4090-ab6a-4463d335f2ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logic\Components">
+      <UniqueIdentifier>{1415e5c5-28bc-4f6c-b7b2-68936188ea1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logic">
+      <UniqueIdentifier>{77a340d4-4f43-43d9-ba8b-9cfe5232dcc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logic\Components">
+      <UniqueIdentifier>{04ee03d4-dc77-4786-a24f-ad8ea190a607}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{33128889-9426-48db-ba43-fe46aa120ace}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Components">
+      <UniqueIdentifier>{cdaf9b26-0874-4493-bd1f-ab8da198eb87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Logic\Camera">
+      <UniqueIdentifier>{7a93ec1b-b064-44ef-bd1b-43c33bd50a72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Logic\Camera">
+      <UniqueIdentifier>{656bb67f-2082-437d-adc9-4b1e1a19bcdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math\Matrices">
+      <UniqueIdentifier>{585175a3-e614-4f79-af4c-a8f25cf0d6b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math\Matrices">
+      <UniqueIdentifier>{2aedbd1f-089c-4175-b106-968464bac7c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Compiler\Scripts">
+      <UniqueIdentifier>{51fe35e9-5a25-408f-805d-ce98c92b9f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Compiler">
+      <UniqueIdentifier>{3ecd8510-34ca-4c37-98d7-470f5882c083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Compiler\Scripts">
+      <UniqueIdentifier>{433afd3c-2729-47b1-885a-7eb74e4f4dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{2676d7ce-95f7-49b7-b962-5b4738610b7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{62394563-859b-478f-9192-271d674a79f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Components">
+      <UniqueIdentifier>{7bc7ef21-65be-4eaa-9be8-8eb700632e8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics\Components">
+      <UniqueIdentifier>{ec970c27-a96d-401b-b3f8-644f2dacd624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Data Structures\Thread Safe">
+      <UniqueIdentifier>{6c230f21-1c03-4b26-a7a9-acde4740c72b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Data">
+      <UniqueIdentifier>{2e4f6a48-6c2c-401a-9e6d-c6f790f52798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Threading">
+      <UniqueIdentifier>{4a1589e9-f1fa-442e-84be-b56fbfecf049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Components\Forces">
+      <UniqueIdentifier>{7a5e9da0-f23f-4a18-800e-f7a3f437d13d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Components\Forces\Fields">
+      <UniqueIdentifier>{f43481cb-93b5-40cc-b5eb-297d6dcd3acd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Components\Volumes">
+      <UniqueIdentifier>{e02479d5-a655-46d2-a5ad-eaeb2a38efb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics\Components\Volumes">
+      <UniqueIdentifier>{6c3f95b7-3843-4754-ba37-2621b15e67ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Utilities">
+      <UniqueIdentifier>{a2a8ba84-e1f0-4245-9b80-44b5b24fb196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics\Utilities">
+      <UniqueIdentifier>{d2d2e319-36b9-4a0b-bec5-63946c8d03cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\File">
+      <UniqueIdentifier>{7f340835-597c-4819-ad42-3fda7a9b233f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Text">
+      <UniqueIdentifier>{69a9e253-b027-4cd8-a82f-d23bc7255074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Compiler\Detectors">
+      <UniqueIdentifier>{4490e879-2d9a-4e71-8d1f-038bc7ca0a91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Localization">
+      <UniqueIdentifier>{73286b81-0610-4bc1-8fcb-61f210e014b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Localization">
+      <UniqueIdentifier>{74234763-52a5-4422-9cb6-90b931811f39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Identity">
+      <UniqueIdentifier>{56ca3972-5cef-44af-8167-7b223ba6c4a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Utilities">
+      <UniqueIdentifier>{1efd70c6-ba69-4a96-97ad-7f08d41e134b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Command">
+      <UniqueIdentifier>{750d6c05-42c6-46ca-a163-93e4ae992586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Command">
+      <UniqueIdentifier>{7dc868e9-5ea5-4ecd-a88b-f0fee9644b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Nodes">
+      <UniqueIdentifier>{9abb560f-9219-423e-a3a6-34154391ef31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Nodes">
+      <UniqueIdentifier>{1c34c7a7-f497-4156-845e-03f3b351194f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\Package">
+      <UniqueIdentifier>{3f0c6092-4fe9-425e-962f-209b7f444e77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\Package">
+      <UniqueIdentifier>{1c04b64d-3de8-4f18-aeb2-f294c9eb243b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utilities\File">
+      <UniqueIdentifier>{50f9e7bc-68e6-4c9d-978a-8bdf674695d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities\File\Windows">
+      <UniqueIdentifier>{b9b0c2df-c21b-4e53-9f89-fff98a1fc5d7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\CAppBase.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals\CGlobals.h">
+      <Filter>Header Files\Globals</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CTimer.h">
+      <Filter>Header Files\Utilities\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CDebugError.h">
+      <Filter>Header Files\Utilities\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathRect.h">
+      <Filter>Header Files\Math\Bounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathFloat.h">
+      <Filter>Header Files\Math\Float</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathFNV.h">
+      <Filter>Header Files\Math\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathPrimes.h">
+      <Filter>Header Files\Math\Hash</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathColor.h">
+      <Filter>Header Files\Math\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathVector2.h">
+      <Filter>Header Files\Math\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathVector3.h">
+      <Filter>Header Files\Math\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathVector4.h">
+      <Filter>Header Files\Math\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathVectorInt2.h">
+      <Filter>Header Files\Math\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathVectorInt3.h">
+      <Filter>Header Files\Math\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathVectorInt4.h">
+      <Filter>Header Files\Math\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CMemoryFree.h">
+      <Filter>Header Files\Utilities\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CDSTrie.h">
+      <Filter>Header Files\Utilities\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CDeque.h">
+      <Filter>Header Files\Utilities\Data Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CCompilerUtil.h">
+      <Filter>Header Files\Utilities\Compiler\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CDetectComment.h">
+      <Filter>Header Files\Utilities\Compiler\Detectors</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CMacroUtil.h">
+      <Filter>Header Files\Utilities\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CVObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CVComponent.h">
+      <Filter>Header Files\Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CSIMDVector.h">
+      <Filter>Header Files\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CMemAlign.h">
+      <Filter>Header Files\Utilities\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CSIMDQuaternion.h">
+      <Filter>Header Files\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CSIMDMatrix.h">
+      <Filter>Header Files\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\CTransform.h">
+      <Filter>Header Files\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\CCamera.h">
+      <Filter>Header Files\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CCompBatch.h">
+      <Filter>Header Files\Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CCompBatch.hpp">
+      <Filter>Source Files\Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\CCameraManager.h">
+      <Filter>Header Files\Logic\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathMatrix3x3.h">
+      <Filter>Header Files\Math\Matrices</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathMatrix2x2.h">
+      <Filter>Header Files\Math\Matrices</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CScriptObject.h">
+      <Filter>Header Files\Utilities\Compiler\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CConvertUtil.h">
+      <Filter>Header Files\Utilities\Compiler\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CPhysics.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CRigidbody.h">
+      <Filter>Header Files\Physics\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CPhysicsWorld.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CTSDeque.h">
+      <Filter>Header Files\Utilities\Data Structures\Thread Safe</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CPhysicsData.h">
+      <Filter>Header Files\Physics\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CSIMDRay.h">
+      <Filter>Header Files\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CSIMDPlane.h">
+      <Filter>Header Files\Math\SIMD</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CPhysicsUpdate.h">
+      <Filter>Header Files\Physics\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\CCallback.h">
+      <Filter>Header Files\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CFuture.h">
+      <Filter>Header Files\Utilities\Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CForceField.h">
+      <Filter>Header Files\Physics\Components\Forces\Fields</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CVolume.h">
+      <Filter>Header Files\Physics\Components\Volumes</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CVolumeOBB.h">
+      <Filter>Header Files\Physics\Components\Volumes</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CVolumeSphere.h">
+      <Filter>Header Files\Physics\Components\Volumes</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CGJK.h">
+      <Filter>Header Files\Physics\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CVolumeCapsule.h">
+      <Filter>Header Files\Physics\Components\Volumes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CCompQueue.h">
+      <Filter>Header Files\Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CCompQueue.hpp">
+      <Filter>Source Files\Objects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CCoreManager.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathMatrix3x2.h">
+      <Filter>Header Files\Math\Matrices</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\CMathBounds2D.h">
+      <Filter>Header Files\Math\Bounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CResScript.h">
+      <Filter>Header Files\Utilities\Compiler\Scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CFileUtil.h">
+      <Filter>Header Files\Utilities\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CTextUtil.h">
+      <Filter>Header Files\Utilities\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CLocalization.h">
+      <Filter>Header Files\Application\Localization</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CLocalizedString.h">
+      <Filter>Header Files\Application\Localization</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CAppVersion.h">
+      <Filter>Header Files\Application\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CLayer.h">
+      <Filter>Header Files\Utilities\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CTag.h">
+      <Filter>Header Files\Utilities\Identity</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CCommandManager.h">
+      <Filter>Header Files\Application\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CCommandRecord.h">
+      <Filter>Header Files\Application\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CCommand.h">
+      <Filter>Header Files\Application\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CCommandBuffer.h">
+      <Filter>Header Files\Application\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CNodeComponent.h">
+      <Filter>Header Files\Objects\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CNodeObject.h">
+      <Filter>Header Files\Objects\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects\CNodeRegistry.h">
+      <Filter>Header Files\Objects\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\CNodeTransform.h">
+      <Filter>Header Files\Logic\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CArchive.h">
+      <Filter>Header Files\Utilities\Package</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CFileSystem.h">
+      <Filter>Header Files\Utilities\File</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\CWinFileUtil.h">
+      <Filter>Header Files\Utilities\File\Windows</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Application\CAppBase.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\CTimer.cpp">
+      <Filter>Source Files\Utilities\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CMathColor.cpp">
+      <Filter>Source Files\Math\Vectors</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CSIMDVector.cpp">
+      <Filter>Source Files\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CSIMDQuaternion.cpp">
+      <Filter>Source Files\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CSIMDMatrix.cpp">
+      <Filter>Source Files\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\CCamera.cpp">
+      <Filter>Source Files\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\CTransform.cpp">
+      <Filter>Source Files\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\CCameraManager.cpp">
+      <Filter>Source Files\Logic\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CMathMatrix3x3.cpp">
+      <Filter>Source Files\Math\Matrices</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CMathMatrix2x2.cpp">
+      <Filter>Source Files\Math\Matrices</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\CScriptObject.cpp">
+      <Filter>Source Files\Utilities\Compiler\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CPhysics.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CRigidbody.cpp">
+      <Filter>Source Files\Physics\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CPhysicsWorld.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CSIMDPlane.cpp">
+      <Filter>Source Files\Math\SIMD</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CPhysicsUpdate.cpp">
+      <Filter>Source Files\Physics\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\CVComponent.cpp">
+      <Filter>Source Files\Objects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\CVObject.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CVolume.cpp">
+      <Filter>Source Files\Physics\Components\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CVolumeSphere.cpp">
+      <Filter>Source Files\Physics\Components\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CVolumeOBB.cpp">
+      <Filter>Source Files\Physics\Components\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CGJK.cpp">
+      <Filter>Source Files\Physics\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CVolumeCapsule.cpp">
+      <Filter>Source Files\Physics\Components\Volumes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CCoreManager.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\CMathMatrix3x2.cpp">
+      <Filter>Source Files\Math\Matrices</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\CResScript.cpp">
+      <Filter>Source Files\Utilities\Compiler\Scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\CDetectComment.cpp">
+      <Filter>Source Files\Utilities\Compiler\Detectors</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CLocalization.cpp">
+      <Filter>Source Files\Application\Localization</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CLocalizedString.cpp">
+      <Filter>Source Files\Application\Localization</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CCommand.cpp">
+      <Filter>Source Files\Application\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CCommandBuffer.cpp">
+      <Filter>Source Files\Application\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CCommandManager.cpp">
+      <Filter>Source Files\Application\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CCommandRecord.cpp">
+      <Filter>Source Files\Application\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\CNodeObject.cpp">
+      <Filter>Source Files\Objects\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\CNodeRegistry.cpp">
+      <Filter>Source Files\Objects\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\CNodeTransform.cpp">
+      <Filter>Source Files\Logic\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects\CNodeComponent.cpp">
+      <Filter>Source Files\Objects\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\CArchive.cpp">
+      <Filter>Source Files\Utilities\Package</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\CFileSystem.cpp">
+      <Filter>Source Files\Utilities\File</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

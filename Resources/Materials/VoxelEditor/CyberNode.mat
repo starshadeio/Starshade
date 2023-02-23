@@ -1,0 +1,13 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Materials/VoxelEditor/CyberNode.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_CYBER_NODE
+
+DataBuffer.Color (1.0f, 1.0f, 1.0f, 1.0f)

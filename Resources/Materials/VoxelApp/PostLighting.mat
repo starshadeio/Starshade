@@ -1,0 +1,11 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel App
+//
+// File: ../Resources/Materials/VoxelApp/PostLighting.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_POST_LIGHTING

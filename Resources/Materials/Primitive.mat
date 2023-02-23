@@ -1,0 +1,13 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Static Library: Core Graphics
+//
+// File: ../Resources/Shader/Primitive.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_PRIMITIVE
+
+DataBuffer.Color (1.0f, 1.0f, 1.0f, 1.0f)

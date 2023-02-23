@@ -1,0 +1,46 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/UI/Panes/VoxelEditor/SceneView.pane
+//
+//-------------------------------------------------------------------------------------------------
+
+//
+// UI Elements.
+//
+
+PropBlock UIFrame : scene_ui {
+	left: "0.0f";
+	right: "0.0f";
+	top: "0.0f";
+	bottom: "0.0f";
+
+	anchorMin: "0.0f, 0.0f";
+	anchorMax: "1.0f, 1.0f";
+	pivot: "0.5f, 0.5f";
+
+	type: view {
+		depth: "-1";
+		key: "Main";
+		material: "MATERIAL_UI_VIEW_PT";
+	}
+}
+
+PropBlock UIFrame : overlay_ui {
+	left: "0.0f";
+	right: "0.0f";
+	top: "0.0f";
+	bottom: "0.0f";
+
+	anchorMin: "0.0f, 0.0f";
+	anchorMax: "1.0f, 1.0f";
+	pivot: "0.5f, 0.5f";
+
+	type: view {
+		key: "Overlay";
+		material: "MATERIAL_UI_VIEW_PT";
+	}
+}

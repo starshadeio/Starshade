@@ -1,0 +1,11 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Materials/VoxelEditor/PlacementQuad.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_TEXTURED_QUAD.BOX_QUAD

@@ -1,0 +1,11 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Static Library: Core Graphics
+//
+// File: ../Resources/Materials/PostHBlur.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_POST_BLUR.HBLUR.CHANNEL_1.SIGMA_5

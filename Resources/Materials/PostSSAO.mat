@@ -1,0 +1,17 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Static Library: Core Graphics
+//
+// File: ../Resources/Materials/PostSSAO.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_POST_SSAO
+
+// ConstantBuffer.RandomSizeInv 0.015625f
+ConstantBuffer.Radius 0.1f
+ConstantBuffer.Intensity 2.0f
+ConstantBuffer.Scale 1.0f
+ConstantBuffer.Bias 0.01f

@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\UI">
+      <UniqueIdentifier>{4dcc5716-9a08-48c5-aea6-3aa6962be17b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\UI\WUI">
+      <UniqueIdentifier>{400f93cd-c513-434d-b4b2-41f8be9dabe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{e3dba920-0aa2-410c-ab61-bfdfe70aa8cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{f7e9e5e4-d744-4ced-9e91-90494afa86a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Scenes">
+      <UniqueIdentifier>{452153e5-3d5f-4736-8047-b28b38fdf1e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Scenes">
+      <UniqueIdentifier>{b1c9961b-1ac9-4683-91ef-037b32809de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Nodes">
+      <UniqueIdentifier>{d18d4719-d326-4d4a-b2c7-67a6a73320a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Nodes">
+      <UniqueIdentifier>{5c37d7a1-9daf-4211-a151-0754c6b466e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Data">
+      <UniqueIdentifier>{b6341d1a-0264-4c28-9827-309aa378988c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Data">
+      <UniqueIdentifier>{588eff9a-bcda-4208-9ec0-6753bdf7fce0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CApplication.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CSceneGlobal.cpp">
+      <Filter>Source Files\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CNodeLoader.cpp">
+      <Filter>Source Files\Application\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CAppReg.cpp">
+      <Filter>Source Files\Application\Data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\UI\WUI\VoxelApp\Main.wui">
+      <Filter>Resource Files\UI\WUI</Filter>
+    </None>
+    <None Include="..\Resources\App.res">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\CApplication.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CSceneGlobal.h">
+      <Filter>Header Files\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CNodeLoader.h">
+      <Filter>Header Files\Application\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CAppReg.h">
+      <Filter>Header Files\Application\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CAppData.h">
+      <Filter>Header Files\Application\Data</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

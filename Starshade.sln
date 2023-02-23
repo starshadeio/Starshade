@@ -1,0 +1,87 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreEngine", "CoreEngine\CoreEngine.vcxproj", "{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreGraphics", "CoreGraphics\CoreGraphics.vcxproj", "{7EDAD5A1-6438-4614-9CAD-4811264F989C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5} = {3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoxelEditor", "VoxelEditor\VoxelEditor.vcxproj", "{D5D183D2-9DB0-4690-8E11-0726797BD8F5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5} = {3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C} = {7EDAD5A1-6438-4614-9CAD-4811264F989C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDFFontGen", "SDFFontGen\SDFFontGen.vcxproj", "{6EC3C124-4D6A-4A97-886F-295B5D93F9E6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5} = {3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C} = {7EDAD5A1-6438-4614-9CAD-4811264F989C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoxelApp", "VoxelApp\VoxelApp.vcxproj", "{91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5} = {3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C} = {7EDAD5A1-6438-4614-9CAD-4811264F989C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AppPack", "AppPack\AppPack.vcxproj", "{EAE3CB99-90CB-45A1-A5E7-B2E74E79F6D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5} = {3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}
+		{91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD} = {91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Production|x64 = Production|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}.Debug|x64.ActiveCfg = Debug|x64
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}.Debug|x64.Build.0 = Debug|x64
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}.Production|x64.ActiveCfg = Production|x64
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}.Production|x64.Build.0 = Production|x64
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}.Release|x64.ActiveCfg = Release|x64
+		{3E9D4A9A-B048-495D-86FA-A7983C6A0EB5}.Release|x64.Build.0 = Release|x64
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C}.Debug|x64.ActiveCfg = Debug|x64
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C}.Debug|x64.Build.0 = Debug|x64
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C}.Production|x64.ActiveCfg = Production|x64
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C}.Production|x64.Build.0 = Production|x64
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C}.Release|x64.ActiveCfg = Release|x64
+		{7EDAD5A1-6438-4614-9CAD-4811264F989C}.Release|x64.Build.0 = Release|x64
+		{D5D183D2-9DB0-4690-8E11-0726797BD8F5}.Debug|x64.ActiveCfg = Debug|x64
+		{D5D183D2-9DB0-4690-8E11-0726797BD8F5}.Debug|x64.Build.0 = Debug|x64
+		{D5D183D2-9DB0-4690-8E11-0726797BD8F5}.Production|x64.ActiveCfg = Production|x64
+		{D5D183D2-9DB0-4690-8E11-0726797BD8F5}.Production|x64.Build.0 = Production|x64
+		{D5D183D2-9DB0-4690-8E11-0726797BD8F5}.Release|x64.ActiveCfg = Release|x64
+		{D5D183D2-9DB0-4690-8E11-0726797BD8F5}.Release|x64.Build.0 = Release|x64
+		{6EC3C124-4D6A-4A97-886F-295B5D93F9E6}.Debug|x64.ActiveCfg = Debug|x64
+		{6EC3C124-4D6A-4A97-886F-295B5D93F9E6}.Debug|x64.Build.0 = Debug|x64
+		{6EC3C124-4D6A-4A97-886F-295B5D93F9E6}.Production|x64.ActiveCfg = Production|x64
+		{6EC3C124-4D6A-4A97-886F-295B5D93F9E6}.Production|x64.Build.0 = Production|x64
+		{6EC3C124-4D6A-4A97-886F-295B5D93F9E6}.Release|x64.ActiveCfg = Release|x64
+		{6EC3C124-4D6A-4A97-886F-295B5D93F9E6}.Release|x64.Build.0 = Release|x64
+		{91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD}.Debug|x64.ActiveCfg = Debug|x64
+		{91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD}.Debug|x64.Build.0 = Debug|x64
+		{91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD}.Production|x64.ActiveCfg = Production|x64
+		{91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD}.Production|x64.Build.0 = Production|x64
+		{91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD}.Release|x64.ActiveCfg = Release|x64
+		{91BA5461-ED4C-4B1B-AC29-251C0EBEEDBD}.Release|x64.Build.0 = Release|x64
+		{EAE3CB99-90CB-45A1-A5E7-B2E74E79F6D8}.Debug|x64.ActiveCfg = Debug|x64
+		{EAE3CB99-90CB-45A1-A5E7-B2E74E79F6D8}.Debug|x64.Build.0 = Debug|x64
+		{EAE3CB99-90CB-45A1-A5E7-B2E74E79F6D8}.Production|x64.ActiveCfg = Production|x64
+		{EAE3CB99-90CB-45A1-A5E7-B2E74E79F6D8}.Production|x64.Build.0 = Production|x64
+		{EAE3CB99-90CB-45A1-A5E7-B2E74E79F6D8}.Release|x64.ActiveCfg = Release|x64
+		{EAE3CB99-90CB-45A1-A5E7-B2E74E79F6D8}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A055F6F-FEE1-4BDE-8E94-3C8D9A8E1408}
+	EndGlobalSection
+EndGlobal

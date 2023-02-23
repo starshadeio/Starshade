@@ -1,0 +1,13 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Materials/VoxelEditor/CyberGrid.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_CYBER_GRID
+
+DataBuffer.Color (1.0f, 1.0f, 1.0f, 0.325f)

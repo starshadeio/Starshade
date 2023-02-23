@@ -1,0 +1,63 @@
+﻿//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Localization/VoxelEditor/localizedText_en.loc
+//
+//-------------------------------------------------------------------------------------------------
+
+UI {
+	( TOOLTIP_NEW_PROJECT, "New Project ÿ", ÿ )
+	( TOOLTIP_OPEN_PROJECT, "Open Project ÿ", ÿ )
+	( TOOLTIP_SAVE_PROJECT, "Save Project ÿ", ÿ )
+	( TOOLTIP_SAVE_PROJECT_AS, "Save Project As ÿ", ÿ )
+	( TOOLTIP_BUILD_PROJECT, "Build Project ÿ", ÿ )
+	
+	( TOOLTIP_UNDO, "Undo ÿ", ÿ )
+	( TOOLTIP_REDO, "Redo ÿ", ÿ )
+
+	( TOOLTIP_CLEAR_SCENE, "Clear Scene ÿ", ÿ )
+	( TOOLTIP_PLAY_SCENE_SPAWN, "Play from spawn point. ÿ", ÿ )
+	( TOOLTIP_PLAY_SCENE_AT, "Play from current point. ÿ", ÿ )
+
+	( TOOLTIP_FILL_MODE, "Fill Mode ÿ", ÿ )
+	( TOOLTIP_ERASE_MODE, "Erase Mode ÿ", ÿ )
+	( TOOLTIP_PAINT_MODE, "Paint Mode ÿ", ÿ )
+	( TOOLTIP_BRUSH_SIZE_1, "Brush Size 1 ÿ", ÿ )
+	( TOOLTIP_BRUSH_SIZE_2, "Brush Size 2 ÿ", ÿ )
+	( TOOLTIP_BRUSH_SIZE_4, "Brush Size 4 ÿ", ÿ )
+
+	( TOOLTIP_GIZMO_SELECT, "Select ÿ", ÿ )
+	( TOOLTIP_GIZMO_TRANSLATE, "Translate spawn point. ÿ", ÿ )
+	( TOOLTIP_GIZMO_ROTATE, "Rotate spawn point. ÿ", ÿ )
+	( TOOLTIP_GIZMO_SCALE, "Scale spawn point. ÿ", ÿ )
+
+	( TOOLTIP_PALETTE_TOGGLE, "Toggle full palette display. ÿ", ÿ )
+}
+
+MENUS {
+	( DIALOG_TITLE_SAVE_PROJECT, "Choose project save directory" )
+	( DIALOG_TITLE_OPEN_PROJECT, "Select a project directory" )
+	( DIALOG_TITLE_BUILD_PROJECT, "Choose build directory" )
+
+	( MSG_TITLE_CONFIRM, "Confirm" )
+	( MSG_TITLE_NOTICE, "Notice" )
+	( MSG_TITLE_WARNING, "Warning" )
+	( MSG_TITLE_ERROR, "Error" )
+	( MSG_TITLE_SUCCESS, "Success" )
+	( MSG_TITLE_FAILURE, "Failure" )
+
+	( MSG_FILE_NOT_FOUND, "\"ÿ\" not found!", ÿ )
+	( MSG_INVALID_PROJECT_DIRECTORY, "Invalid project directory!" )
+
+	( MSG_SAVE_BEFORE_NEW, "Did you want to save your changes before you create a new project?" )
+	( MSG_SAVE_BEFORE_OPEN, "Did you want to save your changes before you open a new project?" )
+	( MSG_SAVE_BEFORE_EXIT, "Did you want to save your changes before exiting?" )
+	( MSG_CLEAR_CHUNK, "Are you sure you want to clear all blocks? (Can't be undone)" )
+}
+
+PROJECT {
+	( UNTITLED, "Untitled" )
+}

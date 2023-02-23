@@ -1,0 +1,566 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{01e40c44-6bfc-4ea8-a575-3bc8d99d68b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application">
+      <UniqueIdentifier>{f26ca58d-f10e-4c37-929f-9c7d527fed80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{4fbbd6f7-8a59-4788-9621-969f1660f8f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{ccb54e45-ae5b-4169-9f93-68041246e2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Scenes">
+      <UniqueIdentifier>{5ba587e6-2912-4980-830e-9154fb0a753c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Scenes">
+      <UniqueIdentifier>{983e72eb-d1e3-427d-a4e1-75400eb9cb68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actors">
+      <UniqueIdentifier>{ff2dc1ed-d1a4-4da6-9f00-af2d67227b24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors">
+      <UniqueIdentifier>{5e970dc4-be4a-49c4-9294-9b9bc269a321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Data">
+      <UniqueIdentifier>{6d82aa35-6e35-4952-ae8f-9634b313e671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Post">
+      <UniqueIdentifier>{dc9ae9d7-92e9-448f-a3b4-bae7fdc2fdde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{f41080f1-32e7-4ef0-8288-1b288518c4c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Materials">
+      <UniqueIdentifier>{91574763-d715-4f02-87b9-f1da59fb24fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Post">
+      <UniqueIdentifier>{09c32521-df6a-48d2-9f74-f78456cfe562}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AI">
+      <UniqueIdentifier>{1e297d6b-a785-44b7-a425-a204ddfb5eb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AI\Utilities">
+      <UniqueIdentifier>{d7e61d87-6ea5-4db3-a4e6-34ef9c9a2704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\UI">
+      <UniqueIdentifier>{0efa6e64-081b-4d4a-8cb0-6b95f6b278cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\UI\WUI">
+      <UniqueIdentifier>{04221889-ad75-4cc5-aad3-88ea4f9e5c62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Universe">
+      <UniqueIdentifier>{b188bef2-aecc-462c-9364-e394a7b12606}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Universe\Cyberspace">
+      <UniqueIdentifier>{e45fffdd-eb6a-4c27-98a0-3b5a3810bd4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Universe">
+      <UniqueIdentifier>{f7d32f06-e63e-4289-bc14-aa05e71e838c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Universe\Cyberspace">
+      <UniqueIdentifier>{98b64c28-9da4-4b66-b9b6-e836155829ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Universe\Nodes">
+      <UniqueIdentifier>{a12bda0b-1f0b-4214-a2f3-efb494c8001d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Universe\Nodes">
+      <UniqueIdentifier>{cd5e700c-b810-4924-a059-cd4907ce7fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{1ca9f8c1-05d8-4fb1-91b4-8ecd4c6f91cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{8b7b0493-9d9e-43d7-aa2c-cf1bcd5b9e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics\Tests">
+      <UniqueIdentifier>{c386f35a-b0be-47dc-a682-e5eb9c78637d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics\Tests">
+      <UniqueIdentifier>{e4cc7747-49a4-429b-92fa-c09cba067999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Materials\Debug">
+      <UniqueIdentifier>{98768a67-a815-4f47-831b-29e182d91d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Data">
+      <UniqueIdentifier>{0f606aa6-eeac-4b76-9e1e-f83aaa7846d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Materials\World">
+      <UniqueIdentifier>{043958b9-5a56-48aa-8e62-83e61166b844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\World">
+      <UniqueIdentifier>{73593b7a-931b-48de-b8cf-712e1871a2f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actors\Components">
+      <UniqueIdentifier>{22659cf5-3121-4409-a4cd-b95a42563408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actors\Components\Motors">
+      <UniqueIdentifier>{78bc3e66-b55b-4e3a-9f21-be0262281e93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Components">
+      <UniqueIdentifier>{5636fd7f-e4ca-49c4-8d1f-8c890c0d6393}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\Components\Motors">
+      <UniqueIdentifier>{a15b1e36-1cf0-4485-bcab-e8dd2233f64d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actors\User">
+      <UniqueIdentifier>{4c17fcad-a704-4074-842e-507e2f3717ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors\User">
+      <UniqueIdentifier>{78e67e3c-774b-48d0-81e1-4a30880965f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources">
+      <UniqueIdentifier>{4938c4bb-3d64-494c-9c52-9da7e0eb0c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{9c63dd72-aa10-421c-bf24-ef2057d7d3cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources\Assets">
+      <UniqueIdentifier>{aafa54fd-7531-4944-bb98-991ac0c2c991}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Resources\Assets">
+      <UniqueIdentifier>{4d3fd940-1e0b-44ad-b079-f21dfff9f820}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor">
+      <UniqueIdentifier>{6239043e-7287-43eb-8196-c19791a5619d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor">
+      <UniqueIdentifier>{5f0fb5c0-4e39-459c-b5ee-839d727530e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Project">
+      <UniqueIdentifier>{f32e56fe-63de-4e4b-86e4-664e7e4b40cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor\Project">
+      <UniqueIdentifier>{098a0707-0ff0-4016-9ab3-3bdfb4e95c7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Localization">
+      <UniqueIdentifier>{9b04e16c-8cf4-46e9-b004-6a7db2804188}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\UI\Panes">
+      <UniqueIdentifier>{9279ca69-a73b-42c9-b67c-df07102c13f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{f272b675-2692-4e99-a42c-9b36dfacc90c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI\Panes">
+      <UniqueIdentifier>{8aa8e8f4-9879-4d1d-a06e-f26a269c0644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{7b4afb23-0d82-4d58-b3ce-f617739d3424}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI\Panes">
+      <UniqueIdentifier>{d935ae78-2676-4d7c-9f2c-513d44eb3765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Scenes\Views">
+      <UniqueIdentifier>{8385e7fb-4f62-4674-8d6d-5615c949150d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Scenes\Views">
+      <UniqueIdentifier>{dde4109a-46be-4b18-80bb-995323519c80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor\Gizmos">
+      <UniqueIdentifier>{150fdfb9-4b6e-4834-89e5-30d3a8328b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Gizmos">
+      <UniqueIdentifier>{d465913a-a81d-4b5a-a1a9-6a9f2dc8392d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Nodes">
+      <UniqueIdentifier>{b8a6fa36-d165-4be6-b29a-7d533be4736b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor\Nodes">
+      <UniqueIdentifier>{88703997-26d0-4cce-8d31-f6c945c47088}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\Post">
+      <UniqueIdentifier>{db9e220d-bfde-4018-a0a2-82b578ee9596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Materials\Post">
+      <UniqueIdentifier>{b11c2986-8f2a-465f-9029-984805394541}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Gizmos\Pivot">
+      <UniqueIdentifier>{e42faa06-7075-4044-8378-3d8136b854de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\Editor">
+      <UniqueIdentifier>{518d2e75-1e22-48e7-b7dd-87bf14c4ae08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Gizmos\Draw">
+      <UniqueIdentifier>{8eac1301-c3df-4ab9-9e26-f5e5b4fea64c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor\Gizmos\Draw">
+      <UniqueIdentifier>{eaac850d-e700-4340-a9e1-1f0ff8d07292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Gizmos\Data">
+      <UniqueIdentifier>{3d3ed50c-1210-4b58-8c57-a3a0c1d2e95f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Materials\Editor">
+      <UniqueIdentifier>{6405e99e-d9be-4ea1-ad8e-ac6dfc9b79e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor\Gizmos\Pivot">
+      <UniqueIdentifier>{f9f5542b-f0e1-4816-a685-309842b38343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Gizmos\Interaction">
+      <UniqueIdentifier>{7d12c2ee-0f0e-49d1-9cda-67b20a093885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor\Gizmos\Interaction">
+      <UniqueIdentifier>{0455ca81-1883-40ba-9104-7bb9f29e0a04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Universe\Chunks">
+      <UniqueIdentifier>{32f569a6-093d-4e35-9ecb-5bc84af6cfb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Universe\Chunks">
+      <UniqueIdentifier>{e54d64e6-3dfa-4a07-816e-29ec14940a7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Nodes\Markers">
+      <UniqueIdentifier>{3842eb5f-0f0e-4115-8de2-f0fc10f15f7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor\Nodes\Markers">
+      <UniqueIdentifier>{edd3284f-e3c9-4802-bdab-cde51e073f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Rendering">
+      <UniqueIdentifier>{e5b0547e-ca22-4e87-93c3-185f759eae4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Rendering\Geometry">
+      <UniqueIdentifier>{1f90e330-9582-43d0-8f45-a42d7cf64f70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Rendering\Geometry\Meshes">
+      <UniqueIdentifier>{a6985bd1-432d-4361-8b6c-825d63375fde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Rendering">
+      <UniqueIdentifier>{b5d18bde-8c0c-409e-a7fc-648c7b607db0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Rendering\Geometry">
+      <UniqueIdentifier>{19cedb0b-77c1-4b53-a362-0ce596f3ba39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Rendering\Geometry\Meshes">
+      <UniqueIdentifier>{db7b1ad8-2252-4f48-86b0-8f629272ce91}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application\CApplication.h">
+      <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CAppData.h">
+      <Filter>Header Files\Application\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="AI\CAIMath.h">
+      <Filter>Header Files\AI\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CCyberGrid.h">
+      <Filter>Header Files\Universe\Cyberspace</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CCyberNode.h">
+      <Filter>Header Files\Universe\Cyberspace</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CSceneGlobal.h">
+      <Filter>Header Files\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CSceneNode.h">
+      <Filter>Header Files\Application\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CNodeGrid.h">
+      <Filter>Header Files\Universe\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\CTestCube.h">
+      <Filter>Header Files\Physics\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CAppState.h">
+      <Filter>Header Files\Application\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Actors\CMotorMonitor.h">
+      <Filter>Header Files\Actors\Components\Motors</Filter>
+    </ClInclude>
+    <ClInclude Include="Actors\CUser.h">
+      <Filter>Header Files\Actors\User</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\CAssetManager.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources\CPaletteManager.h">
+      <Filter>Header Files\Resources\Assets</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CEditor.h">
+      <Filter>Header Files\Application\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CProjectManager.h">
+      <Filter>Header Files\Application\Editor\Project</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\CEditorPanel.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\CPane.h">
+      <Filter>Header Files\UI\Panes</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CViewScene.h">
+      <Filter>Header Files\Application\Scenes\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CNodeEx.h">
+      <Filter>Header Files\Application\Editor\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CNodeEditor.h">
+      <Filter>Header Files\Application\Editor\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CNodeSelect.h">
+      <Filter>Header Files\Application\Editor\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CNodeObjectEx.h">
+      <Filter>Header Files\Application\Editor\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoPivot.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoTranslate.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoRotate.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoScale.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmo.h">
+      <Filter>Header Files\Application\Editor\Gizmos</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CViewOverlay.h">
+      <Filter>Header Files\Application\Scenes\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\CPostOverlay.h">
+      <Filter>Header Files\Graphics\Post</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoDraw.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoLine.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoData.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoCube.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoCone.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoQuad.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGIzmoInteract.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Interaction</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoCircle.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CChunkEditor.h">
+      <Filter>Header Files\Universe\Chunks</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CBlockMarker.h">
+      <Filter>Header Files\Application\Editor\Nodes\Markers</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CAppReg.h">
+      <Filter>Header Files\Application\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\CMeshSpawnPoint.h">
+      <Filter>Header Files\Graphics\Rendering\Geometry\Meshes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CApplication.cpp">
+      <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CCyberGrid.cpp">
+      <Filter>Source Files\Universe\Cyberspace</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CCyberNode.cpp">
+      <Filter>Source Files\Universe\Cyberspace</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CSceneGlobal.cpp">
+      <Filter>Source Files\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CSceneNode.cpp">
+      <Filter>Source Files\Application\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CNodeGrid.cpp">
+      <Filter>Source Files\Universe\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\CTestCube.cpp">
+      <Filter>Source Files\Physics\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CAppState.cpp">
+      <Filter>Source Files\Application\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Actors\CMotorMonitor.cpp">
+      <Filter>Source Files\Actors\Components\Motors</Filter>
+    </ClCompile>
+    <ClCompile Include="Actors\CUser.cpp">
+      <Filter>Source Files\Actors\User</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\CAssetManager.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\CPaletteManager.cpp">
+      <Filter>Source Files\Resources\Assets</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CEditor.cpp">
+      <Filter>Source Files\Application\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CProjectManager.cpp">
+      <Filter>Source Files\Application\Editor\Project</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\CEditorPanel.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\CPane.cpp">
+      <Filter>Source Files\UI\Panes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CViewScene.cpp">
+      <Filter>Source Files\Application\Scenes\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CNodeEx.cpp">
+      <Filter>Source Files\Application\Editor\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CNodeEditor.cpp">
+      <Filter>Source Files\Application\Editor\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CNodeSelect.cpp">
+      <Filter>Source Files\Application\Editor\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmo.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CViewOverlay.cpp">
+      <Filter>Source Files\Application\Scenes\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\CPostOverlay.cpp">
+      <Filter>Source Files\Graphics\Post</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoDraw.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoLine.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoPivot.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoTranslate.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoCube.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoCone.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoQuad.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGIzmoInteract.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Interaction</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoScale.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoRotate.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoCircle.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Draw</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CChunkEditor.cpp">
+      <Filter>Source Files\Universe\Chunks</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CBlockMarker.cpp">
+      <Filter>Source Files\Application\Editor\Nodes\Markers</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CAppReg.cpp">
+      <Filter>Source Files\Application\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\CMeshSpawnPoint.cpp">
+      <Filter>Source Files\Graphics\Rendering\Geometry\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CNodeObjectEx.cpp">
+      <Filter>Source Files\Application\Editor\Nodes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Resources\Editor.res">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Resources\UI\WUI\VoxelEditor\Main.wui">
+      <Filter>Resource Files\UI\WUI</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\DebugGreen.mat">
+      <Filter>Resource Files\Materials\Debug</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\CyberGrid.mat">
+      <Filter>Resource Files\Materials\World</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\CyberNode.mat">
+      <Filter>Resource Files\Materials\World</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\NodeGrid.mat">
+      <Filter>Resource Files\Materials\World</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\DeletionQuad.mat">
+      <Filter>Resource Files\Materials\World</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\PlacementQuad.mat">
+      <Filter>Resource Files\Materials\World</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\VoxelEditor\CyberGrid.shader">
+      <Filter>Resource Files\Shaders\World</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\VoxelEditor\CyberNode.shader">
+      <Filter>Resource Files\Shaders\World</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\VoxelEditor\NodeGrid.shader">
+      <Filter>Resource Files\Shaders\World</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\VoxelEditor\TexturedQuad.shader">
+      <Filter>Resource Files\Shaders\World</Filter>
+    </None>
+    <None Include="..\Resources\Localization\VoxelEditor\localizedText_en.loc">
+      <Filter>Resource Files\Localization</Filter>
+    </None>
+    <None Include="..\Resources\UI\Panes\VoxelEditor\SceneView.pane">
+      <Filter>Resource Files\UI\Panes</Filter>
+    </None>
+    <None Include="..\Resources\UI\Panes\VoxelEditor\Editor.pane">
+      <Filter>Resource Files\UI\Panes</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\VoxelEditor\Gizmo.shader">
+      <Filter>Resource Files\Shaders\Editor</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\VoxelEditor\PostOverlay.shader">
+      <Filter>Resource Files\Shaders\Post</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\PostOverlay.mat">
+      <Filter>Resource Files\Materials\Post</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\GizmoLine.mat">
+      <Filter>Resource Files\Materials\Editor</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\GizmoTri.mat">
+      <Filter>Resource Files\Materials\Editor</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\GizmoTriUnlit.mat">
+      <Filter>Resource Files\Materials\Editor</Filter>
+    </None>
+  </ItemGroup>
+</Project>

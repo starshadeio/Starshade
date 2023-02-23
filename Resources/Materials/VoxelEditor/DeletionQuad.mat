@@ -1,0 +1,11 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Materials/VoxelEditor/DeletionQuad.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_TEXTURED_QUAD.X_QUAD

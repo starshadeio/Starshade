@@ -1,0 +1,11 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Static Library: Core Graphics
+//
+// File: ../Resources/Materials/PostToneMapping.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_POST_TONE_MAPPING.REINHARD_LUMINANCE
