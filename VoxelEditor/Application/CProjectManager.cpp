@@ -195,14 +195,13 @@ namespace App
 		if(Util::CFileSystem::Instance().OpenFile(CLocalization::Instance().Get(LOC_KEY_DIALOG_TITLE_BUILD_PROJECT).Get().c_str(), m_buildPath, true))
 		{
 			Util::CFileSystem::Instance().NewDirectory(m_buildPath.c_str());
-			Util::CFileSystem::Instance().NewDirectory((m_buildAppPath = m_buildPath + BUILD_DIR_APP).c_str());
 			Util::CFileSystem::Instance().NewDirectory((m_buildDataPath = m_buildPath + BUILD_DIR_DATA).c_str());
 			Util::CFileSystem::Instance().NewDirectory((m_buildResourcePath = m_buildPath + BUILD_DIR_RESOURCE).c_str());
 
 			{	// Copy binaries.
 				Util::CArchive m_archive;
 
-				std::ifstream fileIn(L"..\\Data\\app.pack", std::ios::binary);
+				std::ifstream fileIn(L".\\Data\\app.pack", std::ios::binary);
 				if(fileIn.is_open())
 				{
 					m_archive.Load(m_buildPath + L"\\", fileIn);
@@ -210,12 +209,12 @@ namespace App
 				}
 				else
 				{
-					CFactory::Instance().GetPlatform()->PostMessageBox(CLocalization::Instance().Get(LOC_KEY_MSG_FILE_NOT_FOUND).Format({ L"..\\Data\\app.pack" }).c_str(), 
+					CFactory::Instance().GetPlatform()->PostMessageBox(CLocalization::Instance().Get(LOC_KEY_MSG_FILE_NOT_FOUND).Format({ L".\\Data\\app.pack" }).c_str(), 
 						CLocalization::Instance().Get(LOC_KEY_MSG_TITLE_WARNING).Get().c_str(), App::MessageBoxType::Ok);
 				}
 			}
 
-			Util::CFileSystem::Instance().OpenFolderWithTarget(m_buildAppPath.c_str(), nullptr);
+			Util::CFileSystem::Instance().OpenFolderWithTarget(m_buildResourcePath.c_str(), nullptr);
 
 			return true;
 		}
@@ -236,7 +235,6 @@ namespace App
 		m_projectNodesPath.clear();
 
 		m_buildPath.clear();
-		m_buildAppPath.clear();
 		m_buildDataPath.clear();
 		m_buildResourcePath.clear();
 	}

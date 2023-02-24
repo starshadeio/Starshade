@@ -72,7 +72,7 @@
     <LibraryPath>$(SolutionDir)Libraries\CoreEngine\$(Platform)\$(Configuration)\;$(SolutionDir)Libraries\CoreGraphics\$(Platform)\$(Configuration)\;$(SolutionDir)Externals\libogg-1.3.5\build\$(Configuration);$(SolutionDir)Externals\libvorbis-1.3.7\build\lib\$(Configuration);$(SolutionDir)Externals\DirectXTK12\Bin\Desktop_2022_Win10\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
-    <OutDir>$(SolutionDir)Production\Editor\</OutDir>
+    <OutDir>$(SolutionDir)Production\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <TargetName>Starshade</TargetName>
     <IncludePath>$(SolutionDir)CoreEngine;$(SolutionDir)CoreGraphics;$(IncludePath)</IncludePath>

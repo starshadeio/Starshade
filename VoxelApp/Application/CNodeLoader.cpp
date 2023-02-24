@@ -45,7 +45,7 @@ namespace App
 	void CNodeLoader::PostInitialize()
 	{
 		{ // Load data.
-			std::ifstream file(L"..\\Data\\Root.dat", std::ios::binary);
+			std::ifstream file(L".\\Data\\Root.dat", std::ios::binary);
 			assert(file.is_open());
 
 			m_rootNode.Load(file);

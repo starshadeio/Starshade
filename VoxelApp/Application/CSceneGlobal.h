@@ -47,6 +47,7 @@ namespace App
 		
 	private:
 		void Quit(const App::InputCallbackData& callback);
+		void Screenshot(const App::InputCallbackData& callback);
 
 	private:
 		Graphics::CPostSky m_postSky;

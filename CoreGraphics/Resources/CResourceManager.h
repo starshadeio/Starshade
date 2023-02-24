@@ -42,6 +42,7 @@ namespace Resources
 
 	static const wchar_t* RES_STR_LOCALIZATION = L"LOCALIZATION";
 	static const wchar_t* RES_STR_SCRIPT = L"SCRIPTS";
+	static const wchar_t* RES_STR_DATA = L"DATA";
 	static const wchar_t* RES_STR_SHADER = L"SHADERS";
 	static const wchar_t* RES_STR_MATERIAL = L"MATERIALS";
 	static const wchar_t* RES_STR_TEXTURE = L"TEXTURES";
@@ -54,6 +55,7 @@ namespace Resources
 	{
 		RESOURCE_TYPE_LOCALIZATION,
 		RESOURCE_TYPE_SCRIPT,
+		RESOURCE_TYPE_DATA,
 		RESOURCE_TYPE_SHADER,
 		RESOURCE_TYPE_MATERIAL,
 		RESOURCE_TYPE_TEXTURE,
@@ -114,7 +116,9 @@ namespace Resources
 		void AddResource(const std::wstring& category, const Util::CompilerTuple<3, std::wstring, wchar_t>& res);
 
 		void RegisterScript(const std::wstring& key, const std::wstring& filepath);
+		void RegisterData(const std::wstring& key, const std::wstring& filepath);
 		void SaveProductionScripts();
+		void SaveProductionData();
 
 	private:
 		Data m_data;
@@ -123,6 +127,7 @@ namespace Resources
 		std::function<void*(RESOURCE_TYPE, u64)> m_resourceCallback;
 		
 		std::unordered_map<u64, std::wstring> m_scriptMap;
+		std::unordered_map<u64, std::wstring> m_dataMap;
 		std::unordered_map<u64, Graphics::CTexture*> m_textureMap;
 		std::unordered_map<u64, Graphics::CTexture*> m_textureMapEx;
 		std::unordered_map<u64, UI::CFont*> m_fontMap;

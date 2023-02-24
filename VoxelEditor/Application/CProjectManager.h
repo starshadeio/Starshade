@@ -22,7 +22,6 @@ namespace App
 	static const wchar_t* PROJECT_DIR_ASSETS = L"\\Assets";
 	static const wchar_t* PROJECT_DIR_NODES = L"\\Nodes";
 
-	static const wchar_t* BUILD_DIR_APP = L"\\Application";
 	static const wchar_t* BUILD_DIR_DATA = L"\\Data";
 	static const wchar_t* BUILD_DIR_RESOURCE = L"\\Resources";
 
@@ -84,7 +83,6 @@ namespace App
 		std::wstring m_projectName;
 
 		std::wstring m_buildPath;
-		std::wstring m_buildAppPath;
 		std::wstring m_buildDataPath;
 		std::wstring m_buildResourcePath;
 	};

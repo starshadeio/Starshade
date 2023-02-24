@@ -17,15 +17,15 @@
 namespace App
 {
 	// Scenes.
-	const wchar_t SCENE_NAME_GLOBAL[] = L"Global";
-	const wchar_t SCENE_NAME_NODE[] = L"Node";
+	const wchar_t SCENE_NAME_GLOBAL[] = L"global";
+	const wchar_t SCENE_NAME_NODE[] = L"node";
 
 	const u32 SCENE_HASH_GLOBAL = Math::FNV1a_32(SCENE_NAME_GLOBAL);
 	const u32 SCENE_HASH_NODE = Math::FNV1a_32(SCENE_NAME_NODE);
 	
 	// Views.
-	const wchar_t VIEW_NAME_MAIN[] = L"Main";
-	const wchar_t VIEW_NAME_OVERLAY[] = L"Overlay";
+	const wchar_t VIEW_NAME_MAIN[] = L"main";
+	const wchar_t VIEW_NAME_OVERLAY[] = L"overlay";
 
 	const u32 VIEW_HASH_MAIN = Math::FNV1a_32(VIEW_NAME_MAIN);
 	const u32 VIEW_HASH_OVERLAY = Math::FNV1a_32(VIEW_NAME_OVERLAY);

@@ -11,6 +11,7 @@
 PropBlock Main : WPanel {
 	main: true;
 	title: "Starshade App";
+	icon: "./Resources/Textures/Icons/starshade.ico";
 	screenMode: Windowed;
 	dimensions: "1280, 720";
 	allowResize: true;

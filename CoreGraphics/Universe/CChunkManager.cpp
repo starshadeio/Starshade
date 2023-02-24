@@ -21,7 +21,7 @@
 namespace Universe
 {
 	CChunkManager::CChunkManager() : 
-		CVObject(L"Chunk Manager"/*, Math::FNV1a_32(L"Main")*/),
+		CVObject(L"Chunk Manager"),
 		m_pMaterial(nullptr),
 		m_pMaterialWire(nullptr)
 	{

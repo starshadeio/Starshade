@@ -39,11 +39,11 @@ namespace App
 
 		{ // Setup the resource manager.
 			Resources::CManager::Data data { };
-			data.filepath = L"../Resources/";
+			data.filepath = L"./Resources/";
 #ifndef PRODUCTION_BUILD
-			data.prodPath = L"../Production/Resources/";
+			data.prodPath = L"./Production/Resources/";
 #else
-			data.prodPath = L"../Resources/";
+			data.prodPath = L"./Resources/";
 #endif
 			data.filename = L"Editor.res";
 			Resources::CManager::Instance().SetData(data);

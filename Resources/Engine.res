@@ -12,6 +12,10 @@
 	SCRIPTS {
 		( SCRIPT_WUI_APP_MAIN, "UI/WUI/VoxelApp/Main.wui" )
 	}
+	
+	DATA {
+		( DATA_APP_ICON, "Textures/Icons/starshade.ico" )
+	}
 
 	SHADERS {
 		( SHADER_POST_SKY, "Shaders/PostSky.shader" )

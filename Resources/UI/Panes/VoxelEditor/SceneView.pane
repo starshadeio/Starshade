@@ -24,7 +24,7 @@ PropBlock UIFrame : scene_ui {
 
 	type: view {
 		depth: "-1";
-		key: "Main";
+		key: "main";
 		material: "MATERIAL_UI_VIEW_PT";
 	}
 }
@@ -40,7 +40,7 @@ PropBlock UIFrame : overlay_ui {
 	pivot: "0.5f, 0.5f";
 
 	type: view {
-		key: "Overlay";
+		key: "overlay";
 		material: "MATERIAL_UI_VIEW_PT";
 	}
 }

@@ -32,6 +32,7 @@ namespace Resources
 	static const std::unordered_map<std::wstring, RESOURCE_TYPE> RES_FILE_MAP {
 		{ RES_STR_LOCALIZATION, RESOURCE_TYPE_LOCALIZATION },
 		{ RES_STR_SCRIPT, RESOURCE_TYPE_SCRIPT },
+		{ RES_STR_DATA, RESOURCE_TYPE_DATA },
 		{ RES_STR_SHADER, RESOURCE_TYPE_SHADER },
 		{ RES_STR_MATERIAL, RESOURCE_TYPE_MATERIAL },
 		{ RES_STR_TEXTURE, RESOURCE_TYPE_TEXTURE },
@@ -174,6 +175,7 @@ namespace Resources
 
 		App::CLocalization::Instance().SaveProductionFile(m_data.filepath, m_data.prodPath);
 		SaveProductionScripts();
+		SaveProductionData();
 
 		for(auto texture : m_textureMap)
 		{
@@ -223,6 +225,13 @@ namespace Resources
 			case RESOURCE_TYPE_SCRIPT: {
 				auto elem = m_scriptMap.find(key);
 				if(elem != m_scriptMap.end())
+				{
+					return const_cast<void*>(reinterpret_cast<const void*>(&elem->second));
+				}
+			} break;
+			case RESOURCE_TYPE_DATA: {
+				auto elem = m_dataMap.find(key);
+				if(elem != m_dataMap.end())
 				{
 					return const_cast<void*>(reinterpret_cast<const void*>(&elem->second));
 				}
@@ -319,6 +328,10 @@ namespace Resources
 			{
 				RegisterScript(res.GetElement(0), m_data.filepath + res.GetElement(1));
 			} break;
+			case RESOURCE_TYPE_DATA:
+			{
+				RegisterData(res.GetElement(0), m_data.filepath + res.GetElement(1));
+			} break;
 			case RESOURCE_TYPE_SHADER:
 			{
 				Graphics::CShaderTrie* pShaderTrie = new Graphics::CShaderTrie();
@@ -381,7 +394,7 @@ namespace Resources
 	}
 
 	//-----------------------------------------------------------------------------------------------
-	// Script.
+	// Script/Data.
 	//-----------------------------------------------------------------------------------------------
 	
 	void CManager::RegisterScript(const std::wstring& key, const std::wstring& filepath)
@@ -390,6 +403,14 @@ namespace Resources
 		auto elem = m_scriptMap.find(hash);
 		assert(elem == m_scriptMap.end());
 		m_scriptMap.insert({ hash, filepath });
+	}
+
+	void CManager::RegisterData(const std::wstring& key, const std::wstring& filepath)
+	{
+		const u64 hash = Math::FNV1a_64(key.c_str(), key.size());
+		auto elem = m_dataMap.find(hash);
+		assert(elem == m_dataMap.end());
+		m_dataMap.insert({ hash, filepath });
 	}
 
 	void CManager::SaveProductionScripts()
@@ -407,6 +428,24 @@ namespace Resources
 			ASSERT_R(Util::CFileSystem::Instance().NewPath(path.c_str()));
 
 			Util::WriteFileUTF8((path + filename + extension).c_str(), Util::CScriptObject::FormatScript(Util::ReadFileUTF8(elem.second.c_str())));
+		}
+	}
+
+	void CManager::SaveProductionData()
+	{
+		for(auto elem : m_dataMap)
+		{
+			if(elem.second.empty()) continue;
+
+			std::wstring path;
+			std::wstring filename;
+			std::wstring extension;
+			Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(elem.second.c_str(), path, filename, extension);
+		
+			path = m_data.prodPath + path.substr(wcslen(m_data.filepath));
+			ASSERT_R(Util::CFileSystem::Instance().NewPath(path.c_str()));
+
+			Util::CFileSystem::Instance().CopyFileTo(elem.second.c_str(), (path + filename + extension).c_str(), true);
 		}
 	}
 };

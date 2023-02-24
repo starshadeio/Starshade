@@ -38,8 +38,8 @@ namespace App
 
 		{ // Setup the resource manager.
 			Resources::CManager::Data data { };
-			data.filepath = L"../Resources/";
-			data.prodPath = L"../Resources/";
+			data.filepath = L"./Resources/";
+			data.prodPath = L"./Resources/";
 			data.filename = L"App.res";
 			Resources::CManager::Instance().SetData(data);
 		}

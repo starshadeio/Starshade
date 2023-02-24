@@ -464,7 +464,7 @@ namespace Actor
 			ctime_s(buffer, 32, &result);
 
 			std::wstringstream wss;
-			wss << L"../Art/Screenshots/Editor/";
+			wss << L"./Screenshots/";
 			for(size_t i = 0; buffer[i] != '\n'; ++i)
 			{
 				if(buffer[i] == ' ' || buffer[i] == ':') wss << L'-';

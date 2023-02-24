@@ -11,7 +11,7 @@
 PropBlock Main : WPanel {
 	main: true;
 	title: "Starshade";
-	icon: "../Resources/Textures/VoxelEditor/Icons/starshade.ico";
+	icon: "./Resources/Textures/Icons/starshade.ico";
 	screenMode: Windowed;
 	dimensions: "1280, 720";
 	minDimensions: "640, 360";

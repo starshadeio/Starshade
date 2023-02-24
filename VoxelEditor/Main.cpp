@@ -13,7 +13,7 @@
 
 #include "Application/CApplication.h"
 
-#define WUI_FILEPATH L"../Resources/UI/WUI/VoxelEditor/Main.wui"
+#define WUI_FILEPATH L"./Resources/UI/WUI/VoxelEditor/Main.wui"
 #define APP_INSTANCE &App::CApplication::Instance()
 
 #include <Application/CPlatformMain.h>

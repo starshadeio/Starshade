@@ -55,6 +55,7 @@
     <IntDir>$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
     <IncludePath>$(SolutionDir)CoreEngine;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\CoreEngine\$(Platform)\$(Configuration)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Production|x64'">
     <OutDir>$(SolutionDir)Builds\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>

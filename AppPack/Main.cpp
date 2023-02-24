@@ -20,16 +20,16 @@ int main(int argc, char* argv[])
 {
 	Util::CArchive archive;
 
-	archive.Insert(L".\\Binaries\\Starshade.exe", L"Application\\Starshade.exe");
-	archive.Insert(L".\\Binaries\\D3DCompiler_47.dll", L"Application\\D3DCompiler_47.dll");
-	archive.Insert(L".\\Binaries\\msvcp140.dll", L"Application\\msvcp140.dll");
-	archive.Insert(L".\\Binaries\\vcruntime140.dll", L"Application\\vcruntime140.dll");
-	archive.Insert(L".\\Binaries\\vcruntime140_1.dll", L"Application\\vcruntime140_1.dll");
-	archive.Insert(L".\\Binaries\\XAudio2_9.dll", L"Application\\XAudio2_9.dll");
-	archive.Insert(L".\\Binaries\\XInput1_4.dll", L"Application\\XInput1_4.dll");
-	archive.Insert(L".\\Binaries\\Licenses\\DirectXTK12.txt", L"Application\\Licenses\\DirectXTK12.txt");
-	archive.Insert(L".\\Binaries\\Licenses\\libogg.txt", L"Application\\Licenses\\libogg.txt");
-	archive.Insert(L".\\Binaries\\Licenses\\libvorbis.txt", L"Application\\Licenses\\libvorbis.txt");
+	archive.Insert(L".\\Binaries\\Starshade.exe", L"Starshade.exe");
+	archive.Insert(L".\\Binaries\\D3DCompiler_47.dll", L"D3DCompiler_47.dll");
+	archive.Insert(L".\\Binaries\\msvcp140.dll", L"msvcp140.dll");
+	archive.Insert(L".\\Binaries\\vcruntime140.dll", L"vcruntime140.dll");
+	archive.Insert(L".\\Binaries\\vcruntime140_1.dll", L"vcruntime140_1.dll");
+	archive.Insert(L".\\Binaries\\XAudio2_9.dll", L"XAudio2_9.dll");
+	archive.Insert(L".\\Binaries\\XInput1_4.dll", L"XInput1_4.dll");
+	archive.Insert(L".\\Binaries\\Licenses\\DirectXTK12.txt", L"Licenses\\DirectXTK12.txt");
+	archive.Insert(L".\\Binaries\\Licenses\\libogg.txt", L"Licenses\\libogg.txt");
+	archive.Insert(L".\\Binaries\\Licenses\\libvorbis.txt", L"Licenses\\libvorbis.txt");
 
 	Util::CFileSystem::Instance().NewPath(L"..\\Production\\Data\\");
 

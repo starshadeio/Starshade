@@ -45,6 +45,11 @@ namespace App
 				App::InputBindingSet(App::INPUT_KEY_QUIT, std::bind(&CSceneGlobal::Quit, this, std::placeholders::_1),
 				App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_ESCAPE), App::InputBinding(App::INPUT_DEVICE_NONE, 0))
 			);
+			
+			App::CInput::Instance().RegisterBinding(&INPUT_HASH_LAYOUT_PLAYER, 1,
+				App::InputBindingSet(App::INPUT_KEY_SCREENSHOT, std::bind(&CSceneGlobal::Screenshot, this, std::placeholders::_1),
+				App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_F5), App::InputBinding(App::INPUT_DEVICE_NONE, 0))
+			);
 		}
 		
 		{ // Setup scene manager post processor.
@@ -194,6 +199,30 @@ namespace App
 		if(callback.bPressed)
 		{
 			CFactory::Instance().GetPlatform()->Quit();
+		}
+	}
+
+	void CSceneGlobal::Screenshot(const App::InputCallbackData& callback)
+	{
+		if(callback.bPressed)
+		{
+			const std::time_t result = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+			
+
+			static char buffer[32];
+			ctime_s(buffer, 32, &result);
+
+			std::wstringstream wss;
+			wss << L"./Screenshots/";
+			for(size_t i = 0; buffer[i] != '\n'; ++i)
+			{
+				if(buffer[i] == ' ' || buffer[i] == ':') wss << L'-';
+				else wss << wchar_t(buffer[i]);
+			}
+
+			wss << L".png";
+
+			CFactory::Instance().GetGraphicsAPI()->Screenshot(wss.str().c_str());
 		}
 	}
 };
