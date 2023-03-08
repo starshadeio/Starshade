@@ -1,5 +1,5 @@
 ## Objective
-The goal of the Starshade engine is to make a game engine in which making games is as enjoyable as playing them.
+The goal of Starshade is to make a game engine where making games is as enjoyable as playing them. It's still early days with the project, but with every push this objective gets closer!
 
 ## Free and open source
 Starshade is a free open source voxel engine under an MIT license.
