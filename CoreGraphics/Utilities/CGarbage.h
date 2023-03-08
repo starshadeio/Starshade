@@ -39,7 +39,7 @@ namespace Util
 		void Release();
 
 	private:
-		Util::CDeque<Garbage> m_garbageDeque;
+		Util::CTSDeque<Garbage> m_garbageDeque;
 		Util::CTSDeque<Garbage> m_disposalDeque;
 	};
 };

@@ -70,6 +70,9 @@ namespace App
 	class CInputGamepad : public CInputDevice
 	{
 	public:
+		static const std::unordered_map<std::wstring, VK_GAMEPAD> CODE_MAP;
+
+	public:
 		CInputGamepad();
 		~CInputGamepad();
 		CInputGamepad(const CInputGamepad&) = delete;

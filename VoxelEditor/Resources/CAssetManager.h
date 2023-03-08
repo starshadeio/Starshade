@@ -43,7 +43,7 @@ namespace Resources
 		void RegisterAsset(RESOURCE_TYPE type, const std::wstring& key, void* pResource);
 		void DeregisterAsset(RESOURCE_TYPE type, const std::wstring& key);
 
-		void Save(const std::wstring& path);
+		void Save(const std::wstring& resPath, const std::wstring& cfgPath);
 
 		// Accessors.
 		inline CPaletteManager& GetPalette() { return m_palette; }

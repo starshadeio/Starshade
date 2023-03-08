@@ -9,7 +9,7 @@
 //-------------------------------------------------------------------------------------------------
 
 #include "CGizmoScale.h"
-#include "CGizmoPivot.h"
+#include "CGizmoNode.h"
 #include "CEditor.h"
 #include <Application/CCommandManager.h>
 #include <Graphics/CGraphicsAPI.h>
@@ -155,7 +155,7 @@ namespace App
 		Math::SIMDVector outPt;
 		if(CalculatePoint(hash, ray, outPt))
 		{
-			const float scale = m_data.pGizmoPivot->CalculateDistanceScale(m_data.pGizmoPivot->GetPosition());
+			const float scale = m_data.pGizmoPivot->GetStartScale();//m_data.pGizmoPivot->CalculateDistanceScale(m_data.pGizmoPivot->GetPosition());
 			if(hash == GIZMO_HASH_CENTER)
 			{
 				float localScaleFlt =
@@ -200,7 +200,7 @@ namespace App
 	void CGizmoScale::OnReleased(u32 hash)
 	{
 		Math::SIMDVector scale = m_data.pGizmoPivot->GetScale();
-		App::CCommandManager::Instance().Execute(CGizmoPivot::CMD_KEY_SCALE, &scale);
+		App::CCommandManager::Instance().Execute(CGizmoNode::CMD_KEY_SCALE, &scale);
 
 		m_scale = m_startScale = 1.0f;
 		m_clickPoint = 0;
@@ -216,7 +216,7 @@ namespace App
 		float t0;
 		if(CGizmoInteract::EdgePoint(m_data.pGizmoPivot->GetLastPosition(), axis, ray, t0))
 		{
-			const float scale = m_data.pGizmoPivot->CalculateDistanceScale(m_data.pGizmoPivot->GetPosition());
+			const float scale = m_data.pGizmoPivot->GetStartScale();//m_data.pGizmoPivot->CalculateDistanceScale(m_data.pGizmoPivot->GetPosition());
 			const float bias = (scale - m_data.pGizmoPivot->GetStartScale()) * m_data.pGizmoPivot->GetScreenScale();
 
 			auto pt = ray.GetOrigin() + ray.GetDirection() * t0;

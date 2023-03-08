@@ -36,8 +36,9 @@ namespace App
 			float scale = 80.0f;
 			float sphereSize = 2.0f;
 			float sphereOuterSize = 2.25f;
-
-			class CGizmoPivot* pGizmoPivot = nullptr;
+			
+			u64 onReleaseHash;
+			class IGizmoPivot* pGizmoPivot = nullptr;
 		};
 
 	public:

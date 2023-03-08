@@ -139,6 +139,7 @@
     <ClCompile Include="Application\CAppReg.cpp" />
     <ClCompile Include="Application\CNodeLoader.cpp" />
     <ClCompile Include="Application\CSceneGlobal.cpp" />
+    <ClCompile Include="Application\CAppKeybinds.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\CAppData.h" />
+    <ClInclude Include="Application\CAppKeybinds.h" />
     <ClInclude Include="Application\CApplication.h" />
     <ClInclude Include="Application\CAppReg.h" />
     <ClInclude Include="Application\CNodeLoader.h" />

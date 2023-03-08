@@ -47,4 +47,12 @@ namespace App
 		m_pDeviceList->Register(m_hash, bindingHash, bindingSet);
 		return true;
 	}
+
+	bool CInputLayout::Rebind(u32 layoutHash, u32 bindingHash, const InputBinding& primary, const InputBinding& secondary, bool bKeysOnly)
+	{
+		auto elem = m_bindMap.find(bindingHash);
+		if(elem == m_bindMap.end()) { return false; }
+		elem->second = m_pDeviceList->Rebind(layoutHash, bindingHash, elem->second, primary, secondary, bKeysOnly);
+		return true;
+	}
 };

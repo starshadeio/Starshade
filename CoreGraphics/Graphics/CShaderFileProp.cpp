@@ -190,7 +190,18 @@ namespace Graphics
 		{ "BORDER", TEXTURE_ADDRESS_MODE_BORDER },
 		{ "MIRROR_ONCE", TEXTURE_ADDRESS_MODE_MIRROR_ONCE },
 	};
-
+	
+	static const std::unordered_map<std::string, COMPARISON_FUNC> COMPARISON_FUNC_MAP = {
+		{ "NEVER", COMPARISON_FUNC_NEVER },
+		{ "LESS", COMPARISON_FUNC_LESS },
+		{ "EQUAL", COMPARISON_FUNC_EQUAL },
+		{ "LESS_EQUAL", COMPARISON_FUNC_LESS_EQUAL },
+		{ "GREATER", COMPARISON_FUNC_GREATER },
+		{ "NOT_EQUAL", COMPARISON_FUNC_NOT_EQUAL },
+		{ "GREATER_EQUAL", COMPARISON_FUNC_GREATER_EQUAL },
+		{ "ALWAYS", COMPARISON_FUNC_ALWAYS },
+	};
+	
 	// Blending.
 	static const std::unordered_map<std::string, GFX_BLEND> BLEND_MAP = {
 		{ "ZERO", GFX_BLEND_ZERO },
@@ -586,6 +597,11 @@ namespace Graphics
 	{
 		pShader->PipelineInfoRef().bDepthWrite = Util::StringToBool(boolean);
 	}
+	
+	static void ShaderDepthComparison(CShader* pShader, const std::string& func)
+	{
+		pShader->PipelineInfoRef().depthComparison = COMPARISON_FUNC_MAP.find(func)->second;
+	}
 
 	// Funcitonal mappings.
 	const std::unordered_map<std::string, std::function<void(CShader*, const std::string&)>> PROP_MAP = {
@@ -617,6 +633,7 @@ namespace Graphics
 		{ "depth", [](CShader* pShader, const std::string& val) { ShaderDepth(pShader, val); } },
 		{ "depth_read", [](CShader* pShader, const std::string& val) { ShaderDepthRead(pShader, val); } },
 		{ "depth_write", [](CShader* pShader, const std::string& val) { ShaderDepthWrite(pShader, val); } },
+		{ "depth_comparison", [](CShader* pShader, const std::string& val) { ShaderDepthComparison(pShader, val); } },
 		{ "blend", [](CShader* pShader, const std::string& val) { ShaderBlend(pShader, val); } },
 	};
 

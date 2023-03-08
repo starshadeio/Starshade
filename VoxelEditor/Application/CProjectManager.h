@@ -23,6 +23,7 @@ namespace App
 	static const wchar_t* PROJECT_DIR_NODES = L"\\Nodes";
 
 	static const wchar_t* BUILD_DIR_DATA = L"\\Data";
+	static const wchar_t* BUILD_DIR_CONFIG = L"\\Config";
 	static const wchar_t* BUILD_DIR_RESOURCE = L"\\Resources";
 
 	class CProjectManager
@@ -55,6 +56,7 @@ namespace App
 
 		inline const std::wstring& GetBuildPath() const { return m_buildPath; }
 		inline const std::wstring& GetBuildDataPath() const { return m_buildDataPath; }
+		inline const std::wstring& GetBuildConfigPath() const { return m_buildConfigPath; }
 		inline const std::wstring& GetBuildResourcePath() const { return m_buildResourcePath; }
 
 	private:
@@ -84,6 +86,7 @@ namespace App
 
 		std::wstring m_buildPath;
 		std::wstring m_buildDataPath;
+		std::wstring m_buildConfigPath;
 		std::wstring m_buildResourcePath;
 	};
 };

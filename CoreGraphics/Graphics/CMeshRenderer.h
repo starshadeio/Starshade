@@ -15,6 +15,7 @@
 #include <Math/CMathFNV.h>
 #include <unordered_map>
 #include <functional>
+#include <vector>
 
 namespace Graphics
 {
@@ -34,8 +35,9 @@ namespace Graphics
 			Data& operator = (const Data&) = default;
 			Data& operator = (Data&&) = default;
 
-			virtual void Initialize();
-			virtual void Render();
+			virtual void Initialize() { }
+			void Render();
+			virtual void RenderWithMaterial(size_t materialIndex);
 
 			// Accessors.
 			inline bool IsActive() const { return m_bActive; }
@@ -44,8 +46,11 @@ namespace Graphics
 			inline void UseDynamicInstanceData(bool bDynamic) { bDynamicInstanceData = bDynamic; }
 			inline void UseDynamicInstanceCount(bool bDynamic) { bDynamicInstanceCount = bDynamic; }
 
-			inline void SetMaterialHash(u64 hash) { m_matHash = hash; }
 			inline void SetPreRenderer(std::function<void(class CMaterial*)> func) { m_onPreRender = func; }
+			
+			inline void AddMaterial(class CMaterial* pMaterial) { m_pMaterialList.push_back(pMaterial); }
+			inline void PopMaterial() { m_pMaterialList.pop_back(); }
+			inline void ClearMaterials() { m_pMaterialList.clear(); }
 			
 			inline void SetActive(bool bActive) { m_bActive = bActive; }
 
@@ -56,7 +61,8 @@ namespace Graphics
 			inline bool IsUsingDynamicInstanceData() const { return bDynamicInstanceData; }
 			inline bool IsUsingDynamicInstanceCount() const { return bDynamicInstanceCount; }
 
-			inline class CMaterial* GetMaterial() const { return m_pMaterial; }
+			inline class CMaterial* GetMaterialAt(size_t index) { return m_pMaterialList[index]; }
+			inline size_t GetMaterialCount() const { return m_pMaterialList.size(); }
 
 		private:
 			bool m_bActive = true;
@@ -66,11 +72,10 @@ namespace Graphics
 
 			u32 m_viewHash;
 			u64 m_this;
-			u64 m_matHash;
 			
 			std::function<void(class CMaterial*)> m_onPreRender;
-
-			class CMaterial* m_pMaterial = nullptr;
+			
+			std::vector<class CMaterial*> m_pMaterialList;
 		};
 
 	public:

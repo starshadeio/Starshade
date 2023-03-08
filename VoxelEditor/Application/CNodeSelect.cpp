@@ -81,21 +81,21 @@ namespace App
 			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_FILL, std::bind(&CNodeSelect::FillMode, this));
 			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_PAINT, std::bind(&CNodeSelect::PaintMode, this));
 			
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_ERASE_OFF, [](const void* params, bool bInverse){ return true; });
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_FILL_OFF, [](const void* params, bool bInverse){ return true; });
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_PAINT_OFF, [](const void* params, bool bInverse){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_ERASE_OFF, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_FILL_OFF, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_PAINT_OFF, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
 			
 			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_1, std::bind(&CNodeSelect::Brush1, this));
 			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_2, std::bind(&CNodeSelect::Brush2, this));
 			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_4, std::bind(&CNodeSelect::Brush4, this));
 			
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_1_OFF, [](const void* params, bool bInverse){ return true; });
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_2_OFF, [](const void* params, bool bInverse){ return true; });
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_4_OFF, [](const void* params, bool bInverse){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_1_OFF, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_2_OFF, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_BRUSH_4_OFF, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
 
 			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_ACTION, std::bind(&CNodeSelect::Select, this, std::placeholders::_1, std::placeholders::_2), props);
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_PRESSED, [](const void* params, bool bInverse){ return true; });
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_RELEASED, [](const void* params, bool bInverse){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_PRESSED, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_SELECT_RELEASED, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
 		}
 	}
 
@@ -128,7 +128,7 @@ namespace App
 		}
 
 		bool bValidState = m_bActive && !App::CSceneManager::Instance().UIEventSystem().GetHovered() && 
-			CEditor::Instance().Nodes().Gizmo().Pivot().GetActiveType() == CGizmoPivot::GizmoType::Select;
+			CEditor::Instance().Nodes().Gizmo().GetActiveType() == CGizmo::GizmoType::Select;
 
 		if(bValidState)
 		{
@@ -387,7 +387,7 @@ namespace App
 		bool bPressed = *reinterpret_cast<const bool*>(param);
 		bool bResult = false;
 
-		if(CEditor::Instance().Nodes().Gizmo().Pivot().GetActiveType() == CGizmoPivot::GizmoType::Select)
+		if(CEditor::Instance().Nodes().Gizmo().GetActiveType() == CGizmo::GizmoType::Select)
 		{
 			std::lock_guard<std::mutex> lk(m_pickingMutex);
 			if(m_pickedInfo.info.pVolume)

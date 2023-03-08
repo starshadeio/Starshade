@@ -23,7 +23,7 @@ namespace App
 {
 	CApplication::CApplication()
 	{
-		App::CVersion::Instance().SetVersion(0, 2, 0, 0, L"alpha");
+		App::CVersion::Instance().SetVersion(0, 3, 0, 0, L"alpha");
 	}
 
 	CApplication::~CApplication()
@@ -38,8 +38,9 @@ namespace App
 
 		{ // Setup the resource manager.
 			Resources::CManager::Data data { };
-			data.filepath = L"./Resources/";
-			data.prodPath = L"./Resources/";
+			data.cfgPath = L"Config/";
+			data.resPath = L"Resources/";
+			data.prodPath = L"";
 			data.filename = L"App.res";
 			Resources::CManager::Instance().SetData(data);
 		}

@@ -29,8 +29,7 @@ namespace Graphics
 
 	private:
 		void Initialize() final;
-		void PostInitialize() final;
-		void Render() final;
+		void RenderWithMaterial(size_t materialIndex) final;
 		void Release() final;
 
 		void CreateResource(ID3D12Resource** ppBuffer, ID3D12Resource** ppBufferUpload, D3D12_RESOURCE_STATES nextState, u32 size, u32 stride, const u8* pSrcData, u8** pDstData);
@@ -50,7 +49,7 @@ namespace Graphics
 		ID3D12Resource* m_pIndexBuffer;
 		ID3D12Resource* m_pIndexBufferUpload;
 
-		ID3D12GraphicsCommandList* m_pBundle;
+		ID3D12GraphicsCommandList** m_pBundleList;
 
 		class CDX12Graphics* m_pDX12Graphics;
 	};

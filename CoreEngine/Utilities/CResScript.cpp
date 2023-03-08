@@ -60,7 +60,8 @@ namespace Util
 			}
 
 			Util::COMMENT_TYPE commentType;
-			if(!m_bInQuote && (commentType = m_detectComment.InComment(ch, m_word))) {
+			if(!m_bInQuote && (commentType = m_detectComment.InComment(ch, m_word)))
+			{
 				if((commentType & Util::COMMENT_TYPE::COMMENT_TYPE_OPEN) && !bAwaitingPrintable)
 				{
 					m_code.pop_back();
@@ -73,7 +74,9 @@ namespace Util
 						ProcessMacro(ch);
 					}
 				}
-			} else {
+			}
+			else
+			{
 				if(ch == '\n')
 				{
 					if(!bAwaitingPrintable)

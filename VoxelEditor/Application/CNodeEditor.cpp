@@ -26,9 +26,9 @@
 namespace App
 {
 	CNodeEditor::CNodeEditor() :
+		m_bEditorAudioPlaying(true),
 		m_user(L"User", VIEW_HASH_MAIN),
 		m_rootNode(L"Root", VIEW_HASH_MAIN),
-		m_grid(L"NodeGrid", VIEW_HASH_MAIN),
 		m_pSelectedNode(&m_rootNode)
 	{
 	}
@@ -53,14 +53,14 @@ namespace App
 			data.pawnData.speed = 3.5f;
 			data.pawnData.jumpPower = 7.5f;
 			data.pawnData.startEuler = Math::Vector3(Math::g_PiOver180 * -35.0f, 0.0f, 0.0f);
-			data.pawnData.startPosition = Math::SIMDVector(0.0f, 18.0f, -32.0f);
+			data.pawnData.startPosition = Math::SIMDVector(0.0f, 6.0f, -10.0f);
 			m_user.SetData(data);
 			m_user.Initialize();
 		}
 
 		{ // Setup the environment.
 			Universe::CEnvironment::Data data { };
-			data.bActive = true;
+			data.bActive = m_bEditorAudioPlaying;
 			m_environment.SetData(data);
 			m_environment.Initialize();
 		}
@@ -70,26 +70,13 @@ namespace App
 			m_nodeSelect.SetData(data);
 			m_nodeSelect.Initialize();
 		}
-		
-		{ // Grid.
-			Universe::CNodeGrid::Data data { };
-			data.cellSize = 1.0f;
-			data.right = Math::VEC3_RIGHT;
-			data.up = Math::VEC3_UP;
-			data.forward = Math::VEC3_FORWARD;
-			data.width = 33;
-			data.height = 33;
-			data.length = 33;
-			m_grid.SetData(data);
-			m_grid.Initialize();
-		}
 
 		{ // Add node objects.
 			// Spawn points.
 			m_rootNode.AddObject(L"spawn_point");
 			
 			m_rootNode.AddComponent<Logic::CNodeTransform, Logic::CNodeTransform::Data>([](Logic::CNodeTransform::Data* pTransform){
-				pTransform->SetPosition(Math::SIMDVector(0.0f, -15.0f, 0.0f));
+				pTransform->SetPosition(Math::SIMDVector(0.0f, -3.0f, 0.0f));
 				pTransform->SetEulerConstraints(Logic::AXIS_CONSTRAINT_FLAG_X | Logic::AXIS_CONSTRAINT_FLAG_Z);
 				pTransform->SetScaleConstraints(Logic::AXIS_CONSTRAINT_FLAG_ALL);
 			});
@@ -105,19 +92,18 @@ namespace App
 			});
 
 			m_rootNode.AddComponent<Graphics::CMeshRenderer, Graphics::CMeshRenderer::Data>([this](Graphics::CMeshRenderer::Data* pData){
-				pData->SetMaterialHash(Math::FNV1a_64(L"MATERIAL_PRIMITIVE"));
+				pData->AddMaterial(reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, Math::FNV1a_64(L"MATERIAL_PRIMITIVE"))));
 				pData->SetPreRenderer([this](Graphics::CMaterial* pMaterial){
 					static const u32 matrixBufferHash = Math::FNV1a_32("MatrixBuffer");
 					static const u32 worldHash = Math::FNV1a_32("World");
-					static const u32 vpHash = Math::FNV1a_32("VP");
-
-					Math::SIMDMatrix mtx = App::CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetViewMatrix();
-					mtx *= App::CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetProjectionMatrix();
+					static const u32 viewHash = Math::FNV1a_32("View");
+					static const u32 projHash = Math::FNV1a_32("Proj");
 
 					auto& transform = *reinterpret_cast<Logic::CNodeTransform::Data*>(App::CCoreManager::Instance().NodeRegistry().GetComponentFromObject(Logic::CNodeTransform::HASH, m_rootNode.GetSelectedObject()->GetHash()));
 
 					pMaterial->SetFloat(matrixBufferHash, worldHash, transform.GetWorldMatrix().f32, 16);
-					pMaterial->SetFloat(matrixBufferHash, vpHash, mtx.f32, 16);
+					pMaterial->SetFloat(matrixBufferHash, viewHash, App::CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetViewMatrixInv().f32, 16);
+					pMaterial->SetFloat(matrixBufferHash, projHash, App::CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetProjectionMatrix().f32, 16);
 				});
 			});
 		}
@@ -127,19 +113,26 @@ namespace App
 			m_chunkEditor.Initialize();
 		}
 
-		m_gizmo.Pivot().SetNode(&m_rootNode);
+		m_gizmo.Node().SetNode(&m_rootNode);
 		
 		CSceneManager::Instance().UniverseManager().ChunkManager().SetTexture(Resources::CAssets::Instance().GetPalette().GetTexture());
+
+		{ // Setup commands.
+			App::CCommandManager::Instance().RegisterCommand(CMD_KEY_EDITOR_AUDIO_PLAY, std::bind(&CNodeEditor::EditorAudioPlay, this));
+			App::CCommandManager::Instance().RegisterCommand(CMD_KEY_EDITOR_AUDIO_STOP, std::bind(&CNodeEditor::EditorAudioStop, this));
+		}
 	}
 	
 	void CNodeEditor::PostInitialize()
 	{
 		m_user.PostInitialize();
+		m_chunkEditor.PostInitialize();
 	}
 
 	void CNodeEditor::Update()
 	{
 		m_nodeSelect.Update();
+		m_chunkEditor.Update();
 
 		m_user.Update();
 		m_environment.Update();
@@ -148,7 +141,6 @@ namespace App
 
 	void CNodeEditor::LateUpdate()
 	{
-		m_grid.LateUpdate();
 		m_chunkEditor.LateUpdate();
 		m_gizmo.LateUpdate();
 	}
@@ -162,7 +154,6 @@ namespace App
 	{
 		m_nodeSelect.Release();
 		m_chunkEditor.Release();
-		m_grid.Release();
 
 		m_environment.Release();
 		m_user.Release();
@@ -188,19 +179,21 @@ namespace App
 	{
 		m_rootNode.New();
 		auto& transform = *m_rootNode.GetSelectedObject()->GetComponent<Logic::CNodeTransform>();
-		transform.SetPosition(Math::SIMD_VEC_UP * -15.0f);
+		transform.SetPosition(Math::SIMD_VEC_UP * -3.0f);
 		transform.SetEuler(Math::SIMD_VEC_ZERO);
 	}
 	
-	void CNodeEditor::Save() const
+	void CNodeEditor::Save()
 	{
 		m_user.Save();
+		m_chunkEditor.Save();
 		m_rootNode.Save();
 	}
 
 	void CNodeEditor::Load()
 	{
 		m_user.Load();
+		m_chunkEditor.Load();
 		m_rootNode.Load();
 	}
 
@@ -215,19 +208,43 @@ namespace App
 
 	void CNodeEditor::OnPlay(bool bSpawn)
 	{
+		m_environment.SetActive(true);
+
 		m_nodeSelect.OnPlay();
+		m_chunkEditor.OnPlay();
 		m_user.OnPlay(bSpawn);
-		m_grid.SetActive(false);
 		m_gizmo.SetActive(false);
 		m_rootNode.GetSelectedObject()->GetComponent<Graphics::CMeshRenderer>()->SetActive(false);
 	}
 
 	void CNodeEditor::OnEdit()
 	{
+		m_environment.SetActive(m_bEditorAudioPlaying);
+
 		m_user.OnEdit();
+		m_chunkEditor.OnEdit();
 		m_nodeSelect.OnEdit();
-		m_grid.SetActive(true);
 		m_gizmo.SetActive(true);
 		m_rootNode.GetSelectedObject()->GetComponent<Graphics::CMeshRenderer>()->SetActive(true);
+	}
+	
+	//-----------------------------------------------------------------------------------------------
+	// Commands methods.
+	//-----------------------------------------------------------------------------------------------
+
+	bool CNodeEditor::EditorAudioPlay()
+	{
+		if(m_bEditorAudioPlaying) return false;
+		m_bEditorAudioPlaying = true;
+		m_environment.SetActive(true);
+		return true;
+	}
+
+	bool CNodeEditor::EditorAudioStop()
+	{
+		if(!m_bEditorAudioPlaying) return false;
+		m_bEditorAudioPlaying = false;
+		m_environment.SetActive(false);
+		return true;
 	}
 };

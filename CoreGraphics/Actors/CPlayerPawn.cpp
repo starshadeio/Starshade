@@ -41,8 +41,8 @@ namespace Actor
 
 		memset(&m_cameraData, 0, sizeof(m_cameraData));
 		m_cameraData.projMode = Logic::CAMERA_PROJ_MODE_PERSPECTIVE;
-		m_cameraData.nearView = 0.1f;
-		m_cameraData.farView = 100.0f;
+		m_cameraData.nearView = 0.2f;
+		m_cameraData.farView = 500.0f;
 		m_cameraData.fov = 65.0f * Math::g_PiOver180;
 		
 		m_cameraData.screenRect = { 0, 0, static_cast<long>(CFactory::Instance().GetGraphicsAPI()->GetWidth()), static_cast<long>(CFactory::Instance().GetGraphicsAPI()->GetHeight()) };

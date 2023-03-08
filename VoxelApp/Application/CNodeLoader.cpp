@@ -45,10 +45,11 @@ namespace App
 	void CNodeLoader::PostInitialize()
 	{
 		{ // Load data.
-			std::ifstream file(L".\\Data\\Root.dat", std::ios::binary);
+			std::wstring path = L".\\Data\\";
+			std::ifstream file(path + L"Root.dat", std::ios::binary);
 			assert(file.is_open());
 
-			m_rootNode.Load(file);
+			m_rootNode.Load(path, file);
 			
 			file.close();
 		}

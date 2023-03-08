@@ -33,6 +33,7 @@ namespace App
 		void PostUpdate();
 
 		bool Register(const InputBindingSet& bindingSet);
+		bool Rebind(u32 layoutHash, u32 bindingHash, const InputBinding& primary, const InputBinding& secondary, bool bKeysOnly = true);
 		
 		// Accessors.
 		inline u32 GetHash() const { return m_hash; }

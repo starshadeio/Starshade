@@ -203,29 +203,64 @@ namespace Math
 	{
 		const float* f = euler.ToFloat();
 
-		float f0 = f[0] * -0.5f;
-		float sx = sinf(f0); float cx = cosf(f0);
+		float f0 = f[0] * 0.5f;
+		const float sx = sinf(f0); const float cx = cosf(f0);
 
-		f0 = f[1] * -0.5f;
-		float sy = sinf(f0); float cy = cosf(f0);
+		f0 = f[1] * 0.5f;
+		const float sy = sinf(f0); const float cy = cosf(f0);
 
-		f0 = f[2] * -0.5f;
-		float sz = sinf(f0); float cz = cosf(f0);
+		f0 = f[2] * 0.5f;
+		const float sz = sinf(f0); const float cz = cosf(f0);
+
+		const float cxcy = cx * cy;
+		const float sxsy = sx * sy;
+
+		return _mm_setr_ps(
+			cxcy * sz + sxsy * cz,
+			sy * cx * cz + cy * sx * sz,
+			cy * sx * cz - sy * cx * sz,
+			cxcy * cz - sxsy * sz
+		);
 
 		// Object -> Intertial
-		return _mm_setr_ps(
+		/*return _mm_setr_ps(
 			cy * sx * cz + sy * cx * sz,
 			sy * cx * cz - cy * sx * sz,
 			cy * cx * sz - sy * sx * cz,
 			cy * cx * cz + sy * sx * sz
-		);
+		);*/
 	}
 
 	// Method for converting this quaternion to a euler angle vector.
 	SIMDVector SIMDQuaternion::ToEuler() const
 	{
 		const float* f = m_xmm.m128_f32;
+		//Math::Vector4 q1 = *(Math::Vector4*)m_xmm.m128_f32;
 		float h, p, b;
+
+		/*const float test = q1.x * q1.y + q1.z * q1.w;
+		if(test > 0.499f)
+		{ // Singularity at north pole.
+			h = 2.0f * atan2f(q1.x, q1.w);
+			p = Math::g_PiOver2;
+			b = 0.0f;
+		}
+		else if(test < -0.499f)
+		{ // Singularity at south pole.
+			h = -2.0f * atan2f(q1.x, q1.w);
+			p = -Math::g_PiOver2;
+			b = 0.0f;
+		}
+		else
+		{
+			const float sqx = q1.x * q1.x;
+			const float sqy = q1.y * q1.y;
+			const float sqz = q1.z * q1.z;
+
+			h = atan2f(2.0f * q1.y * q1.w - 2.0f * q1.x * q1.z, 1.0f - 2.0f * sqy - 2.0f * sqz);
+			p = asinf(2.0f * test);
+			b = atan2f(2.0f * q1.x * q1.w - 2.0f * q1.y * q1.z, 1.0f - 2.0f * sqx - 2.0f * sqz);
+		}*/
 
 		// Object -> Inertial (new -> old)
 		float sp = -2.0f * (f[1] * f[2] - f[3] * f[0]);

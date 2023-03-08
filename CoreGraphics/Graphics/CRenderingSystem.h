@@ -34,6 +34,18 @@ namespace Graphics
 			u32 viewHash;
 		};
 
+		struct RendererData_
+		{
+			size_t materialIndex;
+			class CRenderer_* pRenderer;
+
+			inline class CRenderer_* operator -> () { return pRenderer; }
+			inline const class CRenderer_* operator -> () const { return pRenderer; }
+
+			inline bool operator == (const RendererData_& b) const { return materialIndex == b.materialIndex && pRenderer == b.pRenderer; }
+			inline bool operator != (const RendererData_& b) const { return materialIndex != b.materialIndex && pRenderer != b.pRenderer; }
+		};
+
 	public:
 		CRenderingSystem();
 		~CRenderingSystem();
@@ -51,7 +63,7 @@ namespace Graphics
 		void Register(class CRenderer* pRenderer);
 		void Deregister(class CRenderer* pRenderer);
 		
-		void Register(class CRenderer_* pRenderer);
+		void Register(class CRenderer_* pRenderer, size_t materialIndex = 0);
 		void Deregister(class CRenderer_* pRenderer);
 
 		void Register(UI::CUICanvas* pCanvas);
@@ -90,12 +102,37 @@ namespace Graphics
 		}
 
 		template<typename T>
-		void Deregister(T* pVal, std::vector<T*>& list)
+		void Register(const T& val, std::vector<T>& list, std::function<bool(const T&, const T&)> comp)
+		{
+			list.push_back(val);
+
+			if(comp)
+			{
+				// Bubble the newly pushed mesh render to the proper position.
+				for(s64 i = static_cast<s64>(list.size()) - 1; i > 0; --i)
+				{
+					if(comp(list[i - 1], list[i]))
+					{
+						// Swap the two adjacent values.
+						T tmp = list[i - 1];
+						list[i - 1] = list[i];
+						list[i] = tmp;
+					}
+					else
+					{ // Pushed value at proper spot.
+						break;
+					}
+				}
+			}
+		}
+
+		template<typename T>
+		void Deregister(const T& val, std::vector<T>& list)
 		{
 			size_t i, j;
 			for(i = 0, j = 0; i < list.size(); ++i)
 			{
-				if(list[i] != pVal)
+				if(list[i] != val)
 				{
 					list[j++] = list[i];
 				}
@@ -106,9 +143,9 @@ namespace Graphics
 
 	private:
 		template<typename T>
-		void SortBackToFront(const Math::SIMDVector& camPos, std::vector<T*>& list)
+		void SortBackToFront(const Math::SIMDVector& camPos, std::vector<T>& list)
 		{
-			std::sort(list.begin(), list.end(), [&camPos](T* a, T* b){
+			std::sort(list.begin(), list.end(), [&camPos](const T& a, const T& b){
 				const float d0 = a->GetObject()->GetTransform() ? _mm_cvtss_f32((a->GetObject()->GetTransform()->GetPosition() - camPos).LengthSq()) : FLT_MAX;
 				const float d1 = b->GetObject()->GetTransform() ? _mm_cvtss_f32((b->GetObject()->GetTransform()->GetPosition() - camPos).LengthSq()) : FLT_MAX;
 
@@ -119,8 +156,8 @@ namespace Graphics
 	private:
 		std::queue<RenderData> m_renderQueue;
 
-		std::unordered_map<u32, std::vector<class CRenderer_*>> m_depthlessList;
-		std::unordered_map<u32, std::vector<class CRenderer_*>> m_rendererList_;
+		std::unordered_map<u32, std::vector<RendererData_>> m_depthlessList;
+		std::unordered_map<u32, std::vector<RendererData_>> m_rendererList_;
 		std::unordered_map<u32, std::vector<std::function<void()>>> m_overlayList;
 		std::unordered_map<u32, std::vector<UI::CUICanvas*>> m_canvasList;
 		

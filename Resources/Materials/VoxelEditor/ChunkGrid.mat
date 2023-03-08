@@ -1,0 +1,11 @@
+//-------------------------------------------------------------------------------------------------
+//
+// Copyright (c) Ryan Alasandro
+//
+// Application: Voxel Editor
+//
+// File: ../Resources/Materials/VoxelEditor/ChunkGrid.mat
+//
+//-------------------------------------------------------------------------------------------------
+
+shader SHADER_CHUNK_GRID

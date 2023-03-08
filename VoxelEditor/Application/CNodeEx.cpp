@@ -38,10 +38,12 @@ namespace App
 		}
 	}
 
-	void CNodeEx::Save() const
+	void CNodeEx::Save()
 	{
 		auto path = CEditor::Instance().Project().GetProjectNodesPath() + L"\\" + m_pName;
 		Util::CFileSystem::Instance().NewDirectory(path.c_str());
+
+		m_version.Save(path);
 		m_chunkNode.Save(path);
 
 		{ // Save node objects.
@@ -65,7 +67,8 @@ namespace App
 	void CNodeEx::Load()
 	{
 		auto path = CEditor::Instance().Project().GetProjectNodesPath() + L"\\" + m_pName;
-		m_chunkNode.Load(path);
+		m_version.Load(path);
+		m_chunkNode.Load(path, m_version.GetVersion());
 
 		{ // Load node objects.
 			std::ifstream file(path + L"\\package.dat", std::ios::binary);

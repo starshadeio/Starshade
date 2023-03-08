@@ -16,6 +16,30 @@
 
 namespace App
 {
+	const std::unordered_map<std::wstring, VK_GAMEPAD> CInputGamepad::CODE_MAP = {
+		{ L"SOUTH", VK_GP_SOUTH },
+		{ L"EAST", VK_GP_EAST },
+		{ L"WEST", VK_GP_WEST },
+		{ L"NORTH", VK_GP_NORTH },
+		{ L"SHOULDER_LEFT", VK_GP_SHOULDER_LEFT },
+		{ L"SHOULDER_RIGHT", VK_GP_SHOULDER_RIGHT },
+		{ L"BACK", VK_GP_BACK },
+		{ L"START", VK_GP_START },
+		{ L"ANALOG_LEFT", VK_GP_ANALOG_LEFT },
+		{ L"ANALOG_RIGHT", VK_GP_ANALOG_RIGHT },
+		{ L"DPAD_LEFT", VK_GP_DPAD_LEFT },
+		{ L"DPAD_RIGHT", VK_GP_DPAD_RIGHT },
+		{ L"DPAD_UP", VK_GP_DPAD_UP },
+		{ L"DPAD_DOWN", VK_GP_DPAD_DOWN },
+
+		{ L"AXIS_TRIGGER_LEFT", VK_GP_AXIS_TRIGGER_LEFT },
+		{ L"AXIS_TRIGGER_RIGHT", VK_GP_AXIS_TRIGGER_RIGHT },
+		{ L"AXIS_LSTICK_X", VK_GP_AXIS_LSTICK_X },
+		{ L"AXIS_LSTICK_Y", VK_GP_AXIS_LSTICK_Y },
+		{ L"AXIS_RSTICK_X", VK_GP_AXIS_RSTICK_X },
+		{ L"AXIS_RSTICK_Y", VK_GP_AXIS_RSTICK_Y }
+	};
+
 	CInputGamepad::CInputGamepad() { }
 	CInputGamepad::~CInputGamepad() { }
 

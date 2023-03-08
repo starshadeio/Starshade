@@ -82,13 +82,15 @@ namespace App
 		}
 
 		{ // Create the mesh renderer.
+			m_pMaterial = reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_data.matHash));
+
 			m_pMeshRenderer = CFactory::Instance().CreateMeshRenderer(this);
 
 			Graphics::CMeshRenderer_::Data data { };
 			data.onPreRender = std::bind(&CBlockMarker::PreRender, this);
-			data.pMaterial = m_pMaterial = reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_data.matHash));
 			data.pMeshData = &m_meshData;
 			m_pMeshRenderer->SetData(data);
+			m_pMeshRenderer->AddMaterial(m_pMaterial);
 
 			m_pMeshRenderer->Initialize();
 		}
@@ -97,16 +99,13 @@ namespace App
 	void CBlockMarker::PreRender()
 	{
 		static const u32 matrixBufferHash = Math::FNV1a_32("MatrixBuffer");
-		static const u32 wvHash = Math::FNV1a_32("WV");
+		static const u32 worldHash = Math::FNV1a_32("World");
+		static const u32 viewHash = Math::FNV1a_32("View");
 		static const u32 projHash = Math::FNV1a_32("Proj");
 
-		Math::SIMDMatrix mtx = Math::SIMD_MTX4X4_IDENTITY;
-		mtx *= m_transform.GetWorldMatrix();
-		mtx *= CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetViewMatrix();
-		Math::SIMDMatrix proj = CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetProjectionMatrix();
-
-		m_pMaterial->SetFloat(matrixBufferHash, wvHash, mtx.f32, 16);
-		m_pMaterial->SetFloat(matrixBufferHash, projHash, proj.f32, 16);
+		m_pMaterial->SetFloat(matrixBufferHash, worldHash, m_transform.GetWorldMatrix().f32, 16);
+		m_pMaterial->SetFloat(matrixBufferHash, viewHash, CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetViewMatrixInv().f32, 16);
+		m_pMaterial->SetFloat(matrixBufferHash, projHash, CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetProjectionMatrix().f32, 16);
 	}
 	
 	void CBlockMarker::Release()

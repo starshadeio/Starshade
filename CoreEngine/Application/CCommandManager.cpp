@@ -10,19 +10,12 @@
 
 #include "CCommandManager.h"
 #include "CCommandBuffer.h"
-#include "../Math/CMathFNV.h"
 #include <cassert>
 
 namespace App
 {
-	const u64 CCommandManager::CMD_KEY_UNDO = Math::FNV1a_64("undo");
-	const u64 CCommandManager::CMD_KEY_REDO = Math::FNV1a_64("redo");
-	const u64 CCommandManager::CMD_KEY_UNDO_EMPTY = Math::FNV1a_64("undo_empty");
-	const u64 CCommandManager::CMD_KEY_UNDO_FILL = Math::FNV1a_64("undo_fill");
-	const u64 CCommandManager::CMD_KEY_REDO_EMPTY = Math::FNV1a_64("redo_empty");
-	const u64 CCommandManager::CMD_KEY_REDO_FILL = Math::FNV1a_64("redo_fill");
-
 	CCommandManager::CCommandManager() :
+		m_bReady(false),
 		m_bUnsavedChanges(false),
 		m_unsavedIndex(1)
 	{
@@ -37,10 +30,10 @@ namespace App
 		{ // Setup commands.
 			CCommandManager::Instance().RegisterCommand(CMD_KEY_UNDO, std::bind(&CCommandManager::Undo, this, std::placeholders::_1));
 			CCommandManager::Instance().RegisterCommand(CMD_KEY_REDO, std::bind(&CCommandManager::Redo, this, std::placeholders::_1));
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_UNDO_EMPTY, [](const void* params, bool bInverse){ return true; });
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_UNDO_FILL, [](const void* params, bool bInverse){ return true; });
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_REDO_EMPTY, [](const void* params, bool bInverse){ return true; });
-			CCommandManager::Instance().RegisterCommand(CMD_KEY_REDO_FILL, [](const void* params, bool bInverse){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_UNDO_EMPTY, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_UNDO_FILL, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_REDO_EMPTY, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
+			CCommandManager::Instance().RegisterCommand(CMD_KEY_REDO_FILL, [](const void* params, bool bInverse, size_t sz, u16 align){ return true; });
 		}
 	}
 
@@ -55,6 +48,8 @@ namespace App
 
 			m_actionQueue.pop();
 		}
+
+		m_bReady = true;
 	}
 
 	bool CCommandManager::Execute(u64 key, const void* params, size_t sz, u16 align, bool bInverse, bool bRecorderEvent)
@@ -76,7 +71,7 @@ namespace App
 		}
 		else
 		{
-			bResult = elem->second.Execute(params, bInverse);
+			bResult = elem->second.Execute(params, bInverse, sz, align);
 		}
 
 		if(bResult)

@@ -75,13 +75,15 @@ namespace Universe
 		}
 
 		{ // Create the mesh renderer.
+			m_pMaterial = reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, Math::FNV1a_64("MATERIAL_NODE_GRID")));
+			
 			m_pMeshRenderer = CFactory::Instance().CreateMeshRenderer(this);
 
 			Graphics::CMeshRenderer_::Data data { };
 			data.onPreRender = std::bind(&CNodeGrid::PreRender, this);
-			data.pMaterial = m_pMaterial = reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, Math::FNV1a_64("MATERIAL_NODE_GRID")));
 			data.pMeshData = &m_meshData;
 			m_pMeshRenderer->SetData(data);
+			m_pMeshRenderer->AddMaterial(m_pMaterial);
 
 			m_pMeshRenderer->Initialize();
 		}

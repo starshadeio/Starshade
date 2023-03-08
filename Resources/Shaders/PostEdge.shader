@@ -12,6 +12,7 @@ $
 	cbv								( DESCRIPTOR:PIXEL:DYNAMIC )
 
 	texture						( STATIC_EXECUTE:PIXEL )
+	sampler						( MIN_MAG_MIP_LINEAR:CLAMP:CLAMP:CLAMP:0.0f:0.0f:FLT_MAX:0:PIXEL )
 
 	vertex_entry			VShader
 	vertex_version		vs_5_0
@@ -52,28 +53,34 @@ v2p VShader(in uint i : SV_VertexID)
 }
 
 Texture2D depthTexture : register(t0);
+SamplerState g_sampler : register(s0);
 
 inline float GetDepth(in float2 uv)
 {
-	return 1.0f / (depthTexture[uv].r * ProjInv.z + ProjInv.w);
+	return 1.0f / (depthTexture.Sample(g_sampler, uv).r * ProjInv.z + ProjInv.w);
 }
 
 float CalculateEdge(in v2p input)
 {
-	float CenterDepth = GetDepth(input.Position.xy);
+	uint width, height;
+	depthTexture.GetDimensions(width, height);
+	float2 inv = float2(1.0f / width, 1.0f / height);
+	float2 coord = input.Position.xy * inv;
+
+	float CenterDepth = GetDepth(coord);
 	
 	float4 DepthsDiag = float4(
-		GetDepth(input.Position.xy + float2(-1, -1)),
-		GetDepth(input.Position.xy + float2( 1, -1)),
-		GetDepth(input.Position.xy + float2(-1,  1)),
-		GetDepth(input.Position.xy + float2( 1,  1))
+		GetDepth(coord + float2(-inv.x, -inv.y)),
+		GetDepth(coord + float2( inv.x, -inv.y)),
+		GetDepth(coord + float2(-inv.x,  inv.y)),
+		GetDepth(coord + float2( inv.x,  inv.y))
 	);
 
 	float4 DepthsAxis = float4(
-		GetDepth(input.Position.xy + float2( 0, -1)),
-		GetDepth(input.Position.xy + float2(-1,  0)),
-		GetDepth(input.Position.xy + float2( 1,  0)),
-		GetDepth(input.Position.xy + float2( 0,  1))
+		GetDepth(coord + float2(     0, -inv.y)),
+		GetDepth(coord + float2(-inv.x,      0)),
+		GetDepth(coord + float2( inv.x,      0)),
+		GetDepth(coord + float2(     0,  inv.y))
 	);
 
 	const float4 HorizDiagCoeff = float4(-1.0f, 1.0f, -1.0f, 1.0f);

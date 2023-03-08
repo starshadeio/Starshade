@@ -12,6 +12,7 @@
 #define CSIMDPLANE_H
 
 #include "CSIMDVector.h"
+#include "CMathFloat.h"
 #include "../Globals/CGlobals.h"
 #include "../Utilities/CMemAlign.h"
 
@@ -65,9 +66,13 @@ namespace Math
 
 		inline vf32 LengthSq() const
 		{
-			vf32 a = _mm_mul_ps(m_xmm, m_xmm);
-			vf32 b = _mm_hadd_ps(a, a);
-			return _mm_hadd_ps(b, b);
+			vf32 prod = _mm_and_ps(_mm_setr_ps(Math::g_NegNan, Math::g_NegNan, Math::g_NegNan, 0.0f), _mm_mul_ps(m_xmm, m_xmm));
+			
+			vf32 shuf = _mm_movehdup_ps(prod);
+			prod = _mm_add_ps(prod, shuf);
+			shuf = _mm_movehl_ps(shuf, prod);
+
+			return _mm_add_ss(prod, shuf);
 		}
 
 		inline vf32 Length() const
@@ -77,12 +82,12 @@ namespace Math
 
 		inline void Normalize()
 		{
-			m_xmm = _mm_div_ps(m_xmm, Length());
+			m_xmm = _mm_div_ps(m_xmm, _mm_set1_ps(_mm_cvtss_f32(Length())));
 		}
 
 		inline SIMDPlane Normalized() const
 		{
-			return SIMDPlane(_mm_div_ps(m_xmm, Length()));
+			return SIMDPlane(_mm_div_ps(m_xmm, _mm_set1_ps(_mm_cvtss_f32(Length()))));
 		}
 
 		inline SIMDVector Normal() const
@@ -101,23 +106,23 @@ namespace Math
 
 		inline vf32 Dot(const SIMDVector& v) const
 		{
-			vf32 a = _mm_mul_ps(m_xmm, v.m_xmm);
-			a = _mm_hadd_ps(a, a);
-			return _mm_hadd_ps(a, a);
+			vf32 prod = _mm_mul_ps(m_xmm, v.m_xmm);
+
+			vf32 shuf = _mm_movehdup_ps(prod);
+			prod = _mm_add_ps(prod, shuf);
+			shuf = _mm_movehl_ps(shuf, prod);
+
+			return _mm_add_ss(prod, shuf);
 		}
 
 		inline vf32 DotCoord(const SIMDVector& v) const
-		{
-			vf32 a = _mm_mul_ps(_mm_mul_ps(m_xmm, _mm_setr_ps(1.0f, 1.0f, 1.0f, 0.0f)), v.m_xmm);
-			a = _mm_hadd_ps(a, a);
-			return _mm_add_ps(_mm_hadd_ps(a, a), _mm_shuffle_ps(m_xmm, m_xmm, _MM_SHUFFLE(3, 3, 3, 3)));
+		{ // Under the assumption v is a valid SIMDVector, v[3] == 0.0f;
+			return Dot(_mm_add_ps(v.m_xmm, _mm_setr_ps(0.0f, 0.0f, 0.0f, 1.0f)));
 		}
 
 		inline vf32 DotNormal(const SIMDVector& v) const
-		{
-			vf32 a = _mm_mul_ps(_mm_mul_ps(m_xmm, _mm_setr_ps(1.0f, 1.0f, 1.0f, 0.0f)), v.m_xmm);
-			a = _mm_hadd_ps(a, a);
-			return _mm_hadd_ps(a, a);
+		{ // Under the assumption v is a valid SIMDVector, v[3] == 0.0f;
+			return Dot(v);
 		}
 
 		// Conversion methods.

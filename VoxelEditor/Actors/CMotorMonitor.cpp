@@ -26,26 +26,26 @@ namespace Actor
 {
 	static const std::unordered_map<u32, std::function<void(CMotorMonitor*, const App::InputCallbackData&)>> MONITOR_INPUT_MAP =
 	{
-		{ MOTOR_INPUT_MOVE_FORWARD, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveForward(callback); } },
-		{ MOTOR_INPUT_MOVE_BACKWARD, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveBackward(callback); } },
-		{ MOTOR_INPUT_MOVE_UP, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveUp(callback); } },
-		{ MOTOR_INPUT_MOVE_DOWN, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveDown(callback); } },
-		{ MOTOR_INPUT_MOVE_LEFT, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveLeft(callback); } },
-		{ MOTOR_INPUT_MOVE_RIGHT, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveRight(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MOVE_FORWARD), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveForward(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MOVE_BACKWARD), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveBackward(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MOVE_UP), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveUp(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MOVE_DOWN), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveDown(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MOVE_LEFT), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveLeft(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MOVE_RIGHT), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveRight(callback); } },
 
-		{ MOTOR_INPUT_LOOK_HORIZONTAL, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->LookHorizontal(callback); } },
-		{ MOTOR_INPUT_LOOK_VERTICAL, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->LookVertical(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_LOOK_H), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->LookHorizontal(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_LOOK_V), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->LookVertical(callback); } },
 
-		{ MOTOR_INPUT_SELECT, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Select(callback); } },
-		{ MOTOR_INPUT_EDITOR_LOOK, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Look(callback); } },
-		{ MOTOR_INPUT_EDITOR_PAN, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Pan(callback); } },
-		{ MOTOR_INPUT_EDITOR_ZOOM, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Zoom(callback); } },
-		{ MOTOR_INPUT_EDITOR_MODE_ERASE, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->ModeErase(callback); } },
-		{ MOTOR_INPUT_EDITOR_MODE_FILL, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->ModeFill(callback); } },
-		{ MOTOR_INPUT_EDITOR_MODE_PAINT, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->ModePaint(callback); } },
-		{ MOTOR_INPUT_EDITOR_BRUSH_1, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Brush1(callback); } },
-		{ MOTOR_INPUT_EDITOR_BRUSH_2, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Brush2(callback); } },
-		{ MOTOR_INPUT_EDITOR_BRUSH_4, [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Brush4(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_SELECT), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Select(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_LOOK), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Look(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_PAN), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Pan(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_ZOOM), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Zoom(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MODE_ERASE), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->ModeErase(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MODE_FILL), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->ModeFill(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_MODE_PAINT), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->ModePaint(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_BRUSH_1), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Brush1(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_BRUSH_2), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Brush2(callback); } },
+		{ Math::FNV1a_32(App::CEditorKeybinds::INPUT_KEY_BRUSH_4), [](CMotorMonitor* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Brush4(callback); } },
 	};
 	
 	const u32 CMotorMonitor::MOTOR_HASH = Math::FNV1a_32("MOTOR_MONITOR");
@@ -289,7 +289,7 @@ namespace Actor
 		if(axis == 0)
 		{
 			
-			euler.y = fmod(euler.y + delta * m_data.lookRate.x, Math::g_2Pi);
+			euler.y = fmod(euler.y - delta * m_data.lookRate.x, Math::g_2Pi);
 		}
 		else
 		{

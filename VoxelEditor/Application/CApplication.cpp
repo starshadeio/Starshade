@@ -26,7 +26,7 @@ namespace App
 {
 	CApplication::CApplication()
 	{
-		App::CVersion::Instance().SetVersion(0, 2, 0, 0, L"alpha");
+		App::CVersion::Instance().SetVersion(0, 3, 0, 0, L"alpha");
 	}
 
 	CApplication::~CApplication() { }
@@ -39,11 +39,12 @@ namespace App
 
 		{ // Setup the resource manager.
 			Resources::CManager::Data data { };
-			data.filepath = L"./Resources/";
+			data.cfgPath = L"Config/";
+			data.resPath = L"Resources/";
 #ifndef PRODUCTION_BUILD
-			data.prodPath = L"./Production/Resources/";
+			data.prodPath = L"Production/";
 #else
-			data.prodPath = L"./Resources/";
+			data.prodPath = L"";
 #endif
 			data.filename = L"Editor.res";
 			Resources::CManager::Instance().SetData(data);

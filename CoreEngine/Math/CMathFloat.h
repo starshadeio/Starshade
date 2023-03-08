@@ -37,8 +37,10 @@ namespace Math
 	const float g_Epsilon = 1.192092896e-07F;
 	const float g_EpsilonTol = 1.192092896e-06F;
 
-	const float g_Nan = NAN;
-	const float g_NegNan = -g_Nan;
+	const unsigned int g_UIntMax = 0xFFFFFFFF;
+	const int g_IntMax = 0x7FFFFFFF;
+	const float g_Nan = *reinterpret_cast<const float*>(&g_IntMax);
+	const float g_NegNan = *reinterpret_cast<const float*>(&g_UIntMax);
 
 	//
 	// Mathematical utilities.

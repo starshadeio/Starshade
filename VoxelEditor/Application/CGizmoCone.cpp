@@ -91,12 +91,12 @@ namespace App
 
 			Graphics::CMeshRenderer_::Data data { };
 			data.onPreRender = std::bind(&CGizmoCone::PreRender, this);
-			data.pMaterial = m_pMaterial;
 			data.pMeshData = &m_meshData;
 			data.bDynamicInstances = true;
 			data.bDynamicInstanceCount = true;
 			data.bSkipRegistration = true;
 			m_pMeshRenderer->SetData(data);
+			m_pMeshRenderer->AddMaterial(m_pMaterial);
 
 			m_pMeshRenderer->Initialize();
 		}

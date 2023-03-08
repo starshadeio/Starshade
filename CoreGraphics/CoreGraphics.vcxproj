@@ -167,6 +167,7 @@
     <ClInclude Include="Actors\CUINull.h" />
     <ClInclude Include="Actors\CUIPlayer.h" />
     <ClInclude Include="Application\CInput.h" />
+    <ClInclude Include="Application\CKeybinds.h" />
     <ClInclude Include="Application\CInputData.h" />
     <ClInclude Include="Application\CInputDevice.h" />
     <ClInclude Include="Application\CInputDeviceList.h" />
@@ -292,7 +293,12 @@
     <ClInclude Include="UI\CUITransform.h" />
     <ClInclude Include="Universe\CChunk.h" />
     <ClInclude Include="Universe\CChunkData.h" />
+    <ClInclude Include="Universe\CChunkGen.h" />
+    <ClInclude Include="Universe\CChunkGenFlat.h" />
+    <ClInclude Include="Universe\CChunkGenInf.h" />
+    <ClInclude Include="Universe\CChunkGenNull.h" />
     <ClInclude Include="Universe\CChunkManager.h" />
+    <ClInclude Include="Universe\CChunkMesh.h" />
     <ClInclude Include="Universe\CChunkNode.h" />
     <ClInclude Include="Universe\CEnvironment.h" />
     <ClInclude Include="Universe\CUniverseManager.h" />
@@ -313,6 +319,7 @@
     <ClCompile Include="Actors\CUINull.cpp" />
     <ClCompile Include="Actors\CUIPlayer.cpp" />
     <ClCompile Include="Application\CInput.cpp" />
+    <ClCompile Include="Application\CKeybinds.cpp" />
     <ClCompile Include="Application\CInputGamepad.cpp" />
     <ClCompile Include="Application\CInputKeyboard.cpp" />
     <ClCompile Include="Application\CInputLayout.cpp" />
@@ -417,7 +424,11 @@
     <ClCompile Include="UI\CUITooltip.cpp" />
     <ClCompile Include="UI\CUITransform.cpp" />
     <ClCompile Include="Universe\CChunk.cpp" />
+    <ClCompile Include="Universe\CChunkGen.cpp" />
+    <ClCompile Include="Universe\CChunkGenFlat.cpp" />
+    <ClCompile Include="Universe\CChunkGenInf.cpp" />
     <ClCompile Include="Universe\CChunkManager.cpp" />
+    <ClCompile Include="Universe\CChunkMesh.cpp" />
     <ClCompile Include="Universe\CChunkNode.cpp" />
     <ClCompile Include="Universe\CEnvironment.cpp" />
     <ClCompile Include="Universe\CUniverseManager.cpp" />

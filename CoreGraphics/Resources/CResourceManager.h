@@ -40,6 +40,7 @@ namespace Resources
 {
 	static const wchar_t* META_DATA_EXTENSION = L".meta";
 
+	static const wchar_t* RES_STR_CONFIG = L"CONFIG";
 	static const wchar_t* RES_STR_LOCALIZATION = L"LOCALIZATION";
 	static const wchar_t* RES_STR_SCRIPT = L"SCRIPTS";
 	static const wchar_t* RES_STR_DATA = L"DATA";
@@ -53,6 +54,7 @@ namespace Resources
 
 	enum RESOURCE_TYPE
 	{
+		RESOURCE_TYPE_CONFIG,
 		RESOURCE_TYPE_LOCALIZATION,
 		RESOURCE_TYPE_SCRIPT,
 		RESOURCE_TYPE_DATA,
@@ -71,9 +73,10 @@ namespace Resources
 	public:
 		struct Data
 		{
-			const wchar_t* filepath;
-			const wchar_t* prodPath;
-			const wchar_t* filename;
+			std::wstring cfgPath;
+			std::wstring resPath;
+			std::wstring prodPath;
+			std::wstring filename;
 		};
 
 	private:
@@ -103,8 +106,9 @@ namespace Resources
 		void* GetResource(RESOURCE_TYPE type, u64 key) const;
 
 		// Accessors.
-		const wchar_t* GetFilePath() const { return m_data.filepath; }
-		const wchar_t* GetProductionPath() const { return m_data.prodPath; }
+		const std::wstring& GetConfigPath() const { return m_data.cfgPath; }
+		const std::wstring& GetResourcePath() const { return m_data.resPath; }
+		const std::wstring& GetProductionPath() const { return m_data.prodPath; }
 
 		inline const CResourceFile& GetResourceFile() { return m_resFile; }
 
@@ -115,8 +119,10 @@ namespace Resources
 	private:
 		void AddResource(const std::wstring& category, const Util::CompilerTuple<3, std::wstring, wchar_t>& res);
 
+		void RegisterConfig(const std::wstring& key, const std::wstring& filepath);
 		void RegisterScript(const std::wstring& key, const std::wstring& filepath);
 		void RegisterData(const std::wstring& key, const std::wstring& filepath);
+		void SaveProductionConfig();
 		void SaveProductionScripts();
 		void SaveProductionData();
 
@@ -126,6 +132,7 @@ namespace Resources
 
 		std::function<void*(RESOURCE_TYPE, u64)> m_resourceCallback;
 		
+		std::unordered_map<u64, std::wstring> m_configMap;
 		std::unordered_map<u64, std::wstring> m_scriptMap;
 		std::unordered_map<u64, std::wstring> m_dataMap;
 		std::unordered_map<u64, Graphics::CTexture*> m_textureMap;

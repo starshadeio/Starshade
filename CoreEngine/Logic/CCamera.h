@@ -14,6 +14,7 @@
 #include "CTransform.h"
 #include "../Objects/CVComponent.h"
 #include "../Math/CSIMDMatrix.h"
+#include "../Math/CSIMDPlane.h"
 #include "../Math/CMathFloat.h"
 #include "../Math/CMathRect.h"
 
@@ -52,6 +53,8 @@ namespace Logic
 		void SetupProjection(const Math::Rect& screenRect);
 		void SetupProjection();
 		void Update() final;
+
+		bool CheckPoint(const Math::SIMDVector& pt) const;
 		
 		// Inline methods.
 		inline void SetProjectionMode(CAMERA_PROJ_MODE projMode) { m_data.projMode = projMode; }
@@ -79,14 +82,21 @@ namespace Logic
 		inline const Math::SIMDMatrix& GetViewMatrixInv() const { return m_viewMatrixInv; }
 
 		inline const CTransform* GetTransform() const { return m_pTransform; }
+		inline const Math::SIMDPlane& GetFrustumPlane(size_t index) const { return m_frustumPlanes[index]; }
 
 	private:
+		void CalculateFrustumPlanes();
+
+	private:
+		Data m_data;
+
 		Math::SIMDMatrix m_projMatrix;
 		Math::SIMDMatrix m_projMatrixInv;
 		Math::SIMDMatrix m_viewMatrix;
 		Math::SIMDMatrix m_viewMatrixInv;
 
-		Data m_data;
+		Math::SIMDPlane m_frustumPlanes[6];
+
 		CTransform* m_pTransform;
 	};
 };

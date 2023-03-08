@@ -9,7 +9,7 @@
 //-------------------------------------------------------------------------------------------------
 
 #include "CGizmoTranslate.h"
-#include "CGizmoPivot.h"
+#include "CGizmoNode.h"
 #include "CEditor.h"
 #include <Application/CCommandManager.h>
 #include <Graphics/CGraphicsAPI.h>
@@ -182,7 +182,7 @@ namespace App
 	void CGizmoTranslate::OnReleased(u32 hash)
 	{
 		Math::SIMDVector position = m_data.pGizmoPivot->GetPosition();
-		App::CCommandManager::Instance().Execute(CGizmoPivot::CMD_KEY_TRANSLATE, &position);
+		App::CCommandManager::Instance().Execute(m_data.onReleaseHash, &position);
 
 		m_clickPoint = 0;
 		m_bClicked[GizmoIndex(hash)] = false;
@@ -197,7 +197,7 @@ namespace App
 		float t0;
 		if(CGizmoInteract::EdgePoint(m_data.pGizmoPivot->GetLastPosition(), axis, ray, t0))
 		{
-			const float scale = m_data.pGizmoPivot->CalculateDistanceScale(m_data.pGizmoPivot->GetPosition());
+			const float scale = m_data.pGizmoPivot->GetStartScale();//m_data.pGizmoPivot->CalculateDistanceScale(m_data.pGizmoPivot->GetPosition());
 			const float bias = (scale - m_data.pGizmoPivot->GetStartScale()) * m_data.pGizmoPivot->GetScreenScale();
 
 			auto pt = ray.GetOrigin() + ray.GetDirection() * t0;

@@ -192,6 +192,7 @@
     <ClInclude Include="Physics\CVolumeSphere.h" />
     <ClInclude Include="Utilities\CArchive.h" />
     <ClInclude Include="Utilities\CCompilerUtil.h" />
+    <ClInclude Include="Utilities\CConfigFile.h" />
     <ClInclude Include="Utilities\CConvertUtil.h" />
     <ClInclude Include="Utilities\CDebugError.h" />
     <ClInclude Include="Utilities\CDetectComment.h" />
@@ -248,6 +249,7 @@
     <ClCompile Include="Physics\CVolumeOBB.cpp" />
     <ClCompile Include="Physics\CVolumeSphere.cpp" />
     <ClCompile Include="Utilities\CArchive.cpp" />
+    <ClCompile Include="Utilities\CConfigFile.cpp" />
     <ClCompile Include="Utilities\CDetectComment.cpp" />
     <ClCompile Include="Utilities\CFileSystem.cpp" />
     <ClCompile Include="Utilities\CResScript.cpp" />

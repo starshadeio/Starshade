@@ -94,6 +94,7 @@ namespace App
 		// Display the newly created window.
 		SetWindowLongPtr(m_hWnd, GWLP_USERDATA, (LONG_PTR)this);
 		ShowWindow(m_hWnd, m_pWinPlatform->GetWinData().nCmdShow);
+		SetForegroundWindow(m_hWnd);
 	}
 
 	void CWinPanel::Release()

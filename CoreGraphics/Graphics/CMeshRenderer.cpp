@@ -29,16 +29,21 @@ namespace Graphics
 	// CMeshData::Data
 	//-----------------------------------------------------------------------------------------------
 
-	void CMeshRenderer::Data::Initialize()
-	{
-		m_pMaterial = reinterpret_cast<CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_matHash));
-	}
-
 	void CMeshRenderer::Data::Render()
 	{
-		if(m_onPreRender) m_onPreRender(m_pMaterial);
-		m_pMaterial->GetShader()->GetRootSignature()->Bind();
-		m_pMaterial->Bind();
+		if(!IsActive()) return;
+
+		for(size_t i = 0; i < m_pMaterialList.size(); ++i)
+		{
+			RenderWithMaterial(i);
+		}
+	}
+	
+	void CMeshRenderer::Data::RenderWithMaterial(size_t materialIndex)
+	{
+		if(m_onPreRender) m_onPreRender(m_pMaterialList[materialIndex]);
+		m_pMaterialList[materialIndex]->GetShader()->GetRootSignature()->Bind();
+		m_pMaterialList[materialIndex]->Bind();
 	}
 
 	//-----------------------------------------------------------------------------------------------

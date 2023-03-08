@@ -505,6 +505,18 @@
     <Filter Include="Source Files\Actors\Objects\Spawners">
       <UniqueIdentifier>{64773f20-5af2-4893-8d4e-d3b6400534e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Application\Input\Bindings">
+      <UniqueIdentifier>{0e331a4f-9bbe-47f4-aba9-8c4823ec6cb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Input\Bindings">
+      <UniqueIdentifier>{50af6350-ec71-4539-ac3d-6fa8334dd52b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Universe\Chunks\Generators">
+      <UniqueIdentifier>{bd5ea361-6435-40ea-84c9-07684f0d89cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Universe\Chunks\Generators">
+      <UniqueIdentifier>{4e8a0564-8a5a-49a2-bbfb-356176c6cbea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\CWinPlatform.h">
@@ -945,6 +957,24 @@
     <ClInclude Include="Graphics\CMeshCube.h">
       <Filter>Header Files\Graphics\Rendering\Geometry\Meshes\Primitives</Filter>
     </ClInclude>
+    <ClInclude Include="Application\CKeybinds.h">
+      <Filter>Header Files\Application\Input\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CChunkGen.h">
+      <Filter>Header Files\Universe\Chunks\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CChunkGenNull.h">
+      <Filter>Header Files\Universe\Chunks\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CChunkGenFlat.h">
+      <Filter>Header Files\Universe\Chunks\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CChunkGenInf.h">
+      <Filter>Header Files\Universe\Chunks\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CChunkMesh.h">
+      <Filter>Header Files\Universe\Chunks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\CWinPlatform.cpp">
@@ -1315,6 +1345,21 @@
     </ClCompile>
     <ClCompile Include="Graphics\CMeshCube.cpp">
       <Filter>Source Files\Graphics\Rendering\Geometry\Meshes\Primitives</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CKeybinds.cpp">
+      <Filter>Source Files\Application\Input\Bindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CChunkGen.cpp">
+      <Filter>Source Files\Universe\Chunks\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CChunkGenInf.cpp">
+      <Filter>Source Files\Universe\Chunks\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CChunkGenFlat.cpp">
+      <Filter>Source Files\Universe\Chunks\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CChunkMesh.cpp">
+      <Filter>Source Files\Universe\Chunks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

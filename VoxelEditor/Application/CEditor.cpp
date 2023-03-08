@@ -29,6 +29,7 @@ namespace App
 	void CEditor::Initialize()
 	{
 		{
+			m_editorKeybinds.Initialize();
 			m_editorPanel.Initialize();
 		}
 
@@ -139,6 +140,6 @@ namespace App
 	void CEditor::OnCmdBuild()
 	{
 		m_nodeEditor.Build();
-		Resources::CAssets::Instance().Save(m_projectManager.GetBuildResourcePath());
+		Resources::CAssets::Instance().Save(m_projectManager.GetBuildResourcePath(), m_projectManager.GetBuildConfigPath());
 	}
 };

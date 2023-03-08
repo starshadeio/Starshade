@@ -14,6 +14,7 @@
 #include "CCommand.h"
 #include "CCommandRecord.h"
 #include "../Globals/CGlobals.h"
+#include "../Math/CMathFNV.h"
 #include <vector>
 #include <queue>
 #include <unordered_map>
@@ -23,12 +24,12 @@ namespace App
 	class CCommandManager
 	{
 	public:
-		static const u64 CMD_KEY_UNDO;
-		static const u64 CMD_KEY_REDO;
-		static const u64 CMD_KEY_UNDO_EMPTY;
-		static const u64 CMD_KEY_UNDO_FILL;
-		static const u64 CMD_KEY_REDO_EMPTY;
-		static const u64 CMD_KEY_REDO_FILL;
+		static const u64 CMD_KEY_UNDO = Math::FNV1a_64("undo");
+		static const u64 CMD_KEY_REDO = Math::FNV1a_64("redo");
+		static const u64 CMD_KEY_UNDO_EMPTY = Math::FNV1a_64("undo_empty");
+		static const u64 CMD_KEY_UNDO_FILL = Math::FNV1a_64("undo_fill");
+		static const u64 CMD_KEY_REDO_EMPTY = Math::FNV1a_64("redo_empty");
+		static const u64 CMD_KEY_REDO_FILL = Math::FNV1a_64("redo_fill");
 
 	public:
 		static CCommandManager& Instance()
@@ -75,6 +76,8 @@ namespace App
 		bool MarkChangesReverted();
 
 		// Accessors.
+		inline bool IsReady() const { return m_bReady; }
+
 		inline bool CanUndo() const { return m_record.CanUndo(); }
 		inline bool CanRedo() const { return m_record.CanRedo(); }
 		
@@ -93,6 +96,7 @@ namespace App
 		void OnSaveChange();
 
 	private:
+		bool m_bReady;
 		bool m_bUnsavedChanges;
 		u64 m_unsavedIndex;
 

@@ -12,6 +12,7 @@
 
 #include "CWinPlatform.h"
 #include "CPanel.h"
+#include "CInput.h"
 #include "../Factory/CFactory.h"
 #include <Application/CAppBase.h>
 #include <unordered_map>
@@ -198,6 +199,8 @@ LOOP_END:
 			{ IDTRYAGAIN, MessageBoxState::TryAgain },
 			{ IDYES, MessageBoxState::Yes },
 		};
+
+		CInput::Instance().Reset();
 
 		return MB_STATE_MAP.find(MessageBoxW(nullptr, msg, caption, MB_TYPE_MAP.find(type)->second))->second;
 	}

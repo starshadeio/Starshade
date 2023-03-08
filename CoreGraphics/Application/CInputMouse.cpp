@@ -15,6 +15,24 @@
 
 namespace App
 {
+	const std::unordered_map<std::wstring, VM_MOUSE> CInputMouse::CODE_MAP = {
+		{ L"LEFT", VM_MOUSE_LEFT },
+		{ L"RIGHT", VM_MOUSE_RIGHT },
+		{ L"MIDDLE", VM_MOUSE_MIDDLE },
+		{ L"BUTTON_4", VM_MOUSE_4 },
+		{ L"BUTTON_5", VM_MOUSE_5 },
+		{ L"WHEEL_UP", VM_MOUSE_WHEEL_UP },
+		{ L"WHEEL_DOWN", VM_MOUSE_WHEEL_DOWN },
+		{ L"WHEEL", VM_MOUSE_WHEEL },
+		{ L"DBL_LEFT", VM_MOUSE_DBL_LEFT },
+		{ L"DBL_RIGHT", VM_MOUSE_DBL_RIGHT },
+		{ L"DBL_MIDDLE", VM_MOUSE_DBL_MIDDLE },
+		{ L"MOUSE_X", VM_MOUSE_X },
+		{ L"MOUSE_Y", VM_MOUSE_Y },
+		{ L"DELTA_X", VM_MOUSE_DELTA_X },
+		{ L"DELTA_Y", VM_MOUSE_DELTA_Y }
+	};
+
 	CInputMouse::CInputMouse() :
 		m_wheel(0.0f) {
 	}
@@ -55,7 +73,7 @@ namespace App
 		const u64 hash = (static_cast<u64>(layoutHash) << 32) | binding.code;
 		m_bindingMap[hash].erase(bindingHash);
 	}
-
+	
 	//-----------------------------------------------------------------------------------------------
 	// Modifiers.
 	//-----------------------------------------------------------------------------------------------

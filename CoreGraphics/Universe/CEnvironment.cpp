@@ -27,7 +27,7 @@ namespace Universe
 		{ // Setup the audio.
 			Audio::CAudioSource::Data data { };
 			data.bLoop = true;
-			data.volume = 1.0f;
+			data.volume = 0.5f;
 			data.audioClip = Math::FNV1a_64(L"AUDIO_WINDY_DAY");
 			m_bgAudio.SetData(data);
 			m_bgAudio.Initialize();

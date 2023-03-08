@@ -23,7 +23,7 @@ $
 	topology					TRIANGLELIST
 	color							R32G32B32A32_FLOAT|R32G32B32A32_FLOAT
 	depth							D32_FLOAT
-	depth_write				FALSE
+	//depth_write				FALSE
 	cull							NONE
 
 	//blend							( TRUE:FALSE:SRC_ALPHA:INV_SRC_ALPHA:ADD:SRC_ALPHA:INV_SRC_ALPHA:ADD:NOOP:R|G|B|A )
@@ -31,7 +31,8 @@ $
 
 cbuffer MatrixBuffer : register(b0)
 {
-	float4x4 WV;
+	float4x4 World;
+	float4x4 View;
 	float4x4 Proj;
 };
 
@@ -60,9 +61,14 @@ v2p VShader(in a2v input)
 	v2p output;
 	
 	input.Position.w = 1.0f;
-	output.Position = mul(input.Position, WV);
+	output.Position = mul(input.Position, World);
+	
+	output.Position.xyz -= float3(View._41, View._42, View._43);
+	output.Position.xyz = mul(output.Position.xyz, transpose((float3x3)View));
+
 	output.WorldPos = output.Position;
-	output.Direction = mul(float3(0.0f, 0.0f, 1.0f), (float3x3)WV);
+	output.Direction = mul(float3(0.0f, 0.0f, 1.0f), (float3x3)World);
+	output.Direction = mul(output.Direction, (float3x3)View);
 
 	output.Position = mul(output.Position, Proj);
 	output.Position.z -= 0.00001f;

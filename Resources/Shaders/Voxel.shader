@@ -52,8 +52,9 @@ $
 
 cbuffer DrawBuffer : register(b0)
 {
-	float4x4 VP;
 	float4x4 World;
+	float4x4 View;
+	float4x4 Proj;
 };
 
 struct a2v
@@ -83,7 +84,9 @@ v2p VShader(in a2v input)
 	
 	input.Position.w = 1.0f;
 	output.Position = mul(input.Position, World);
-	output.Position = mul(output.Position, VP);
+	output.Position.xyz -= float3(View._41, View._42, View._43);
+	output.Position.xyz = mul(output.Position.xyz, transpose((float3x3)View));
+	output.Position = mul(output.Position, Proj);
 
 	output.Normal.xyz = mul(input.Normal.xyz, (float3x3)World);
 
@@ -102,7 +105,7 @@ p2f PShader(in v2p input)
 	p2f output;
 	
 #ifndef WIRE
-	float2 texCoord = frac(input.TexCoord.xy) * float2(TILE_SIZE_X - 2e-5f, TILE_SIZE_Y - 2e-5f) + input.TexCoord.zw + 1e-5f;
+	float2 texCoord = frac(input.TexCoord.xy) * float2(TILE_SIZE_X - 2e-4f, TILE_SIZE_Y - 2e-4f) + input.TexCoord.zw + 1e-4f;
 	output.Color = saturate(diffuse_texture.Sample(g_sampler, texCoord));
 #endif
 

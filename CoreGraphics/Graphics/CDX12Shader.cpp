@@ -96,7 +96,7 @@ namespace Graphics
 			psoDesc.SampleDesc.Count = 1;
 
 			psoDesc.DepthStencilState.DepthEnable = psoDesc.DSVFormat != DXGI_FORMAT_UNKNOWN;
-			psoDesc.DepthStencilState.DepthFunc = m_pipelineInfo.bDepthRead ? D3D12_COMPARISON_FUNC_LESS : D3D12_COMPARISON_FUNC_NEVER;
+			psoDesc.DepthStencilState.DepthFunc = m_pipelineInfo.bDepthRead ? ConvertGFXComparisionFuncToD3D12(m_pipelineInfo.depthComparison) : D3D12_COMPARISON_FUNC_NEVER;
 			psoDesc.DepthStencilState.DepthWriteMask = m_pipelineInfo.bDepthWrite ? D3D12_DEPTH_WRITE_MASK_ALL : D3D12_DEPTH_WRITE_MASK_ZERO;
 			psoDesc.DepthStencilState.StencilEnable = FALSE;
 

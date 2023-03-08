@@ -100,16 +100,6 @@ namespace Actor
 
 		std::function<void(size_t, float)> m_mouseDeltaFunc;
 	};
-
-	const u32 MOTOR_INPUT_EDITOR_LOOK = 0x100;
-	const u32 MOTOR_INPUT_EDITOR_PAN = 0x101;
-	const u32 MOTOR_INPUT_EDITOR_ZOOM = 0x102;
-	const u32 MOTOR_INPUT_EDITOR_MODE_ERASE = 0x103;
-	const u32 MOTOR_INPUT_EDITOR_MODE_FILL = 0x104;
-	const u32 MOTOR_INPUT_EDITOR_MODE_PAINT = 0x105;
-	const u32 MOTOR_INPUT_EDITOR_BRUSH_1 = 0x106;
-	const u32 MOTOR_INPUT_EDITOR_BRUSH_2 = 0x107;
-	const u32 MOTOR_INPUT_EDITOR_BRUSH_4 = 0x108;
 };
 
 #endif

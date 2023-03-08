@@ -17,7 +17,9 @@
 #include <Objects/CVObject.h>
 #include <Logic/CTransform.h>
 #include <unordered_map>
+#include <queue>
 #include <cassert>
+#include <vector>
 
 namespace Graphics
 {
@@ -48,7 +50,7 @@ namespace Universe
 				u32 blockIndex;
 			};
 
-			const class CChunkNode* pChunkNode;
+			class CChunkNode* pChunkNode;
 
 			size_t coordCount = 1;
 			Coord coordList[64];
@@ -87,31 +89,48 @@ namespace Universe
 		
 		void Initialize();
 		void Update();
+		void LateUpdate();
+		void Render(u32 hash);
 		void Release();
 
-		CChunk* RegisterChunk(const class CChunkNode* pChunkNode, const Math::VectorInt3& chunkCoord, const CChunk::Data& data);
-		bool DeregisterChunk(const class CChunkNode* pChunkNode, const Math::VectorInt3& chunkCoord);
+		bool ClearNode(const class CChunkNode* pChunkNode);
+
+		u8 LODDown(const class CChunkNode* pChunkNode);
+		u8 LODUp(const class CChunkNode* pChunkNode);
 
 		// Accessors.
 		inline CChunk* GetChunk(const class CChunkNode* pChunkNode, const Math::VectorInt3& chunkCoord)
 		{
 			auto node = m_chunkMap.find(pChunkNode);
+			if(node == m_chunkMap.end()) return nullptr;
 			auto chunk = node->second.find(chunkCoord);
 			if(chunk == node->second.end()) return nullptr;
 			return chunk->second;
 		}
 
+		inline std::unordered_map<Math::VectorInt3, CChunk*, ChunkKeyHasher>& GetChunkMap(const class CChunkNode* pNode) { return m_chunkMap.find(pNode)->second; }
+
 		// Modifiers.
 		inline void SetData(const Data& data) { m_data = data; }
 		inline void SetTexture(Graphics::CTexture* pTexture) { m_pTexture = pTexture; }
+		inline void QueueChunkUpdate(class CChunk* pChunk) { m_updateQueue.push(pChunk); }
+		inline void QueueChunkRender(class CChunk* pChunk) { m_renderQueue.push(pChunk); }
 		
 	private:
+		CChunk* RegisterChunk(const class CChunkNode* pChunkNode, const Math::VectorInt3& chunkCoord, const CChunk::Data& data, bool bInitIfNotFound = true);
+		bool DeregisterChunk(const class CChunkNode* pChunkNode, const Math::VectorInt3& chunkCoord);
+
 		bool BlockEdit(const void* param, bool bInverse);
+
+	public:
+		CChunk* CreateChunk(const class CChunkNode* pChunkNode, const Math::VectorInt3& chunkCoord, bool bBuild = true);
 
 	private:
 		Data m_data;
 
 		std::unordered_map<const class CChunkNode*, std::unordered_map<Math::VectorInt3, CChunk*, ChunkKeyHasher>> m_chunkMap;
+		std::queue<class CChunk*> m_updateQueue;
+		std::queue<class CChunk*> m_renderQueue;
 
 		Graphics::CMaterial* m_pMaterial;
 		Graphics::CMaterial* m_pMaterialWire;

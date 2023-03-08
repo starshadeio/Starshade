@@ -40,7 +40,7 @@ namespace Graphics
 		m_pInstanceBufferUpload(nullptr),
 		m_pIndexBuffer(nullptr),
 		m_pIndexBufferUpload(nullptr),
-		m_pBundle(nullptr),
+		m_pBundleList(nullptr),
 		m_pDX12Graphics(nullptr)
 	{
 	}
@@ -117,23 +117,26 @@ namespace Graphics
 		{
 			m_pDX12Graphics->GetAssetCommandList()->ResourceBarrier(barrierCount, barrierList);
 		}
-
-		{ // Create bundle for rendering.
-			m_pBundle = m_pDX12Graphics->CreateBundle(GetMaterial());
-			m_pBundle->IASetPrimitiveTopology(ConvertPrimitiveTopologyToD3D12(mesh.GetTopology()));
+		
+		// Create bundle for rendering.
+		m_pBundleList = new ID3D12GraphicsCommandList*[GetMaterialCount()];
+		for(size_t i = 0; i < GetMaterialCount(); ++i)
+		{
+			m_pBundleList[i] = m_pDX12Graphics->CreateBundle(GetMaterialAt(i));
+			m_pBundleList[i]->IASetPrimitiveTopology(ConvertPrimitiveTopologyToD3D12(mesh.GetTopology()));
 
 			// Index buffer and draw setup.
 			if(mesh.GetIndexSize())
 			{
-				m_pBundle->IASetIndexBuffer(&m_indexBufferView);
+				m_pBundleList[i]->IASetIndexBuffer(&m_indexBufferView);
 			}
 
 			if(!IsUsingDynamicInstanceData() || !IsUsingDynamicInstanceCount())
 			{ // Bundle based drawing is only supported for renderers without a dynamically counted instance buffer.
-				SetupDraw(m_pBundle);
+				SetupDraw(m_pBundleList[i]);
 			}
 
-			ASSERT_HR_R(m_pBundle->Close());
+			ASSERT_HR_R(m_pBundleList[i]->Close());
 		}
 	}
 
@@ -144,10 +147,8 @@ namespace Graphics
 		SAFE_RELEASE(m_pVertexBufferUpload);
 	}
 
-	void CDX12MeshRenderer::DX12Data::Render()
+	void CDX12MeshRenderer::DX12Data::RenderWithMaterial(size_t materialIndex)
 	{
-		if(!IsActive()) return;
-
 		const bool bPreFrameUpdate = IsUsingDynamicInstanceData() && IsUsingDynamicInstanceCount();
 
 		if(bPreFrameUpdate)
@@ -160,9 +161,9 @@ namespace Graphics
 			}
 		}
 		
-		Data::Render();
+		Data::RenderWithMaterial(materialIndex);
 		
-		m_pDX12Graphics->GetRealtimeCommandList()->ExecuteBundle(m_pBundle);
+		m_pDX12Graphics->GetRealtimeCommandList()->ExecuteBundle(m_pBundleList[materialIndex]);
 
 		if(bPreFrameUpdate)
 		{ // Dynamic instance buffers require pre-frame draw configuration.
@@ -172,7 +173,10 @@ namespace Graphics
 
 	void CDX12MeshRenderer::DX12Data::Release()
 	{
-		SAFE_RELEASE(m_pBundle);
+		for(size_t i = 0; i < GetMaterialCount(); ++i)
+		{
+			SAFE_RELEASE(m_pBundleList[i]);
+		} SAFE_DELETE_ARRAY(m_pBundleList);
 
 		SAFE_RELEASE(m_pIndexBuffer);
 		SAFE_RELEASE(m_pInstanceBuffer);

@@ -14,11 +14,36 @@
 #include "CGizmoDraw.h"
 #include "CGizmoInteract.h"
 #include "CGizmoPivot.h"
+#include "CGizmoNode.h"
+#include "CGizmoWorkspace.h"
 
 namespace App
 {
 	class CGizmo
 	{
+	public:
+		static const u64 CMD_KEY_GIZMO_SELECT = Math::FNV1a_64(L"gizmo_select");
+		static const u64 CMD_KEY_GIZMO_TRANSLATE = Math::FNV1a_64(L"gizmo_translate");
+		static const u64 CMD_KEY_GIZMO_ROTATE = Math::FNV1a_64(L"gizmo_rotate");
+		static const u64 CMD_KEY_GIZMO_SCALE = Math::FNV1a_64(L"gizmo_scale");
+		static const u64 CMD_KEY_GIZMO_WORKSPACE = Math::FNV1a_64(L"gizmo_workspace");
+		
+		static const u64 CMD_KEY_GIZMO_SELECT_OFF = Math::FNV1a_64(L"gizmo_select_off");
+		static const u64 CMD_KEY_GIZMO_TRANSLATE_OFF = Math::FNV1a_64(L"gizmo_translate_off");
+		static const u64 CMD_KEY_GIZMO_ROTATE_OFF = Math::FNV1a_64(L"gizmo_rotate_off");
+		static const u64 CMD_KEY_GIZMO_SCALE_OFF = Math::FNV1a_64(L"gizmo_scale_off");
+		static const u64 CMD_KEY_GIZMO_WORKSPACE_OFF = Math::FNV1a_64(L"gizmo_workspace_off");
+
+	public:
+		enum class GizmoType
+		{
+			Select,
+			Translate,
+			Rotate,
+			Scale,
+			Workspace
+		};
+
 	public:
 		CGizmo();
 		~CGizmo();
@@ -34,8 +59,11 @@ namespace App
 
 		// Accessors.
 		inline bool IsActive() const { return m_bActive; }
+		
+		inline GizmoType GetActiveType() const { return m_gizmoType; }
 
-		CGizmoPivot& Pivot() { return m_gizmoPivot; }
+		CGizmoNode& Node() { return m_gizmoNode; }
+		CGizmoWorkspace& Workspace() { return m_gizmoWorkspace; }
 		CGizmoDraw& Draw() { return m_gizmoDraw; }
 		CGizmoInteract& Interact() { return m_gizmoInteract; }
 
@@ -43,11 +71,25 @@ namespace App
 		inline void SetActive(bool bActive) { m_bActive = bActive; }
 
 	private:
+		bool GizmoSelect();
+		bool GizmoTranslate();
+		bool GizmoRotate();
+		bool GizmoScale();
+		bool GizmoWorkspace();
+
+		void OnCmdWorkspaceOff();
+
+		void SwitchGizmo(GizmoType next);
+
+	private:
 		bool m_bActive;
+		
+		GizmoType m_gizmoType;
 
 		CGizmoDraw m_gizmoDraw;
 		CGizmoInteract m_gizmoInteract;
-		CGizmoPivot m_gizmoPivot;
+		CGizmoNode m_gizmoNode;
+		CGizmoWorkspace m_gizmoWorkspace;
 	};
 };
 

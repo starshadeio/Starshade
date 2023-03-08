@@ -20,8 +20,8 @@ namespace App
 	class CCommand
 	{
 	public:
-		typedef std::function<bool(const void*, bool)> Command;
-		typedef std::function<void(const void*, bool)> Action;
+		typedef std::function<bool(const void*, bool, size_t, u16)> Command;
+		typedef std::function<void(const void*, bool, size_t, u16)> Action;
 
 		struct Properties
 		{
@@ -37,7 +37,7 @@ namespace App
 		CCommand& operator = (const CCommand&) = delete;
 		CCommand& operator = (CCommand&&) = delete;
 
-		bool Execute(const void* params = nullptr, bool bInverse = false);
+		bool Execute(const void* params = nullptr, bool bInverse = false, size_t sz = 0, u16 align = 0);
 		void RegisterAction(Action action);
 
 		// Accessors.

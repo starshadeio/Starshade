@@ -26,17 +26,6 @@ namespace Actor
 	class CPlayer : public CVObject
 	{
 	public:
-		static const char INPUT_KEY_MOVE_FORWARD[];
-		static const char INPUT_KEY_MOVE_BACKWARD[];
-		static const char INPUT_KEY_MOVE_LEFT[];
-		static const char INPUT_KEY_MOVE_RIGHT[];
-
-		static const char INPUT_KEY_LOOK_H[];
-		static const char INPUT_KEY_LOOK_V[];
-	
-		static const char INPUT_KEY_JUMP[];
-
-	public:
 		struct Data
 		{
 			u32 inputHash;
@@ -67,17 +56,6 @@ namespace Actor
 
 		// Modifiers.
 		inline void SetData(const Data& data) { m_data = data; }
-
-	protected:
-		virtual void MoveForward(const App::InputCallbackData& callback);
-		virtual void MoveBackward(const App::InputCallbackData& callback);
-		virtual void MoveLeft(const App::InputCallbackData& callback);
-		virtual void MoveRight(const App::InputCallbackData& callback);
-
-		virtual void LookHorizontal(const App::InputCallbackData& callback);
-		virtual void LookVertical(const App::InputCallbackData& callback);
-
-		virtual void Jump(const App::InputCallbackData& callback);
 
 	protected:
 		Data m_data;

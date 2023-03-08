@@ -141,6 +141,8 @@ namespace App
 		
 		App::CCoreManager::Instance().LateUpdate();
 		m_nodeManager.LateUpdate();
+		
+		m_universeManager.LateUpdate();
 
 		// Internal late update.
 		Util::CJobSystem::Instance().Sync();
@@ -273,6 +275,7 @@ namespace App
 		m_pGlobalScene->Release();
 		m_pGlobalScene = m_pDefaultScene = nullptr;
 
+		m_uiEventSystem.Release();
 		m_postProcessor.Release();
 		Util::CDebug::Instance().Release();
 		m_universeManager.Release();

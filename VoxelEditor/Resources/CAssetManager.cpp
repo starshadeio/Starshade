@@ -48,7 +48,7 @@ namespace Resources
 	// Save methods.
 	//-----------------------------------------------------------------------------------------------
 
-	void CAssets::Save(const std::wstring& path)
+	void CAssets::Save(const std::wstring& resPath, const std::wstring& cfgPath)
 	{
 		std::wstring resScript;
 		{ // Build asset resource file.
@@ -59,28 +59,41 @@ namespace Resources
 			Util::CResScript res;
 			Util::CResScript::Data data { };
 			data.addResource = [&](const std::wstring& category, const Util::CompilerTuple<3, std::wstring, wchar_t>& res){
-				std::wstring fromPath = Resources::CManager::Instance().GetFilePath() + res.GetElement(1);
-				std::wstring toPath = path + L"\\" + res.GetElement(1);
+				std::wstring fromResPath = Resources::CManager::Instance().GetResourcePath() + res.GetElement(1);
+				std::wstring fromCfgPath = Resources::CManager::Instance().GetConfigPath() + res.GetElement(1);
+				std::wstring toResPath = resPath + L"\\" + res.GetElement(1);
+				std::wstring toCfgPath = cfgPath + L"\\" + res.GetElement(1);
 
 				std::wstring dir;
 				std::wstring filename;
 				std::wstring extension;
-				Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(toPath.c_str(), dir, filename, extension);
-				Util::CFileSystem::Instance().NewPath(dir.c_str());
 
-				if(category == RES_STR_SHADER)
+				if(category == RES_STR_CONFIG)
 				{
-					toPath = dir + filename + L".csh";
+					Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(toCfgPath.c_str(), dir, filename, extension);
+					Util::CFileSystem::Instance().NewPath(dir.c_str());
 
-					dir.clear();
-					filename.clear();
-					extension.clear();
-
-					Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(fromPath.c_str(), dir, filename, extension);
-					fromPath = dir + filename + L".csh";
+					Util::CFileSystem::Instance().CopyFileTo(fromCfgPath.c_str(), toCfgPath.c_str(), true);
 				}
+				else
+				{
+					Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(toResPath.c_str(), dir, filename, extension);
+					Util::CFileSystem::Instance().NewPath(dir.c_str());
 
-				Util::CFileSystem::Instance().CopyFileTo(fromPath.c_str(), toPath.c_str(), true);
+					if(category == RES_STR_SHADER)
+					{
+						toResPath = dir + filename + L".csh";
+
+						dir.clear();
+						filename.clear();
+						extension.clear();
+
+						Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(fromResPath.c_str(), dir, filename, extension);
+						fromResPath = dir + filename + L".csh";
+					}
+
+					Util::CFileSystem::Instance().CopyFileTo(fromResPath.c_str(), toResPath.c_str(), true);
+				}
 			};
 			
 			res.SetData(data);
@@ -89,7 +102,7 @@ namespace Resources
 
 		resScript += L"\n@APP {";
 
-		std::wstring assetPath = path + L"\\Assets\\";
+		std::wstring assetPath = resPath + L"\\Assets\\";
 		Util::CFileSystem::Instance().NewDirectory(assetPath.c_str());
 
 		{ // Textures.
@@ -101,7 +114,7 @@ namespace Resources
 			for(auto elem : m_textureMap)
 			{
 				auto textureFilePath = texturePath + elem.second->GetName() + L".dds";
-				resScript += L"\n( " + m_keyMap.find(elem.first)->second + L", \"" + textureFilePath.substr(path.size() + 1) + L"\" )";
+				resScript += L"\n( " + m_keyMap.find(elem.first)->second + L", \"" + textureFilePath.substr(resPath.size() + 1) + L"\" )";
 				elem.second->SaveAsTexture(textureFilePath.c_str());
 			}
 
@@ -111,7 +124,7 @@ namespace Resources
 		resScript += L"\n}\n";
 		std::transform(resScript.cbegin(), resScript.cend(), resScript.begin(), [](wchar_t c){ return c == L'\\' ? L'/' : c; });
 
-		Util::WriteFileUTF8((path + L"\\App.res").c_str(), resScript);
+		Util::WriteFileUTF8((resPath + L"\\App.res").c_str(), resScript);
 	}
 	
 	//-----------------------------------------------------------------------------------------------

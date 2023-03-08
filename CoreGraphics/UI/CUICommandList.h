@@ -61,6 +61,7 @@ namespace UI
 				bool b;
 				float f;
 				long l;
+				u64 h;
 			} val;
 		};
 
@@ -165,6 +166,7 @@ namespace UI
 		CUICommandList& operator = (CUICommandList&&) = delete;
 
 		void PostInitialize();
+		void Release();
 		void RegisterCommand(const class CUIScript* pScript, const Util::CScriptObject::PropBlock& propBlock);
 
 	private:
@@ -174,8 +176,8 @@ namespace UI
 	private:
 		Command m_command;
 
-		std::vector<CommandAction> m_commandActionList;
-		std::vector<CommandToggle> m_commandToggleList;
+		std::vector<CommandAction*> m_commandActionList;
+		std::vector<CommandToggle*> m_commandToggleList;
 	};
 };
 

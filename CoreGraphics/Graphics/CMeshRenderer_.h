@@ -13,6 +13,7 @@
 
 #include "CRenderer_.h"
 #include <functional>
+#include <vector>
 
 namespace Graphics
 {
@@ -32,9 +33,8 @@ namespace Graphics
 			bool bSkipRegistration;
 			bool bDynamicInstances;
 			bool bDynamicInstanceCount;
-			std::function<void()> onPreRender;
+			std::function<void(class CMaterial*)> onPreRender;
 			class CMeshData_* pMeshData;
-			class CMaterial* pMaterial;
 		};
 
 	protected:
@@ -51,18 +51,25 @@ namespace Graphics
 		void Release() override;
 
 		// Accessors.
-		inline class CMaterial* GetMaterial() const final { return m_data.pMaterial; }
+		inline bool IsActiveAt(size_t materialIndex) const final { return CRenderer_::IsActiveAt(materialIndex) && m_pMaterialList.size() > materialIndex; }
+
+		inline class CMaterial* GetMaterialAt(size_t index) final { return m_pMaterialList[index]; }
+		inline size_t GetMaterialCount() const final { return m_pMaterialList.size(); }
 
 		// Modifiers.
 		inline void SetData(const Data& data) { m_data = data; }
-		//inline void SetMaterial(class CMaterial* pMaterial) { m_data.pMaterial = pMaterial; }
+
+		inline void AddMaterial(class CMaterial* pMaterial) { m_pMaterialList.push_back(pMaterial); }
+		inline void PopMaterial() { m_pMaterialList.pop_back(); }
+		inline void ClearMaterials() { m_pMaterialList.clear(); }
 
 	protected:
-		virtual void PostInitialize() = 0;
-		virtual void Render() override;
+		virtual void Render() final;
+		void RenderWithMaterial(size_t materialIndex) override;
 
 	protected:
 		Data m_data;
+		std::vector<class CMaterial*> m_pMaterialList;
 	};
 
 	class CMeshForceRender_

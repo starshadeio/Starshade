@@ -21,6 +21,7 @@ UI {
 	( TOOLTIP_CLEAR_SCENE, "Clear Scene ÿ", ÿ )
 	( TOOLTIP_PLAY_SCENE_SPAWN, "Play from spawn point. ÿ", ÿ )
 	( TOOLTIP_PLAY_SCENE_AT, "Play from current point. ÿ", ÿ )
+	( TOOLTIP_EDITOR_AUDIO_TOGGLE, "Toggle audio in editor. ÿ", ÿ )
 
 	( TOOLTIP_FILL_MODE, "Fill Mode ÿ", ÿ )
 	( TOOLTIP_ERASE_MODE, "Erase Mode ÿ", ÿ )
@@ -33,6 +34,10 @@ UI {
 	( TOOLTIP_GIZMO_TRANSLATE, "Translate spawn point. ÿ", ÿ )
 	( TOOLTIP_GIZMO_ROTATE, "Rotate spawn point. ÿ", ÿ )
 	( TOOLTIP_GIZMO_SCALE, "Scale spawn point. ÿ", ÿ )
+	
+	( TOOLTIP_WORKSPACE_EDIT, "Edit Workspace ÿ", ÿ )
+	( TOOLTIP_WORKSPACE_TOGGLE, "Toggle Workspace ÿ", ÿ )
+	( TOOLTIP_WORKSPACE_RESET, "Reset Workspace ÿ", ÿ )
 
 	( TOOLTIP_PALETTE_TOGGLE, "Toggle full palette display. ÿ", ÿ )
 }

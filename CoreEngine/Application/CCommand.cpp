@@ -23,12 +23,12 @@ namespace App
 	{
 	}
 
-	bool CCommand::Execute(const void* params, bool bInverse)
+	bool CCommand::Execute(const void* params, bool bInverse, size_t sz, u16 align)
 	{
-		if(!m_command(params, bInverse)) return false;
+		if(!m_command(params, bInverse, sz, align)) return false;
 		for(auto& elem : m_actionList)
 		{
-			elem(params, bInverse);
+			elem(params, bInverse, sz, align);
 		}
 
 		return true;

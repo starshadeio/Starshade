@@ -30,6 +30,11 @@ namespace Universe
 		m_chunkManager.Update();
 	}
 
+	void CUniverseManager::LateUpdate()
+	{
+		m_chunkManager.LateUpdate();
+	}
+
 	void CUniverseManager::Release()
 	{
 		m_chunkManager.Release();

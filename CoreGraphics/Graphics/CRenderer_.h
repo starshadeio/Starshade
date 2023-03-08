@@ -36,14 +36,17 @@ namespace Graphics
 		virtual inline const CVObject* GetObject() const { return m_pObject; }
 
 		inline bool IsActive() const { return m_bActive; }
-		virtual inline class CMaterial* GetMaterial() const = 0;
+		virtual inline bool IsActiveAt(size_t materialIndex) const { return IsActive(); }
+
+		virtual inline class CMaterial* GetMaterialAt(size_t index) = 0;
+		virtual inline size_t GetMaterialCount() const { return 1; }
 
 		// Modifiers.
 		inline void SetActive(bool bActive) { m_bActive = bActive; }
 
 	protected:
 		virtual void Render() = 0;
-		virtual void PostInitialize() { }
+		virtual void RenderWithMaterial(size_t materialIndex) = 0;
 
 	private:
 		bool m_bActive;

@@ -27,13 +27,13 @@ namespace Graphics
 
 	void CRenderingSystem::PostInitialize()
 	{
-		for(auto elem : m_rendererList_)
+		/*for(auto elem : m_rendererList_)
 		{
 			for(CRenderer_* pRenderer : elem.second)
 			{
 				pRenderer->PostInitialize();
 			};
-		}
+		}*/
 	}
 
 	void CRenderingSystem::QueueRender(CPostProcessor* pPostProcessor, u32 viewHash)
@@ -79,18 +79,20 @@ namespace Graphics
 	{
 		CRootSignature* rootSig = nullptr;
 
-		for(CRenderer_* pRenderer : m_rendererList_[viewHash])
+		for(RendererData_& renderData : m_rendererList_[viewHash])
 		{
-			if(!pRenderer->IsActive()) { continue; }
+			if(!renderData->IsActiveAt(renderData.materialIndex)) { continue; }
 
-			if(rootSig != pRenderer->GetMaterial()->GetShader()->GetRootSignature())
+			if(rootSig != renderData->GetMaterialAt(renderData.materialIndex)->GetShader()->GetRootSignature())
 			{
-				rootSig = pRenderer->GetMaterial()->GetShader()->GetRootSignature();
+				rootSig = renderData->GetMaterialAt(renderData.materialIndex)->GetShader()->GetRootSignature();
 				rootSig->Bind();
 			}
 
-			pRenderer->Render();
+			renderData->RenderWithMaterial(renderData.materialIndex);
 		};
+
+		App::CSceneManager::Instance().UniverseManager().ChunkManager().Render(viewHash);
 
 		for(CRenderer* pRenderer : m_rendererList)
 		{
@@ -99,18 +101,18 @@ namespace Graphics
 		
 		const Math::SIMDVector camPos = App::CSceneManager::Instance().CameraManager().GetDefaultCamera()->GetTransform()->GetPosition();
 		SortBackToFront(camPos, m_depthlessList[viewHash]);
-
-		for(CRenderer_* pRenderer : m_depthlessList[viewHash])
+		
+		for(RendererData_& renderData : m_depthlessList[viewHash])
 		{
-			if(!pRenderer->IsActive()) { continue; }
+			if(!renderData->IsActiveAt(renderData.materialIndex)) { continue; }
 
-			if(rootSig != pRenderer->GetMaterial()->GetShader()->GetRootSignature())
+			if(rootSig != renderData->GetMaterialAt(renderData.materialIndex)->GetShader()->GetRootSignature())
 			{
-				rootSig = pRenderer->GetMaterial()->GetShader()->GetRootSignature();
+				rootSig = renderData->GetMaterialAt(renderData.materialIndex)->GetShader()->GetRootSignature();
 				rootSig->Bind();
 			}
 
-			pRenderer->Render();
+			renderData->RenderWithMaterial(renderData.materialIndex);
 		};
 	}
 
@@ -140,47 +142,56 @@ namespace Graphics
 
 	void CRenderingSystem::Deregister(CRenderer* pRenderer)
 	{
-		Deregister<CRenderer>(pRenderer, m_rendererList);
+		Deregister(pRenderer, m_rendererList);
 	}
 
 	// CRenderer_.
-	void CRenderingSystem::Register(CRenderer_* pRenderer)
+	void CRenderingSystem::Register(CRenderer_* pRenderer, size_t materialIndex)
 	{
-		if(!pRenderer->GetMaterial()->GetShader()->GetDepthWrite())
+		RendererData_ data = { materialIndex, pRenderer };
+
+		if(!pRenderer->GetMaterialAt(materialIndex)->GetShader()->GetDepthWrite())
 		{
-			Register<CRenderer_>(pRenderer, m_depthlessList[pRenderer->GetObject()->GetViewHash()], nullptr);
+			Register<RendererData_>(data, m_depthlessList[pRenderer->GetObject()->GetViewHash()], nullptr);
 		}
 		else
 		{
-			Register<CRenderer_>(pRenderer, m_rendererList_[pRenderer->GetObject()->GetViewHash()], [](CRenderer_* a, CRenderer_* b){
-				return reinterpret_cast<uintptr_t>(a->GetMaterial()->GetShader()->GetRootSignature()) >
-					reinterpret_cast<uintptr_t>(b->GetMaterial()->GetShader()->GetRootSignature());
+			Register<RendererData_>(data, m_rendererList_[pRenderer->GetObject()->GetViewHash()], [](const RendererData_& a, const RendererData_& b){
+				return reinterpret_cast<uintptr_t>(a.pRenderer->GetMaterialAt(a.materialIndex)->GetShader()->GetRootSignature()) >
+					reinterpret_cast<uintptr_t>(b.pRenderer->GetMaterialAt(b.materialIndex)->GetShader()->GetRootSignature());
 			});
 		}
 	}
 
 	void CRenderingSystem::Deregister(CRenderer_* pRenderer)
 	{
-		if(!pRenderer->GetMaterial()->GetShader()->GetDepthWrite())
+		RendererData_ data;
+
+		data.pRenderer = pRenderer;
+		for(size_t i = 0; i < pRenderer->GetMaterialCount(); ++i)
 		{
-			Deregister<CRenderer_>(pRenderer, m_depthlessList[pRenderer->GetObject()->GetViewHash()]);
-		}
-		else
-		{
-			Deregister<CRenderer_>(pRenderer, m_rendererList_[pRenderer->GetObject()->GetViewHash()]);
+			data.materialIndex = i;
+			if(!pRenderer->GetMaterialAt(i)->GetShader()->GetDepthWrite())
+			{
+				Deregister(data, m_depthlessList[pRenderer->GetObject()->GetViewHash()]);
+			}
+			else
+			{
+				Deregister(data, m_rendererList_[pRenderer->GetObject()->GetViewHash()]);
+			}
 		}
 	}
 	
 	// CUICanvas.
 	void CRenderingSystem::Register(UI::CUICanvas* pCanvas)
 	{
-		Register<UI::CUICanvas>(pCanvas, m_canvasList[pCanvas->GetObject()->GetViewHash()], [](UI::CUICanvas* a, UI::CUICanvas* b){
+		Register<UI::CUICanvas*>(pCanvas, m_canvasList[pCanvas->GetObject()->GetViewHash()], [](UI::CUICanvas* a, UI::CUICanvas* b){
 			return a->GetDepth() > b->GetDepth();
 		});
 	}
 
 	void CRenderingSystem::Deregister(UI::CUICanvas* pCanvas)
 	{
-		Deregister<UI::CUICanvas>(pCanvas, m_canvasList[pCanvas->GetObject()->GetViewHash()]);
+		Deregister<UI::CUICanvas*>(pCanvas, m_canvasList[pCanvas->GetObject()->GetViewHash()]);
 	}
 };

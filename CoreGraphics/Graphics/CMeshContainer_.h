@@ -12,7 +12,9 @@
 #define CMESHCONTAINER__H
 
 #include "CRenderer_.h"
+#include "CMeshRenderer_.h"
 #include <functional>
+#include <vector>
 
 namespace Graphics
 {
@@ -25,8 +27,8 @@ namespace Graphics
 	public:
 		struct Data
 		{
-			std::function<void()> onPreRender;
-			class CMaterial* pMaterial;
+			bool bSkipRegistration = false;
+			std::function<void(class CMaterial*)> onPreRender;
 			class CMeshRenderer_* pMeshRenderer;
 		};
 
@@ -42,18 +44,26 @@ namespace Graphics
 		void Release() final;
 		
 		// Accessors.
-		virtual inline class CMaterial* GetMaterial() const final { return m_data.pMaterial; }
+		inline class CMaterial* GetMaterialAt(size_t index) final { return m_pMaterialList[index]; }
+		inline size_t GetMaterialCount() const final { return m_pMaterialList.size(); }
 
 		// Modifiers.
 		inline void SetData(const Data& data) { m_data = data; }
+
+		inline void AddMaterial(class CMaterial* pMaterial) { m_pMaterialList.push_back(pMaterial); }
+		inline void ClearMaterials() { m_pMaterialList.clear(); }
+		
 		inline void SetMeshRenderer(class CMeshRenderer_* pMeshRenderer) { m_data.pMeshRenderer = pMeshRenderer; }
 		
 	protected:
-		virtual void PostInitialize() { }
-		virtual void Render() final;
+		void Render() final;
+
+	public:
+		void RenderWithMaterial(size_t materialIndex) final;
 
 	private:
 		Data m_data;
+		std::vector<class CMaterial*> m_pMaterialList;
 	};
 };
 

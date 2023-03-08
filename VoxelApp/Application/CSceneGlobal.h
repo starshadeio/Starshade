@@ -12,6 +12,7 @@
 #define CSCENEGLOBAL_H
 
 #include "CNodeLoader.h"
+#include "CAppKeybinds.h"
 #include <Universe/CEnvironment.h>
 #include <Graphics/CPostSky.h>
 #include <Graphics/CPostEdge.h>
@@ -46,10 +47,6 @@ namespace App
 		virtual void OnResize(const Math::Rect& rect) final;
 		
 	private:
-		void Quit(const App::InputCallbackData& callback);
-		void Screenshot(const App::InputCallbackData& callback);
-
-	private:
 		Graphics::CPostSky m_postSky;
 		Graphics::CPostEdge m_postEdge;
 		Graphics::CPostSSAO m_postSSAO;
@@ -60,6 +57,7 @@ namespace App
 		Actor::CPlayer m_player;
 		Universe::CEnvironment m_environment;
 
+		CAppKeybinds m_appKeybinds;
 		CNodeLoader m_nodeLoader;
 	};
 };

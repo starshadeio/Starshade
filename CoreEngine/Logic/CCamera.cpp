@@ -63,5 +63,33 @@ namespace Logic
 		);
 		
 		m_viewMatrixInv = m_pTransform->GetWorldMatrix();
+
+		CalculateFrustumPlanes();
+	}
+
+	//-----------------------------------------------------------------------------------------------
+	// Utility methods.
+	//-----------------------------------------------------------------------------------------------
+
+	void CCamera::CalculateFrustumPlanes()
+	{
+		Math::SIMDMatrix combMatrix = m_viewMatrix * m_projMatrix;
+
+		m_frustumPlanes[0] = Math::SIMDPlane(_mm_add_ps(combMatrix.rows[3], combMatrix.rows[0])).Normalized(); // Left
+		m_frustumPlanes[1] = Math::SIMDPlane(_mm_sub_ps(combMatrix.rows[3], combMatrix.rows[0])).Normalized(); // Right
+		m_frustumPlanes[2] = Math::SIMDPlane(_mm_add_ps(combMatrix.rows[3], combMatrix.rows[1])).Normalized(); // Bottom
+		m_frustumPlanes[3] = Math::SIMDPlane(_mm_sub_ps(combMatrix.rows[3], combMatrix.rows[1])).Normalized(); // Top
+		m_frustumPlanes[4] = Math::SIMDPlane(_mm_add_ps(combMatrix.rows[3], combMatrix.rows[2])).Normalized(); // Near
+		m_frustumPlanes[5] = Math::SIMDPlane(_mm_sub_ps(combMatrix.rows[3], combMatrix.rows[2])).Normalized(); // Far
+	}
+
+	bool CCamera::CheckPoint(const Math::SIMDVector& pt) const
+	{
+		for(size_t i = 0; i < 6; ++i)
+		{
+			if(_mm_cvtss_f32(m_frustumPlanes[i].DotCoord(pt)) < 0.0f) return false;
+		}
+
+		return true;
 	}
 };

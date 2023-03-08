@@ -108,16 +108,16 @@ v2p VShader(in a2v input)
 	output.Position = mul(output.Position, VP);
 
 #ifdef LINE
-	output.Position /= output.Position.w;
+	output.Position /= abs(output.Position.w);
 
 	float3 lineNormal = normalize(mul(input.Normal.xyz, (float3x3)world));
 
-	float4 normal = mul(float4(input.Position.xyz, 1.0f), world);
+	float4 normal = mul(input.Position, world);
 	normal.xyz += lineNormal;
 	normal.xyz *= dist;
 	normal.xyz += input.Origin;
 	normal = normalize(mul(normal, VP));
-	normal /= normal.w;
+	normal /= abs(normal.w);
 
 	float2 edge = normalize(normal.xy - output.Position.xy);
 	edge = float2(-edge.y, edge.x);

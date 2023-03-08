@@ -69,17 +69,29 @@ namespace Universe
 		CChunk& operator = (const CChunk&) = delete;
 		CChunk& operator = (CChunk&&) = delete;
 
-		void Initialize();
-		void Release();
+		void Setup();
+		void RebuildMesh();
+		void Initialize() final;
+		void LateUpdate() final;
+		void ForceRender(size_t materialIndex);
+		void Release() final;
 		
-		u16 UpdateBlock(u32 index, u16 block);
+		u16 UpdateBlock(u32 index, u16 id);
+		u16 PaintBlock(u32 index, BlockId id);
+		void SetBlock(u32 index, u16 id);
 		void Set(const Block* pBlocks);
 		void Set(std::function<void(Block*, size_t)> func);
 		void Read(std::function<void(const Block*, size_t)> func);
 		void Reset();
 		void Clear();
+		void ForceRebuild() { RebuildMesh(); }
 		
+		void SetLODLevel(u8 lodLevel);
+
 		// Accessors.
+		inline u8 GetLODLevel() const { return m_lodLevel; }
+		inline u8 GetLODLevelMax() const { return m_lodLevelMax; }
+
 		inline Math::Vector3 GetOffset() const
 		{
 			//std::shared_lock<std::shared_mutex> lk(m_mutex);
@@ -105,18 +117,19 @@ namespace Universe
 		inline Block GetBlock(u32 index) const
 		{
 			std::shared_lock<std::shared_mutex> lk(m_mutex);
-			return m_pBlockList[index];
+			return internalGetBlock(index);
 		}
 		
 		inline Block GetBlock(u32 i, u32 j, u32 k, u32* pIndex = nullptr) const
 		{
 			std::shared_lock<std::shared_mutex> lk(m_mutex);
-			const u32 index = internalGetIndex(i, j, k);
-			if(pIndex) *pIndex = index;
-			return m_pBlockList[index];
+			return internalGetBlock(i, j, k, pIndex);
 		}
 
 		// Modifiers.
+		inline void SetChunkCoord(const Math::VectorInt3& chunkCoord) { m_chunkCoord = chunkCoord; }
+		inline const Math::VectorInt3& GetChunkCoord() const { return m_chunkCoord; }
+
 		inline void SetData(const Data& data)
 		{
 #if _DEBUG
@@ -134,7 +147,6 @@ namespace Universe
 
 	private:
 		void BuildMesh(u8 meshIndex, bool bOptimize);
-		void RebuildMesh();
 
 		struct QuadSides
 		{
@@ -175,10 +187,11 @@ namespace Universe
 			};
 		};
 
-		void ProcessIsland(std::unordered_set<u32>& set, std::unordered_set<u32>::iterator it, u32 iStep, u32 kStep, u32 maxIndex, u32 iAxis, u32 kAxis, const QuadSides& flags, const QuadEdges& edges, std::unordered_map<u32, u64>& disjointedSet);
+		void ProcessIsland(std::unordered_set<u32>& set, std::unordered_set<u32>::iterator it, u32 iStep, u32 kStep, u32 maxIndex, u32 iAxis, u32 kAxis, 
+			const QuadSides& flags, const QuadEdges& edges, std::unordered_map<u32, u64>& disjointedSet);
 		void GenerateOptimalMeshData(u8 meshIndex, Graphics::CMeshData_::Data& data);
 
-		void PreRender();
+		void PushToUpdateQueue();
 		
 		// Internal accessors.
 		inline u32 internalGetIndex(u32 i, u32 j, u32 k) const
@@ -221,6 +234,25 @@ namespace Universe
 			k = i % (m_data.length + 1);
 			i = i / (m_data.length + 1);
 		}
+		
+		inline Block internalGetBlock(u32 index) const
+		{
+			return m_pBlockList ? m_pBlockList[m_lodLevelOffset + index] : Block();
+		}
+		
+		inline Block internalGetBlock(u32 i, u32 j, u32 k, u32* pIndex = nullptr) const
+		{
+			const u32 index = internalGetIndex(i, j, k);
+			if(pIndex) *pIndex = index;
+			return m_pBlockList ? m_pBlockList[m_lodLevelOffset + index] : Block();
+		}
+
+		inline void AllocateBlockList()
+		{
+			m_chunkSize = m_data.width * m_data.height * m_data.length;
+			m_blockListSize = m_chunkSize * (m_lodLevelMax + 1);
+			m_pBlockList = new Block[m_blockListSize];
+		}
 
 	private:
 		mutable std::shared_mutex m_mutex;
@@ -231,16 +263,22 @@ namespace Universe
 
 		bool m_bDirty;
 		bool m_bAwaitingRebuild;
+		bool m_bUpdateQueued;
 		u8 m_meshIndex;
+		u8 m_lodLevel;
+		u8 m_lodLevelMax;
+		u32 m_lodLevelOffset;
 		u32 m_chunkSize;
+		u32 m_blockListSize;
 
 		Data m_data;
+		Math::VectorInt3 m_chunkCoord;
 		
 		std::unordered_map<u32, u16> m_blockUpdateMap;
 
 		Graphics::CMeshData_ m_meshData[2];
 		Graphics::CMeshContainer_ m_meshContainer;
-		Graphics::CMeshContainer_ m_meshContainerWire;
+		//Graphics::CMeshContainer_ m_meshContainerWire;
 		Graphics::CMeshRenderer_* m_pMeshRendererList[2];
 		//Graphics::CMeshRenderer_* m_pMeshRendererListWire[2];
 		Util::CFuture<void> m_meshFuture[2];

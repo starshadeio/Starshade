@@ -11,6 +11,7 @@
 #include "CMotorHumanoid.h"
 #include "../Factory/CFactory.h"
 #include "../Application/CPlatform.h"
+#include "../Application/CKeybinds.h"
 #include "CSpawner.h"
 #include <Math/CMathFNV.h>
 #include <Utilities/CTimer.h>
@@ -21,15 +22,15 @@ namespace Actor
 {
 	static const std::unordered_map<u32, std::function<void(CMotorHumanoid*, const App::InputCallbackData&)>> HUMANOID_INPUT_MAP =
 	{
-		{ MOTOR_INPUT_MOVE_FORWARD, [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveForward(callback); } },
-		{ MOTOR_INPUT_MOVE_BACKWARD, [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveBackward(callback); } },
-		{ MOTOR_INPUT_MOVE_LEFT, [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveLeft(callback); } },
-		{ MOTOR_INPUT_MOVE_RIGHT, [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveRight(callback); } },
+		{ Math::FNV1a_32(App::CKeybinds::INPUT_KEY_MOVE_FORWARD), [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveForward(callback); } },
+		{ Math::FNV1a_32(App::CKeybinds::INPUT_KEY_MOVE_BACKWARD), [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveBackward(callback); } },
+		{ Math::FNV1a_32(App::CKeybinds::INPUT_KEY_MOVE_LEFT), [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveLeft(callback); } },
+		{ Math::FNV1a_32(App::CKeybinds::INPUT_KEY_MOVE_RIGHT), [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->MoveRight(callback); } },
 
-		{ MOTOR_INPUT_LOOK_HORIZONTAL, [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->LookHorizontal(callback); } },
-		{ MOTOR_INPUT_LOOK_VERTICAL, [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->LookVertical(callback); } },
+		{ Math::FNV1a_32(App::CKeybinds::INPUT_KEY_LOOK_H), [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->LookHorizontal(callback); } },
+		{ Math::FNV1a_32(App::CKeybinds::INPUT_KEY_LOOK_V), [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->LookVertical(callback); } },
 
-		{ MOTOR_INPUT_JUMP, [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Jump(callback); } },
+		{ Math::FNV1a_32(App::CKeybinds::INPUT_KEY_JUMP), [](CMotorHumanoid* pHumanoid, const App::InputCallbackData& callback) { pHumanoid->Jump(callback); } },
 	};
 	
 	const u32 CMotorHumanoid::MOTOR_HASH = Math::FNV1a_32("MOTOR_HUMANOID");
@@ -114,8 +115,8 @@ namespace Actor
 			targetVelocity = velocitySum;
 		}
 				
-		Math::Vector3 right(cosf(eulerY), 0.0f, -sinf(eulerY));
-		Math::Vector3 forward(sinf(eulerY), 0.0f, cosf(eulerY));
+		Math::Vector3 right(cosf(eulerY), 0.0f, sinf(eulerY));
+		Math::Vector3 forward(-sinf(eulerY), 0.0f, cosf(eulerY));
 		targetVelocity = (right * targetVelocity.x + forward * targetVelocity.z) * m_data.speed;
 		
 		Math::Vector3 lastVel = *(Math::Vector3*)rigidbody.GetVelocity().ToFloat();
@@ -247,7 +248,7 @@ namespace Actor
 		if(axis == 0)
 		{
 			
-			euler.y = fmod(euler.y + delta * m_data.lookRate.x, Math::g_2Pi);
+			euler.y = fmod(euler.y - delta * m_data.lookRate.x, Math::g_2Pi);
 		}
 		else
 		{

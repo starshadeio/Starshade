@@ -33,11 +33,16 @@ namespace Universe
 #endif
 		m_bDirty(false),
 		m_bAwaitingRebuild(false),
+		m_bUpdateQueued(false),
 		m_meshIndex(0),
+		m_lodLevel(0),
+		m_lodLevelMax(0),
+		m_lodLevelOffset(0),
 		m_chunkSize(0),
+		m_blockListSize(0),
 		m_meshData{ pObject, pObject },
 		m_meshContainer(pObject),
-		m_meshContainerWire(pObject),
+		//m_meshContainerWire(pObject),
 		m_pMeshRendererList{ nullptr, nullptr },
 		//m_pMeshRendererListWire{ nullptr, nullptr },
 		m_pMaterial(nullptr),
@@ -51,15 +56,46 @@ namespace Universe
 	{
 	}
 	
+	void CChunk::Setup()
+	{
+		m_pMaterial = reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_data.matHash));
+		//m_pMaterialWire = reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_data.matWireHash));
+
+		{ // Create mesh container.
+			Graphics::CMeshContainer_::Data data { };
+			data.bSkipRegistration = true;
+			//data.onPreRender = std::bind(&CChunk::PreRender, this, std::placeholders::_1);
+			data.pMeshRenderer = nullptr;
+			m_meshContainer.SetData(data);
+			m_meshContainer.AddMaterial(m_pMaterial);
+			//m_meshContainer.AddMaterial(m_pMaterialWire);
+			m_meshContainer.Initialize();
+		}
+
+		// Calculte the maximum lod level.
+		auto LeastSignificantSetBit = [](u32 val){
+			u32 bit = 1;
+
+			while(val && (val & 0x1) == 0)
+			{
+				val >>= 1;
+				++bit;
+			}
+
+			return bit;
+		};
+
+		m_lodLevelMax = 0;//std::min(std::min(LeastSignificantSetBit(m_data.width), LeastSignificantSetBit(m_data.height)), LeastSignificantSetBit(m_data.length));
+	}
+	
 	void CChunk::Initialize()
 	{
 #if _DEBUG
 		m_bInitialized = true;
 #endif
-
+		
 		{ // Build initial chunk ids.
-			m_chunkSize = m_data.width * m_data.height * m_data.length;
-			m_pBlockList = new Block[m_chunkSize];
+			AllocateBlockList();
 
 			u32 index = 0;
 			for(u32 i = 0; i < m_data.width; ++i)
@@ -69,32 +105,21 @@ namespace Universe
 					for(u32 j = 0; j < m_data.height; ++j)
 					{
 						m_pBlockList[index++] = { 0,
-							(m_data.offset.y + (int)j) >= -60,
-							0 };
+							(m_data.offset.y + (int)j) < -60,
+							0, 0 };
 					}
 				}
 			}
 		}
 
-		{ // Create mesh container.
-			Graphics::CMeshContainer_::Data data { };
-			data.onPreRender = std::bind(&CChunk::PreRender, this);
-			data.pMeshRenderer = nullptr;
-			data.pMaterial = m_pMaterial = reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_data.matHash));
-			m_meshContainer.SetData(data);
-			m_meshContainer.Initialize();
-			
-			data.onPreRender = [](){};//std::bind(&CChunk::PreRenderWire, this);
-			data.pMaterial = m_pMaterialWire = reinterpret_cast<Graphics::CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_data.matWireHash));
-			m_meshContainerWire.SetData(data);
-			m_meshContainerWire.Initialize();
-		}
-
+		Setup();
 		RebuildMesh();
 	}
 	
-	void CChunk::PreRender()
+	void CChunk::LateUpdate()
 	{
+		m_bUpdateQueued = false;
+
 		if(m_meshFuture[0].Ready() && m_meshFuture[1].Ready())
 		{
 			if(m_bDirty)
@@ -122,7 +147,10 @@ namespace Universe
 				if(m_bAwaitingRebuild)
 				{
 					m_bAwaitingRebuild = false;
-					RebuildMesh();
+					if(m_blockUpdateMap.empty())
+					{
+						RebuildMesh();
+					}
 				}
 			}
 
@@ -131,24 +159,34 @@ namespace Universe
 				u8 adjUpdates = 0;
 
 				{ // Update blocks and the indices provided.
-					std::lock_guard<std::shared_mutex> lk(m_mutex);
+					{
+						std::lock_guard<std::shared_mutex> lk(m_mutex);
+						
+						if(m_pBlockList == nullptr)
+						{
+							AllocateBlockList();
+						}
+
+						for(const auto& elem : m_blockUpdateMap)
+						{
+							m_pBlockList[elem.first].bFilled = elem.second <= 0xFF;
+							if(m_pBlockList[elem.first].bFilled)
+							{
+								m_pBlockList[elem.first].id = static_cast<u8>(elem.second);
+							}
+						}
+					}
 
 					for(const auto& elem : m_blockUpdateMap)
 					{
 						u32 i, j, k;
 						internalGetCoordsFromIndex(elem.first, i, j, k);
-						if(i == 0 && m_pChunkAdj[SIDE_LEFT] && !m_pChunkAdj[SIDE_LEFT]->GetBlock(m_pChunkAdj[SIDE_LEFT]->internalGetIndexRight(j, k)).bEmpty) adjUpdates |= SIDE_FLAG_LEFT;
-						if(i == m_data.width - 1 && m_pChunkAdj[SIDE_RIGHT] && !m_pChunkAdj[SIDE_RIGHT]->GetBlock(m_pChunkAdj[SIDE_RIGHT]->internalGetIndexLeft(j, k)).bEmpty) adjUpdates |= SIDE_FLAG_RIGHT;
-						if(j == 0 && m_pChunkAdj[SIDE_BOTTOM] && !m_pChunkAdj[SIDE_BOTTOM]->GetBlock(m_pChunkAdj[SIDE_BOTTOM]->internalGetIndexTop(i, k)).bEmpty) adjUpdates |= SIDE_FLAG_BOTTOM;
-						if(j == m_data.height - 1 && m_pChunkAdj[SIDE_TOP] && !m_pChunkAdj[SIDE_TOP]->GetBlock(m_pChunkAdj[SIDE_TOP]->internalGetIndexBottom(i, k)).bEmpty) adjUpdates |= SIDE_FLAG_TOP;
-						if(k == 0 && m_pChunkAdj[SIDE_BACK] && !m_pChunkAdj[SIDE_BACK]->GetBlock(m_pChunkAdj[SIDE_BACK]->internalGetIndexFront(i, j)).bEmpty) adjUpdates |= SIDE_FLAG_BACK;
-						if(k == m_data.length - 1 && m_pChunkAdj[SIDE_FRONT] && !m_pChunkAdj[SIDE_FRONT]->GetBlock(m_pChunkAdj[SIDE_FRONT]->internalGetIndexBack(i, j)).bEmpty) adjUpdates |= SIDE_FLAG_FRONT;
-
-						m_pBlockList[elem.first].bEmpty = elem.second > 0xFF;
-						if(!m_pBlockList[elem.first].bEmpty)
-						{
-							m_pBlockList[elem.first].id = static_cast<u8>(elem.second);
-						}
+						if(i == 0 && m_pChunkAdj[SIDE_LEFT] && m_pChunkAdj[SIDE_LEFT]->GetBlock(m_pChunkAdj[SIDE_LEFT]->internalGetIndexRight(j, k)).bFilled) adjUpdates |= SIDE_FLAG_LEFT;
+						if(i == m_data.width - 1 && m_pChunkAdj[SIDE_RIGHT] && m_pChunkAdj[SIDE_RIGHT]->GetBlock(m_pChunkAdj[SIDE_RIGHT]->internalGetIndexLeft(j, k)).bFilled) adjUpdates |= SIDE_FLAG_RIGHT;
+						if(j == 0 && m_pChunkAdj[SIDE_BOTTOM] && m_pChunkAdj[SIDE_BOTTOM]->GetBlock(m_pChunkAdj[SIDE_BOTTOM]->internalGetIndexTop(i, k)).bFilled) adjUpdates |= SIDE_FLAG_BOTTOM;
+						if(j == m_data.height - 1 && m_pChunkAdj[SIDE_TOP] && m_pChunkAdj[SIDE_TOP]->GetBlock(m_pChunkAdj[SIDE_TOP]->internalGetIndexBottom(i, k)).bFilled) adjUpdates |= SIDE_FLAG_TOP;
+						if(k == 0 && m_pChunkAdj[SIDE_BACK] && m_pChunkAdj[SIDE_BACK]->GetBlock(m_pChunkAdj[SIDE_BACK]->internalGetIndexFront(i, j)).bFilled) adjUpdates |= SIDE_FLAG_BACK;
+						if(k == m_data.length - 1 && m_pChunkAdj[SIDE_FRONT] && m_pChunkAdj[SIDE_FRONT]->GetBlock(m_pChunkAdj[SIDE_FRONT]->internalGetIndexBack(i, j)).bFilled) adjUpdates |= SIDE_FLAG_FRONT;
 					}
 
 					m_blockUpdateMap.clear();
@@ -169,12 +207,23 @@ namespace Universe
 				}
 			}
 		}
+
+		if(m_bDirty)
+		{ // Keep chunk in update queue while it is dirty.
+			App::CSceneManager::Instance().UniverseManager().ChunkManager().QueueChunkUpdate(this);
+		}
+	}
+
+	
+	void CChunk::ForceRender(size_t materialIndex)
+	{
+		m_meshContainer.RenderWithMaterial(materialIndex);
 	}
 
 	void CChunk::Release()
 	{
 		m_meshContainer.Release();
-		m_meshContainerWire.Release();
+		//m_meshContainerWire.Release();
 		//SAFE_RELEASE_DELETE(m_pMeshRendererListWire[1]);
 		//SAFE_RELEASE_DELETE(m_pMeshRendererListWire[0]);
 		SAFE_RELEASE_DELETE(m_pMeshRendererList[1]);
@@ -214,7 +263,13 @@ namespace Universe
 				lk[i] = std::unique_lock<std::shared_mutex>(*reinterpret_cast<std::shared_mutex*>(mutexList[i]));
 			}
 
-			u32 index = 0;
+			if(m_pBlockList == nullptr)
+			{ // Build initial chunk ids.
+				AllocateBlockList();
+				memset(m_pBlockList, 0, sizeof(Block) * m_chunkSize);
+			}
+
+			u32 index = m_lodLevelOffset;
 			u32 quadCount = 0;
 
 			auto AddQuad = [&](SIDE_FLAG flag){
@@ -229,7 +284,7 @@ namespace Universe
 					for(u32 j = 0; j < m_data.height; ++j)
 					{
 						m_pBlockList[index].sideFlag = 0;
-						if(m_pBlockList[index].bEmpty)
+						if(!m_pBlockList[index].bFilled)
 						{
 							++index;
 							continue;
@@ -238,12 +293,12 @@ namespace Universe
 						// Left.
 						if(i == 0)
 						{
-							if(!m_pChunkAdj[SIDE_LEFT] || m_pChunkAdj[SIDE_LEFT]->m_pBlockList[m_pChunkAdj[SIDE_LEFT]->internalGetIndexRight(j, k)].bEmpty)
+							if(!m_pChunkAdj[SIDE_LEFT] || !m_pChunkAdj[SIDE_LEFT]->internalGetBlock(m_pChunkAdj[SIDE_LEFT]->internalGetIndexRight(j, k)).bFilled)
 							{
 								AddQuad(SIDE_FLAG_LEFT);
 							}
 						}
-						else if(m_pBlockList[internalGetIndex(i - 1, j, k)].bEmpty)
+						else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i - 1, j, k)].bFilled)
 						{
 							AddQuad(SIDE_FLAG_LEFT);
 						}
@@ -251,12 +306,12 @@ namespace Universe
 						// Right.
 						if(i == m_data.width - 1)
 						{
-							if(!m_pChunkAdj[SIDE_RIGHT] || m_pChunkAdj[SIDE_RIGHT]->m_pBlockList[m_pChunkAdj[SIDE_RIGHT]->internalGetIndexLeft(j, k)].bEmpty)
+							if(!m_pChunkAdj[SIDE_RIGHT] || !m_pChunkAdj[SIDE_RIGHT]->internalGetBlock(m_pChunkAdj[SIDE_RIGHT]->internalGetIndexLeft(j, k)).bFilled)
 							{
 								AddQuad(SIDE_FLAG_RIGHT);
 							}
 						}
-						else if(m_pBlockList[internalGetIndex(i + 1, j, k)].bEmpty)
+						else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i + 1, j, k)].bFilled)
 						{
 							AddQuad(SIDE_FLAG_RIGHT);
 						}
@@ -264,12 +319,12 @@ namespace Universe
 						// Bottom.
 						if(j == 0)
 						{
-							if(!m_pChunkAdj[SIDE_BOTTOM] || m_pChunkAdj[SIDE_BOTTOM]->m_pBlockList[m_pChunkAdj[SIDE_BOTTOM]->internalGetIndexTop(i, k)].bEmpty)
+							if(!m_pChunkAdj[SIDE_BOTTOM] || !m_pChunkAdj[SIDE_BOTTOM]->internalGetBlock(m_pChunkAdj[SIDE_BOTTOM]->internalGetIndexTop(i, k)).bFilled)
 							{
 								AddQuad(SIDE_FLAG_BOTTOM);
 							}
 						}
-						else if(m_pBlockList[internalGetIndex(i, j - 1, k)].bEmpty)
+						else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i, j - 1, k)].bFilled)
 						{
 							AddQuad(SIDE_FLAG_BOTTOM);
 						}
@@ -277,12 +332,12 @@ namespace Universe
 						// Top.
 						if(j == m_data.height - 1)
 						{
-							if(!m_pChunkAdj[SIDE_TOP] || m_pChunkAdj[SIDE_TOP]->m_pBlockList[m_pChunkAdj[SIDE_TOP]->internalGetIndexBottom(i, k)].bEmpty)
+							if(!m_pChunkAdj[SIDE_TOP] || !m_pChunkAdj[SIDE_TOP]->internalGetBlock(m_pChunkAdj[SIDE_TOP]->internalGetIndexBottom(i, k)).bFilled)
 							{
 								AddQuad(SIDE_FLAG_TOP);
 							}
 						}
-						else if(m_pBlockList[internalGetIndex(i, j + 1, k)].bEmpty)
+						else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i, j + 1, k)].bFilled)
 						{
 							AddQuad(SIDE_FLAG_TOP);
 						}
@@ -290,12 +345,12 @@ namespace Universe
 						// Back.
 						if(k == 0)
 						{
-							if(!m_pChunkAdj[SIDE_BACK] || m_pChunkAdj[SIDE_BACK]->m_pBlockList[m_pChunkAdj[SIDE_BACK]->internalGetIndexFront(i, j)].bEmpty)
+							if(!m_pChunkAdj[SIDE_BACK] || !m_pChunkAdj[SIDE_BACK]->internalGetBlock(m_pChunkAdj[SIDE_BACK]->internalGetIndexFront(i, j)).bFilled)
 							{
 								AddQuad(SIDE_FLAG_BACK);
 							}
 						}
-						else if(m_pBlockList[internalGetIndex(i, j, k - 1)].bEmpty)
+						else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i, j, k - 1)].bFilled)
 						{
 							AddQuad(SIDE_FLAG_BACK);
 						}
@@ -303,12 +358,12 @@ namespace Universe
 						// Front.
 						if(k == m_data.length - 1)
 						{
-							if(!m_pChunkAdj[SIDE_FRONT] || m_pChunkAdj[SIDE_FRONT]->m_pBlockList[m_pChunkAdj[SIDE_FRONT]->internalGetIndexBack(i, j)].bEmpty)
+							if(!m_pChunkAdj[SIDE_FRONT] || !m_pChunkAdj[SIDE_FRONT]->internalGetBlock(m_pChunkAdj[SIDE_FRONT]->internalGetIndexBack(i, j)).bFilled)
 							{
 								AddQuad(SIDE_FLAG_FRONT);
 							}
 						}
-						else if(m_pBlockList[internalGetIndex(i, j, k + 1)].bEmpty)
+						else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i, j, k + 1)].bFilled)
 						{
 							AddQuad(SIDE_FLAG_FRONT);
 						}
@@ -387,7 +442,7 @@ namespace Universe
 					static_cast<float>(m_data.offset.z) * m_data.blockSize
 				);
 
-				u32 index = 0;
+				u32 index = m_lodLevelOffset;
 				for(u32 i = 0; i < m_data.width; ++i)
 				{
 					for(u32 k = 0; k < m_data.length; ++k)
@@ -395,7 +450,7 @@ namespace Universe
 						for(u32 j = 0; j < m_data.height; ++j)
 						{
 							const Block block = m_pBlockList[index++];
-							if(block.bEmpty) continue;
+							if(!block.bFilled) continue;
 
 							Math::Vector3 center(i + 0.5f, j + 0.5f, k + 0.5f);
 
@@ -403,12 +458,12 @@ namespace Universe
 							// Left.
 							if(i == 0)
 							{
-								if(!m_pChunkAdj[SIDE_LEFT] || m_pChunkAdj[SIDE_LEFT]->m_pBlockList[m_pChunkAdj[SIDE_LEFT]->internalGetIndexRight(j, k)].bEmpty)
+								if(!m_pChunkAdj[SIDE_LEFT] || !m_pChunkAdj[SIDE_LEFT]->internalGetBlock(m_pChunkAdj[SIDE_LEFT]->internalGetIndexRight(j, k)).bFilled)
 								{
 									GenerateQuad(block.id, offset, center, Math::VEC3_BACKWARD, Math::VEC3_UP, Math::VEC3_LEFT);
 								}
 							}
-							else if(m_pBlockList[internalGetIndex(i - 1, j, k)].bEmpty)
+							else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i - 1, j, k)].bFilled)
 							{
 								GenerateQuad(block.id, offset, center, Math::VEC3_BACKWARD, Math::VEC3_UP, Math::VEC3_LEFT);
 							}
@@ -416,12 +471,12 @@ namespace Universe
 							// Right.
 							if(i == m_data.width - 1)
 							{
-								if(!m_pChunkAdj[SIDE_RIGHT] || m_pChunkAdj[SIDE_RIGHT]->m_pBlockList[m_pChunkAdj[SIDE_RIGHT]->internalGetIndexLeft(j, k)].bEmpty)
+								if(!m_pChunkAdj[SIDE_RIGHT] || !m_pChunkAdj[SIDE_RIGHT]->internalGetBlock(m_pChunkAdj[SIDE_RIGHT]->internalGetIndexLeft(j, k)).bFilled)
 								{
 									GenerateQuad(block.id, offset, center, Math::VEC3_FORWARD, Math::VEC3_UP, Math::VEC3_RIGHT);
 								}
 							}
-							else if(m_pBlockList[internalGetIndex(i + 1, j, k)].bEmpty)
+							else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i + 1, j, k)].bFilled)
 							{
 								GenerateQuad(block.id, offset, center, Math::VEC3_FORWARD, Math::VEC3_UP, Math::VEC3_RIGHT);
 							}
@@ -429,12 +484,12 @@ namespace Universe
 							// Bottom.
 							if(j == 0)
 							{
-								if(!m_pChunkAdj[SIDE_BOTTOM] || m_pChunkAdj[SIDE_BOTTOM]->m_pBlockList[m_pChunkAdj[SIDE_BOTTOM]->internalGetIndexTop(i, k)].bEmpty)
+								if(!m_pChunkAdj[SIDE_BOTTOM] || !m_pChunkAdj[SIDE_BOTTOM]->internalGetBlock(m_pChunkAdj[SIDE_BOTTOM]->internalGetIndexTop(i, k)).bFilled)
 								{
 									GenerateQuad(block.id, offset, center, Math::VEC3_RIGHT, Math::VEC3_BACKWARD, Math::VEC3_DOWN);
 								}
 							}
-							else if(m_pBlockList[internalGetIndex(i, j - 1, k)].bEmpty)
+							else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i, j - 1, k)].bFilled)
 							{
 								GenerateQuad(block.id, offset, center, Math::VEC3_RIGHT, Math::VEC3_BACKWARD, Math::VEC3_DOWN);
 							}
@@ -442,12 +497,12 @@ namespace Universe
 							// Top.
 							if(j == m_data.height - 1)
 							{
-								if(!m_pChunkAdj[SIDE_TOP] || m_pChunkAdj[SIDE_TOP]->m_pBlockList[m_pChunkAdj[SIDE_TOP]->internalGetIndexBottom(i, k)].bEmpty)
+								if(!m_pChunkAdj[SIDE_TOP] || !m_pChunkAdj[SIDE_TOP]->internalGetBlock(m_pChunkAdj[SIDE_TOP]->internalGetIndexBottom(i, k)).bFilled)
 								{
 									GenerateQuad(block.id, offset, center, Math::VEC3_RIGHT, Math::VEC3_FORWARD, Math::VEC3_UP);
 								}
 							}
-							else if(m_pBlockList[internalGetIndex(i, j + 1, k)].bEmpty)
+							else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i, j + 1, k)].bFilled)
 							{
 								GenerateQuad(block.id, offset, center, Math::VEC3_RIGHT, Math::VEC3_FORWARD, Math::VEC3_UP);
 							}
@@ -455,12 +510,12 @@ namespace Universe
 							// Back.
 							if(k == 0)
 							{
-								if(!m_pChunkAdj[SIDE_BACK] || m_pChunkAdj[SIDE_BACK]->m_pBlockList[m_pChunkAdj[SIDE_BACK]->internalGetIndexFront(i, j)].bEmpty)
+								if(!m_pChunkAdj[SIDE_BACK] || !m_pChunkAdj[SIDE_BACK]->internalGetBlock(m_pChunkAdj[SIDE_BACK]->internalGetIndexFront(i, j)).bFilled)
 								{
 									GenerateQuad(block.id, offset, center, Math::VEC3_RIGHT, Math::VEC3_UP, Math::VEC3_BACKWARD);
 								}
 							}
-							else if(m_pBlockList[internalGetIndex(i, j, k - 1)].bEmpty)
+							else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i, j, k - 1)].bFilled)
 							{
 								GenerateQuad(block.id, offset, center, Math::VEC3_RIGHT, Math::VEC3_UP, Math::VEC3_BACKWARD);
 							}
@@ -468,12 +523,12 @@ namespace Universe
 							// Front.
 							if(k == m_data.length - 1)
 							{
-								if(!m_pChunkAdj[SIDE_FRONT] || m_pChunkAdj[SIDE_FRONT]->m_pBlockList[m_pChunkAdj[SIDE_FRONT]->internalGetIndexBack(i, j)].bEmpty)
+								if(!m_pChunkAdj[SIDE_FRONT] || !m_pChunkAdj[SIDE_FRONT]->internalGetBlock(m_pChunkAdj[SIDE_FRONT]->internalGetIndexBack(i, j)).bFilled)
 								{
 									GenerateQuad(block.id, offset, center, Math::VEC3_LEFT, Math::VEC3_UP, Math::VEC3_FORWARD);
 								}
 							}
-							else if(m_pBlockList[internalGetIndex(i, j, k + 1)].bEmpty)
+							else if(!m_pBlockList[m_lodLevelOffset + internalGetIndex(i, j, k + 1)].bFilled)
 							{
 								GenerateQuad(block.id, offset, center, Math::VEC3_LEFT, Math::VEC3_UP, Math::VEC3_FORWARD);
 							}
@@ -488,9 +543,10 @@ namespace Universe
 
 			Graphics::CMeshRenderer_::Data data { };
 			data.bSkipRegistration = true;
-			data.pMaterial = m_pMaterial;
 			data.pMeshData = &m_meshData[meshIndex];
 			m_pMeshRendererList[meshIndex]->SetData(data);
+			m_pMeshRendererList[meshIndex]->AddMaterial(m_pMaterial);
+			//m_pMeshRendererList[meshIndex]->AddMaterial(m_pMaterialWire);
 
 			m_pMeshRendererList[meshIndex]->Initialize();
 		}
@@ -500,9 +556,9 @@ namespace Universe
 
 			Graphics::CMeshRenderer_::Data data { };
 			data.bSkipRegistration = true;
-			data.pMaterial = m_pMaterialWire;
 			data.pMeshData = &m_meshData[meshIndex];
 			m_pMeshRendererListWire[meshIndex]->SetData(data);
+			m_pMeshRendererListWire[meshIndex]->AddMaterial(m_pMaterialWire);
 
 			m_pMeshRendererListWire[meshIndex]->Initialize();
 		}*/
@@ -546,26 +602,28 @@ namespace Universe
 			u32 indices[3];
 			internalGetCoordsFromIndex(index, indices[0], indices[1], indices[2]);
 
+			const u32 blockIndex = m_lodLevelOffset + index;
+
 			// Add edges of quad to disjointed set.
-			if((m_pBlockList[index].sideFlag & flags.v[1]) || indices[iAxis] == 0 || m_pBlockList[index - iStep].id != m_pBlockList[index].id || !(m_pBlockList[index - iStep].sideFlag & flags.v[0])) 
+			if((m_pBlockList[blockIndex].sideFlag & flags.v[1]) || indices[iAxis] == 0 || m_pBlockList[blockIndex - iStep].id != m_pBlockList[blockIndex].id || !(m_pBlockList[blockIndex - iStep].sideFlag & flags.v[0])) 
 			{
 				AddEdge(internalGetVertexIndex(indices[0] + (u32)edges.e[0].e0.x, indices[1] + (u32)edges.e[0].e0.y, indices[2] + (u32)edges.e[0].e0.z),
 					internalGetVertexIndex(indices[0] + (u32)edges.e[0].e1.x, indices[1] + (u32)edges.e[0].e1.y, indices[2] + (u32)edges.e[0].e1.z));
 			}
 
-			if((m_pBlockList[index].sideFlag & flags.v[2]) || indices[iAxis] == chunkSize[iAxis] - 1 || m_pBlockList[index + iStep].id != m_pBlockList[index].id || !(m_pBlockList[index + iStep].sideFlag & flags.v[0]))
+			if((m_pBlockList[blockIndex].sideFlag & flags.v[2]) || indices[iAxis] == chunkSize[iAxis] - 1 || m_pBlockList[blockIndex + iStep].id != m_pBlockList[blockIndex].id || !(m_pBlockList[blockIndex + iStep].sideFlag & flags.v[0]))
 			{
 				AddEdge(internalGetVertexIndex(indices[0] + (u32)edges.e[1].e0.x, indices[1] + (u32)edges.e[1].e0.y, indices[2] + (u32)edges.e[1].e0.z),
 					internalGetVertexIndex(indices[0] + (u32)edges.e[1].e1.x, indices[1] + (u32)edges.e[1].e1.y, indices[2] + (u32)edges.e[1].e1.z));
 			}
 
-			if((m_pBlockList[index].sideFlag & flags.v[3]) || indices[kAxis] == 0 || m_pBlockList[index - kStep].id != m_pBlockList[index].id || !(m_pBlockList[index - kStep].sideFlag & flags.v[0]))
+			if((m_pBlockList[blockIndex].sideFlag & flags.v[3]) || indices[kAxis] == 0 || m_pBlockList[blockIndex - kStep].id != m_pBlockList[blockIndex].id || !(m_pBlockList[blockIndex - kStep].sideFlag & flags.v[0]))
 			{
 				AddEdge(internalGetVertexIndex(indices[0] + (u32)edges.e[2].e0.x, indices[1] + (u32)edges.e[2].e0.y, indices[2] + (u32)edges.e[2].e0.z),
 					internalGetVertexIndex(indices[0] + (u32)edges.e[2].e1.x, indices[1] + (u32)edges.e[2].e1.y, indices[2] + (u32)edges.e[2].e1.z));
 			}
 
-			if((m_pBlockList[index].sideFlag & flags.v[4]) || indices[kAxis] == chunkSize[kAxis] - 1 || m_pBlockList[index + kStep].id != m_pBlockList[index].id || !(m_pBlockList[index + kStep].sideFlag & flags.v[0]))
+			if((m_pBlockList[blockIndex].sideFlag & flags.v[4]) || indices[kAxis] == chunkSize[kAxis] - 1 || m_pBlockList[blockIndex + kStep].id != m_pBlockList[blockIndex].id || !(m_pBlockList[blockIndex + kStep].sideFlag & flags.v[0]))
 			{
 				AddEdge(internalGetVertexIndex(indices[0] + (u32)edges.e[3].e0.x, indices[1] + (u32)edges.e[3].e0.y, indices[2] + (u32)edges.e[3].e0.z),
 					internalGetVertexIndex(indices[0] + (u32)edges.e[3].e1.x, indices[1] + (u32)edges.e[3].e1.y, indices[2] + (u32)edges.e[3].e1.z));
@@ -621,6 +679,7 @@ namespace Universe
 			prev[0] = n - 1;
 			next[n - 1] = 0;
 
+			int priorI = 0;
 			int i = 0;
 			while(n >= 3)
 			{
@@ -711,11 +770,20 @@ namespace Universe
 					prev[next[i]] = prev[i];
 					--n;
 
-					i = prev[i];
+					priorI = i = prev[i];
 				}
 				else
 				{
 					i = next[i];
+					assert(i != priorI);
+
+#if PRODUCTION_BUILD
+					if(i == priorI)
+					{ // Break infinite loops in production build.
+						//  This only happen if there is a bug with the optimizer, but it's better to have a buggy mesh than one's generation looping to infinity.
+						break;
+					}
+#endif
 				}
 			}
 		};
@@ -837,7 +905,7 @@ namespace Universe
 			mergedLists.insert(closestList);
 			while(mergedLists.size() < pointLists.size())
 			{
-				// Find point in remaining point lists that is closest to direction ONE.
+				// Find point in remaining point lists that is closest to -tangent direction.
 				closestDot = FLT_MAX;
 				for(size_t l = 0; l < pointLists.size(); ++l)
 				{
@@ -870,6 +938,11 @@ namespace Universe
 					if(dist <= closestDist)
 					{
 						size_t prevV = v == 0 ? pointLists[mergedListIndex].size() - 1 : v - 1;
+
+						if(fabsf(Math::Vector3::Dot(diff / sqrtf(dist), (pointLists[mergedListIndex][prevV] - pointLists[mergedListIndex][v]).Normalized())) > 0.99999f)
+						{ // Parallel lines cannot be used as they create degenerate triangle.
+							continue;
+						}
 						
 						if(closestDist != FLT_MAX && pointLists[mergedListIndex][closestMergedVertex] == pointLists[mergedListIndex][v])
 						{
@@ -889,13 +962,13 @@ namespace Universe
 							const Math::Vector3 n1 = Math::Vector3::Cross(normal, e1);
 
 							if(Math::Vector3::Dot(normal, Math::Vector3::Cross(e0, e1)) > 0.0f)
-							{ // CCW
-								if(Math::Vector3::Dot(n0, diff) > 0.0f) continue;
-								if(Math::Vector3::Dot(n1, diff) > 0.0f) continue;
+							{ // CCW, make sure diff is pointing away from the two edges of the infinite triangle.
+								if(Math::Vector3::Dot(n0, diff) > -1e-5f) continue;
+								if(Math::Vector3::Dot(n1, diff) > -1e-5f) continue;
 							}
 							else if(Math::Vector3::Dot(e0, e1) > -1e-5f)
 							{ // CW, beyond ~270 degrees. This extension is important for the case of holes in the geometry.
-								if(Math::Vector3::Dot(n0, diff) < 0.0f && Math::Vector3::Dot(n1, diff) < 0.0f) continue;
+								if(Math::Vector3::Dot(n0, diff) > -1e-5f && Math::Vector3::Dot(n1, diff) > -1e-5f) continue;
 							}
 						}
 
@@ -943,15 +1016,15 @@ namespace Universe
 			{
 				for(u32 j = 0; j < m_data.height; ++j)
 				{
-					if(!m_pBlockList[index].bEmpty)
+					if(m_pBlockList[m_lodLevelOffset + index].bFilled)
 					{
-						if(m_pBlockList[index].sideFlag & SIDE_FLAG_LEFT)
+						if(m_pBlockList[m_lodLevelOffset + index].sideFlag & SIDE_FLAG_LEFT)
 						{
-							blockMap[0][m_pBlockList[index].id].insert(index);
+							blockMap[0][m_pBlockList[m_lodLevelOffset + index].id].insert(index);
 						}
-						if(m_pBlockList[index].sideFlag & SIDE_FLAG_RIGHT)
+						if(m_pBlockList[m_lodLevelOffset + index].sideFlag & SIDE_FLAG_RIGHT)
 						{
-							blockMap[1][m_pBlockList[index].id].insert(index);
+							blockMap[1][m_pBlockList[m_lodLevelOffset + index].id].insert(index);
 						}
 					}
 
@@ -1009,15 +1082,15 @@ namespace Universe
 			{
 				for(u32 k = 0; k < m_data.length; ++k)
 				{
-					if(!m_pBlockList[index].bEmpty)
+					if(m_pBlockList[m_lodLevelOffset + index].bFilled)
 					{
-						if(m_pBlockList[index].sideFlag & SIDE_FLAG_BOTTOM)
+						if(m_pBlockList[m_lodLevelOffset + index].sideFlag & SIDE_FLAG_BOTTOM)
 						{
-							blockMap[0][m_pBlockList[index].id].insert(index);
+							blockMap[0][m_pBlockList[m_lodLevelOffset + index].id].insert(index);
 						}
-						if(m_pBlockList[index].sideFlag & SIDE_FLAG_TOP)
+						if(m_pBlockList[m_lodLevelOffset + index].sideFlag & SIDE_FLAG_TOP)
 						{
-							blockMap[1][m_pBlockList[index].id].insert(index);
+							blockMap[1][m_pBlockList[m_lodLevelOffset + index].id].insert(index);
 						}
 					}
 
@@ -1076,15 +1149,15 @@ namespace Universe
 
 				for(u32 j = 0; j < m_data.height; ++j)
 				{
-					if(!m_pBlockList[index].bEmpty)
+					if(m_pBlockList[m_lodLevelOffset + index].bFilled)
 					{
-						if(m_pBlockList[index].sideFlag & SIDE_FLAG_BACK)
+						if(m_pBlockList[m_lodLevelOffset + index].sideFlag & SIDE_FLAG_BACK)
 						{
-							blockMap[0][m_pBlockList[index].id].insert(index);
+							blockMap[0][m_pBlockList[m_lodLevelOffset + index].id].insert(index);
 						}
-						if(m_pBlockList[index].sideFlag & SIDE_FLAG_FRONT)
+						if(m_pBlockList[m_lodLevelOffset + index].sideFlag & SIDE_FLAG_FRONT)
 						{
-							blockMap[1][m_pBlockList[index].id].insert(index);
+							blockMap[1][m_pBlockList[m_lodLevelOffset + index].id].insert(index);
 						}
 					}
 
@@ -1148,6 +1221,11 @@ namespace Universe
 
 	void CChunk::RebuildMesh()
 	{
+		if(m_blockUpdateMap.size())
+		{
+			return;
+		}
+
 		if(m_bDirty)
 		{
 			m_bAwaitingRebuild = true;
@@ -1160,6 +1238,9 @@ namespace Universe
 		m_meshFuture[meshIndex] = Util::CJobSystem::Instance().JobGraphics([meshIndex, this](){
 			BuildMesh(meshIndex, true);
 		}, true);
+
+		// Push chunk to update queue until finished generating.
+		PushToUpdateQueue();
 	}
 	
 	//-----------------------------------------------------------------------------------------------
@@ -1179,22 +1260,71 @@ namespace Universe
 		else
 		{
 			Block lastBlock;
-			{ // Get last block from block list.
+			lastBlock.i = 0;
+			
+			{
 				std::shared_lock<std::shared_mutex> lk(m_mutex);
-				lastBlock = m_pBlockList[index];
+				if(m_pBlockList)
+				{
+					// Get last block from block list.
+					lastBlock = m_pBlockList[index];
+				}
 			}
 
-			lastId = lastBlock.bEmpty ? 256 : lastBlock.id;
+			lastId = lastBlock.bFilled ? lastBlock.id : 256;
 			m_blockUpdateMap.insert({ index, id });
+			PushToUpdateQueue();
 		}
 
 		return lastId;
+	}
+
+	u16 CChunk::PaintBlock(u32 index, BlockId id)
+	{
+		// Find last block id at data.index, and update it to the new value in the queue map.
+		u16 lastId;
+		auto elem = m_blockUpdateMap.find(index);
+		if(elem != m_blockUpdateMap.end())
+		{
+			lastId = elem->second;
+			elem->second = id;
+		}
+		else
+		{
+			Block lastBlock;
+			lastBlock.i = 0;
+			
+			{
+				std::shared_lock<std::shared_mutex> lk(m_mutex);
+				if(m_pBlockList)
+				{
+					// Get last block from block list.
+					lastBlock = m_pBlockList[index];
+				}
+			}
+
+			lastId = lastBlock.bFilled ? lastBlock.id : 256;
+			if(lastBlock.bFilled)
+			{
+				m_blockUpdateMap.insert({ index, id });
+				PushToUpdateQueue();
+			}
+		}
+
+		return lastId;
+	}
+	
+	void CChunk::SetBlock(u32 index, u16 id)
+	{
+		m_blockUpdateMap[index] = id;
+		PushToUpdateQueue();
 	}
 	
 	void CChunk::Set(const Block* pBlocks)
 	{
 		{
 			std::lock_guard<std::shared_mutex> lk(m_mutex);
+			if(m_pBlockList == nullptr) AllocateBlockList();
 			memcpy(m_pBlockList, pBlocks, sizeof(Block) * m_chunkSize);
 		}
 
@@ -1205,6 +1335,7 @@ namespace Universe
 	{
 		{
 			std::lock_guard<std::shared_mutex> lk(m_mutex);
+			if(m_pBlockList == nullptr) AllocateBlockList();
 			func(m_pBlockList, m_chunkSize);
 		}
 
@@ -1230,8 +1361,8 @@ namespace Universe
 					for(u32 j = 0; j < m_data.height; ++j)
 					{
 						m_pBlockList[index++] = { 0,
-							(m_data.offset.y + (int)j) >= -60,
-							0 };
+							(m_data.offset.y + (int)j) < -60,
+							0, 0 };
 					}
 				}
 			}
@@ -1251,12 +1382,231 @@ namespace Universe
 				{
 					for(u32 j = 0; j < m_data.height; ++j)
 					{
-						m_pBlockList[index++] = { 0, true };
+						m_pBlockList[index++] = { 0, false, 0, 0 };
 					}
 				}
 			}
 		}
 
 		RebuildMesh();
+	}
+
+	void CChunk::PushToUpdateQueue()
+	{
+		if(m_bUpdateQueued) return;
+		App::CSceneManager::Instance().UniverseManager().ChunkManager().QueueChunkUpdate(this);
+		m_bUpdateQueued = true;
+	}
+
+	//-----------------------------------------------------------------------------------------------
+	// LOD Methods.
+	//-----------------------------------------------------------------------------------------------
+
+	void CChunk::SetLODLevel(u8 lodLevel)
+	{
+		if(m_lodLevel == lodLevel || m_lodLevelMax < lodLevel) return;
+		m_lodLevel = lodLevel;
+		m_lodLevelOffset = m_lodLevel * m_chunkSize;
+
+		if(m_lodLevel > 0)
+		{
+			const u32 lodLevelOffsetLast = (m_lodLevel - 1) * m_chunkSize;
+			const u32 stepSize = 1 << m_lodLevel;
+
+			const double targetCoverage = 0.3333;//Math::g_1Over3;
+			const double targetPlanarCoverage = 0.0;//Math::g_1Over3;
+			const double targetExtentCoveragePlanar = 0.125;//Math::g_1Over3;
+			const double targetExtentCoverageLinear = 0.275;//Math::g_1Over3;
+			const double blockStength = 1.0 / pow(stepSize, 3U);
+			const double blockStength2D = 1.0 / pow(stepSize, 2U);
+			const double blockStength1D = 1.0 / pow(stepSize, 1U);
+		
+			double coverage;
+			std::unordered_map<BlockId, u32> blockMap;
+			std::pair<BlockId, u32> maxBlock;
+
+			struct VectorUInt2 { union { struct { u32 x, y; }; u32 v[2]; }; u32 operator [] (size_t index) const { return v[index]; } };
+			struct VectorUInt3 { union { struct { u32 x, y, z; }; u32 v[3]; }; u32 operator [] (size_t index) const { return v[index]; } };
+			VectorUInt3 mnExtents;
+			VectorUInt3 mxExtents;
+
+			std::lock_guard<std::shared_mutex> lk(m_mutex);
+
+			memset(m_pBlockList + m_lodLevelOffset, 0, sizeof(Block) * m_chunkSize);
+
+			for(u32 i = 0; i < m_data.width; i += stepSize)
+			{
+				for(u32 k = 0; k < m_data.length; k += stepSize)
+				{
+					for(u32 j = 0; j < m_data.height; j += stepSize)
+					{
+						coverage = 0.0;
+						blockMap.clear();
+						maxBlock = { 0, 0 };
+
+						mnExtents = { UINT_MAX, UINT_MAX, UINT_MAX };
+						mxExtents = { 0, 0, 0 };
+
+						auto PlanarCoverage = [&](u32 u, u32 v, u32 w, u32 wOffset){
+							u32 steps[3];
+							const u32 x = wOffset;
+							double planarCoverage = 0.0;
+
+							for(u32 z = 0; z < stepSize; ++z)
+							{
+								for(u32 y = 0; y < stepSize; ++y)
+								{
+									steps[u] = y; steps[v] = z; steps[w] = x;
+
+									Block block = m_pBlockList[lodLevelOffsetLast + internalGetIndex(i + steps[0], j + steps[1], k + steps[2])];
+									if(block.bFilled)
+									{
+										planarCoverage += blockStength2D;
+									}
+								}
+							}
+
+							return planarCoverage >= targetExtentCoveragePlanar;
+						};
+
+						auto LinearCoverage = [&](u32 u, u32 v, u32 w, u32 vOffset, u32 wOffset){
+							u32 steps[3];
+							const u32 x = wOffset;
+							const u32 z = vOffset;
+							double linearCoverage = 0.0;
+
+							for(u32 y = 0; y < stepSize; ++y)
+							{
+								steps[u] = y; steps[v] = z; steps[w] = x;
+
+								Block block = m_pBlockList[lodLevelOffsetLast + internalGetIndex(i + steps[0], j + steps[1], k + steps[2])];
+								if(block.bFilled)
+								{
+									linearCoverage += blockStength1D;
+								}
+							}
+
+							return linearCoverage >= targetExtentCoverageLinear;
+						};
+
+						// Check for LOD block for coverage.
+						for(u32 x = 0; x < stepSize; ++x)
+						{
+							for(u32 z = 0; z < stepSize; ++z)
+							{
+								for(u32 y = 0; y < stepSize; ++y)
+								{
+									Block block = m_pBlockList[lodLevelOffsetLast + internalGetIndex(i + x, j + y, k + z)];
+									if(block.bFilled)
+									{
+										if(x < mnExtents.x && PlanarCoverage(1, 2, 0, x)) mnExtents.x = x;
+										if(x >= mxExtents.x && PlanarCoverage(1, 2, 0, x)) mxExtents.x = x + 1;
+										if(y < mnExtents.y && PlanarCoverage(2, 0, 1, y)) mnExtents.y = y;
+										if(y >= mxExtents.y && PlanarCoverage(2, 0, 1, y)) mxExtents.y = y + 1;
+										if(z < mnExtents.z && PlanarCoverage(1, 0, 2, z)) mnExtents.z = z;
+										if(z >= mxExtents.z && PlanarCoverage(1, 0, 2, z)) mxExtents.z = z + 1;
+
+										coverage += blockStength;
+
+										while(block.sideFlag)
+										{
+											if((block.sideFlag & 0x1) && maxBlock.second < ++blockMap[block.id])
+											{
+												maxBlock.first = block.id;
+											}
+
+											block.sideFlag >>= 1;
+										}
+									}
+								}
+							}
+						}
+
+						if(coverage >= targetCoverage)
+						{ 
+							for(u32 x = mnExtents.x; x < mxExtents.x; ++x)
+							{
+								for(u32 z = mnExtents.z; z < mxExtents.z; ++z)
+								{
+									for(u32 y = mnExtents.y; y < mxExtents.y; ++y)
+									{
+										m_pBlockList[m_lodLevelOffset + internalGetIndex(i + x, j + y, k + z)] = Block(maxBlock.first, true);
+									}
+								}
+							}
+						}
+						else
+						{ // If LOD block < target coverage, check for LOD planes for coverage.
+							VectorUInt2 mnPlanar;
+							VectorUInt2 mxPlanar;
+
+							auto PlanarLOD = [&](u32 u, u32 v, u32 w){
+								u32 steps[3];
+
+								for(u32 x = 0; x < stepSize; ++x)
+								{
+									coverage = 0.0;
+									blockMap.clear();
+									maxBlock = { 0, 0 };
+									mnPlanar = { UINT_MAX, UINT_MAX };
+									mxPlanar = { 0, 0 };
+
+									for(u32 z = 0; z < stepSize; ++z)
+									{
+										for(u32 y = 0; y < stepSize; ++y)
+										{
+											steps[u] = y; steps[v] = z; steps[w] = x;
+
+											Block block = m_pBlockList[lodLevelOffsetLast + internalGetIndex(i + steps[0], j + steps[1], k + steps[2])];
+											if(block.bFilled)
+											{
+												if(y < mnPlanar.x && LinearCoverage(v, u, w, y, x)) mnPlanar.x = y;
+												if(y >= mxPlanar.x && LinearCoverage(v, u, w, y, x)) mxPlanar.x = y + 1;
+												if(z < mnPlanar.y && LinearCoverage(u, v, w, z, x)) mnPlanar.y = z;
+												if(z >= mxPlanar.y && LinearCoverage(u, v, w, z, x)) mxPlanar.y = z + 1;
+
+												coverage += blockStength2D;
+
+												while(block.sideFlag)
+												{
+													if((block.sideFlag & 0x1) && maxBlock.second < ++blockMap[block.id])
+													{
+														maxBlock.first = block.id;
+													}
+
+													block.sideFlag >>= 1;
+												}
+											}
+										}
+									}
+
+									if(coverage >= targetPlanarCoverage)
+									{
+										for(u32 z = mnPlanar.y; z < mxPlanar.y; ++z)
+										{
+											for(u32 y = mnPlanar.x; y < mxPlanar.x; ++y)
+											{
+												steps[u] = y; steps[v] = z; steps[w] = x;
+
+												m_pBlockList[m_lodLevelOffset + internalGetIndex(i + steps[0], j + steps[1], k + steps[2])] = Block(maxBlock.first, true);
+											}
+										}
+									}
+								}
+							};
+
+							// X-Axis.
+							PlanarLOD(1, 2, 0);
+							
+							// Y-Axis.
+							PlanarLOD(2, 0, 1);
+
+							// Z-Axis.
+							PlanarLOD(1, 0, 2);
+						}
+					}
+				}
+			}
+		}
 	}
 };

@@ -9,7 +9,7 @@
 //-------------------------------------------------------------------------------------------------
 
 #include "CGizmoRotate.h"
-#include "CGizmoPivot.h"
+#include "CGizmoNode.h"
 #include "CEditor.h"
 #include <Application/CCommandManager.h>
 #include <Graphics/CGraphicsAPI.h>
@@ -185,7 +185,7 @@ namespace App
 
 	void CGizmoRotate::WhileHeld(u32 hash, const Math::CSIMDRay& ray)
 	{
-		const float scale = m_data.pGizmoPivot->CalculateDistanceScale(m_data.pGizmoPivot->GetPosition());
+		const float scale = m_data.pGizmoPivot->GetStartScale();//m_data.pGizmoPivot->CalculateDistanceScale(m_data.pGizmoPivot->GetPosition());
 		const float invScreenScale = 1.0f / (scale * m_data.pGizmoPivot->GetScreenScale());
 			float t;
 
@@ -228,7 +228,7 @@ namespace App
 	void CGizmoRotate::OnReleased(u32 hash)
 	{
 		Math::SIMDQuaternion rotation = m_data.pGizmoPivot->GetRotation();
-		App::CCommandManager::Instance().Execute(CGizmoPivot::CMD_KEY_ROTATE, &rotation);
+		App::CCommandManager::Instance().Execute(CGizmoNode::CMD_KEY_ROTATE, &rotation);
 
 		m_rotation = Math::SIMD_QUAT_IDENTITY;
 		m_clickPoint = 0;

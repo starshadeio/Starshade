@@ -150,6 +150,7 @@ namespace UI
 		static const std::unordered_map<std::wstring, SECTION_FUNC> BUTTON_MAP {
 			{ L"bEnable", [](const MapData& mapData) { mapData.data.bEnable = Util::StringToBool(mapData.value); } },
 			{ L"bHold", [](const MapData& mapData) { mapData.data.bHold = Util::StringToBool(mapData.value); } },
+			{ L"bAllowHoldToggle", [](const MapData& mapData) { mapData.data.bAllowHoldToggle = Util::StringToBool(mapData.value); } },
 
 			{ L"bUseBackgroud", [](const MapData& mapData) { mapData.data.bUseBackgroud = Util::StringToBool(mapData.value); } },
 			{ L"bUseForegroud", [](const MapData& mapData) { mapData.data.bUseForegroud = Util::StringToBool(mapData.value); } },
@@ -231,7 +232,9 @@ namespace UI
 	void CUIButton::SetEnable(bool bEnable)
 	{
 		if(m_data.bEnable == bEnable) return;
-		if(m_data.bEnable = bEnable)
+		m_data.bEnable = bEnable;
+
+		if(m_data.bEnable)
 		{
 			SetBackgroundColor(m_data.bgColorExit);
 			SetForegroundColor(m_data.fgColorExit);
@@ -248,17 +251,22 @@ namespace UI
 	void CUIButton::SetHold(bool bHold)
 	{
 		if(m_data.bHold == bHold) return;
-		if(m_data.bHold = bHold)
+		m_data.bHold = bHold;
+
+		if(m_data.bEnable)
 		{
-			SetBackgroundColor(m_data.bgColorClick);
-			SetForegroundColor(m_data.fgColorClick);
-			SetTextColor(m_data.txColorClick);
-		}
-		else
-		{
-			SetBackgroundColor(m_data.bgColorExit);
-			SetForegroundColor(m_data.fgColorExit);
-			SetTextColor(m_data.txColorExit);
+			if(m_data.bHold)
+			{
+				SetBackgroundColor(m_data.bgColorClick);
+				SetForegroundColor(m_data.fgColorClick);
+				SetTextColor(m_data.txColorClick);
+			}
+			else
+			{
+				SetBackgroundColor(m_data.bgColorExit);
+				SetForegroundColor(m_data.fgColorExit);
+				SetTextColor(m_data.txColorExit);
+			}
 		}
 	}
 

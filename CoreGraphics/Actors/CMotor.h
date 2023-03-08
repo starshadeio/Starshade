@@ -77,21 +77,6 @@ namespace Actor
 		bool m_bLoaded;
 		u32 m_hash;
 	};
-
-	const u32 MOTOR_INPUT_MOVE_FORWARD = 0x1;
-	const u32 MOTOR_INPUT_MOVE_BACKWARD = 0x2;
-	const u32 MOTOR_INPUT_MOVE_UP = 0x3;
-	const u32 MOTOR_INPUT_MOVE_DOWN = 0x4;
-	const u32 MOTOR_INPUT_MOVE_LEFT = 0x5;
-	const u32 MOTOR_INPUT_MOVE_RIGHT = 0x6;
-
-	const u32 MOTOR_INPUT_LOOK_HORIZONTAL = 0x7;
-	const u32 MOTOR_INPUT_LOOK_VERTICAL = 0x8;
-
-	const u32 MOTOR_INPUT_SELECT = 0x9;
-	const u32 MOTOR_INPUT_ALTSELECT = 0xA;
-	const u32 MOTOR_INPUT_DESELECT = 0xB;
-	const u32 MOTOR_INPUT_JUMP = 0xC;
 };
 
 #endif

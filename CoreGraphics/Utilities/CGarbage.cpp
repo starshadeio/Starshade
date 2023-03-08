@@ -30,7 +30,7 @@ namespace Util
 		Garbage g;
 		while(m_garbageDeque.TryPeekFront(g) && (frame - g.frame) > CFactory::Instance().GetGraphicsAPI()->GetBufferCount())
 		{
-			m_garbageDeque.PopFront();
+			m_garbageDeque.TryPopFront();
 			m_disposalDeque.PushBack(g);
 		}
 

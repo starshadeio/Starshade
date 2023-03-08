@@ -32,18 +32,25 @@ namespace App
 	
 	void CNode::Initialize()
 	{
-		{
+		{ // Setup chunk gen (null)
+			m_chunkGenNull.Initialize();
+		}
+
+		{ // Setup chunk.
 			Universe::CChunkNode::Data data { };
 			data.blockSize = 0.25f;
 			data.chunkWidth = 32;
 			data.chunkHeight = 32;
 			data.chunkLength = 32;
-			data.chunksX = 4;
-			data.chunksY = 4;
-			data.chunksZ = 4;
+			data.pChunkGen = &m_chunkGenNull;
 			m_chunkNode.SetData(data);
 			m_chunkNode.Initialize();
 		}
+	}
+	
+	void CNode::LateUpdate()
+	{
+		m_chunkNode.LateUpdate();
 	}
 	
 	void CNode::Release()
@@ -55,7 +62,7 @@ namespace App
 	// File methods.
 	//-----------------------------------------------------------------------------------------------
 
-	void CNode::Load(std::ifstream& file)
+	void CNode::Load(const std::wstring& path, std::ifstream& file)
 	{
 		m_chunkNode.Load(file);
 		

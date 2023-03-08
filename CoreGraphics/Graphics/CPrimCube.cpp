@@ -128,13 +128,15 @@ namespace Graphics
 		}
 
 		{ // Create the mesh renderer.
+			m_pMaterial = reinterpret_cast<CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_data.matHash));
+
 			m_pMeshRenderer = CFactory::Instance().CreateMeshRenderer(this);
 
 			CMeshRenderer_::Data data { };
 			data.onPreRender = std::bind(&CPrimCube::PreRender, this);
-			data.pMaterial = m_pMaterial = reinterpret_cast<CMaterial*>(Resources::CManager::Instance().GetResource(Resources::RESOURCE_TYPE_MATERIAL, m_data.matHash));
 			data.pMeshData = &m_meshData;
 			m_pMeshRenderer->SetData(data);
+			m_pMeshRenderer->AddMaterial(m_pMaterial);
 
 			m_pMeshRenderer->Initialize();
 		}

@@ -14,7 +14,7 @@
 
 PropBlock Texture : icons {
 	texture: "TEXTURE_UI_ICONS";
-	cells: "8, 3";
+	cells: "8, 4";
 }
 
 PropBlock Texture : palette_arrow {
@@ -383,6 +383,38 @@ PropBlock UIFrame : main_ui {
 				keybind: "editor:play_at";
 			}
 		}
+	
+		frame: button_editor_audio {
+			class: "button_class";
+
+			position: "396.0f, 0.0f";
+			anchorMin: "0.0f, 1.0f";
+			anchorMax: "0.0f, 1.0f";
+			pivot: "0.0f, 1.0f";
+
+			type: button {
+				fg.index: "24";
+				onRelease: "editor_audio_toggle";
+
+				tooltip: "UI:TOOLTIP_EDITOR_AUDIO_TOGGLE";
+
+				regCommand: editor_audio_toggle {
+					type: toggle {
+						default: "true";
+						
+						state: true {
+							button_editor_audio.fg.index: "24";
+							cmd: "editor_audio_play";
+						}
+
+						state: false {
+							button_editor_audio.fg.index: "25";
+							cmd: "editor_audio_stop";
+						}
+					}
+				}
+			}
+		}
 	}
 
 	//
@@ -474,6 +506,79 @@ PropBlock UIFrame : main_ui {
 			actionRelease: "gizmo_scale_off";
 
 			keybind: "editor:gizmo_scale";
+		}
+	}
+	
+	frame: button_workspace_enable {
+		class: "button_class";
+
+		position: "12.0f, -192.0f";
+		anchorMin: "0.0f, 1.0f";
+		anchorMax: "0.0f, 1.0f";
+		pivot: "0.0f, 1.0f";
+
+		type: button {
+			//bEnable: "false";
+			bAllowHoldToggle: "true";
+			bHold: "true";
+			fg.index: "21";
+			
+			tooltip: "UI:TOOLTIP_WORKSPACE_TOGGLE";
+			onRelease: "workspace_toggle";
+			
+			actionHold: "workspace_on";
+			actionRelease: "workspace_off";
+			
+			keybind: "editor:workspace_toggle";
+		}
+	}
+	
+	frame: button_workspace_edit {
+		class: "button_class";
+
+		position: "12.0f, -219.0f";
+		anchorMin: "0.0f, 1.0f";
+		anchorMax: "0.0f, 1.0f";
+		pivot: "0.0f, 1.0f";
+
+		type: button {
+			bEnable: "true";
+			bAllowHoldToggle: "true";
+			bHold: "false";
+			fg.index: "22";
+			
+			tooltip: "UI:TOOLTIP_WORKSPACE_EDIT";
+			onRelease: "gizmo_workspace";
+			
+			actionEnable: "workspace_on";
+			actionDisable: "workspace_off";
+
+			actionHold: "gizmo_workspace";
+			actionRelease: "gizmo_workspace_off";
+			
+			keybind: "editor:workspace_edit";
+		}
+	}
+	
+	frame: button_workspace_reset {
+		class: "button_class";
+
+		position: "12.0f, -246.0f";
+		anchorMin: "0.0f, 1.0f";
+		anchorMax: "0.0f, 1.0f";
+		pivot: "0.0f, 1.0f";
+
+		type: button {
+			bEnable: "true";
+			fg.index: "23";
+			
+			tooltip: "UI:TOOLTIP_WORKSPACE_RESET";
+			onRelease: "workspace_reset";
+			
+			actionEnable: "workspace_on";
+			actionDisable: "workspace_off";
+			
+			keybind: "editor:workspace_reset";
 		}
 	}
 

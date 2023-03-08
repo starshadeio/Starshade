@@ -14,6 +14,7 @@
 #include "CAppState.h"
 #include "CProjectManager.h"
 #include "CNodeEditor.h"
+#include "CEditorKeybinds.h"
 #include "../UI/CEditorPanel.h"
 #include <Physics/CPhysicsUpdate.h>
 #include <fstream>
@@ -69,6 +70,7 @@ namespace App
 
 		Physics::CPhysicsUpdateRef m_physicsUpdate;
 
+		CEditorKeybinds m_editorKeybinds;
 		UI::CEditorPanel m_editorPanel;
 	};
 };

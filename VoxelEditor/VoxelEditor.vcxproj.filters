@@ -247,6 +247,30 @@
     <Filter Include="Source Files\Graphics\Rendering\Geometry\Meshes">
       <UniqueIdentifier>{db7b1ad8-2252-4f48-86b0-8f629272ce91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Application\Editor\Gizmos\Workspace">
+      <UniqueIdentifier>{a942632d-76d1-4452-8948-7e551d238af0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Gizmos\Workspace">
+      <UniqueIdentifier>{10b7219a-d3cd-494d-9ab9-239971c43426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Editor\Gizmos\Node">
+      <UniqueIdentifier>{d50b085f-9c82-430c-b755-b0263871af9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Editor\Gizmos\Node">
+      <UniqueIdentifier>{e3c966c1-3d22-4851-9482-ec9e59ec5899}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Input">
+      <UniqueIdentifier>{a50c7393-c96e-4f80-a919-2c00c094c606}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Input">
+      <UniqueIdentifier>{9bfcd7ef-ff3d-48c5-8dac-ccca02007f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Input\Bindings">
+      <UniqueIdentifier>{6fbce1f3-6dd1-4776-abc5-d6cc0c638b8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Input\Bindings">
+      <UniqueIdentifier>{26a2f587-c08f-48df-90c2-154bb319ce73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\CApplication.h">
@@ -321,15 +345,6 @@
     <ClInclude Include="Application\CGizmoPivot.h">
       <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
     </ClInclude>
-    <ClInclude Include="Application\CGizmoTranslate.h">
-      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\CGizmoRotate.h">
-      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\CGizmoScale.h">
-      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
-    </ClInclude>
     <ClInclude Include="Application\CGizmo.h">
       <Filter>Header Files\Application\Editor\Gizmos</Filter>
     </ClInclude>
@@ -374,6 +389,42 @@
     </ClInclude>
     <ClInclude Include="Graphics\CMeshSpawnPoint.h">
       <Filter>Header Files\Graphics\Rendering\Geometry\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CChunkGrid.h">
+      <Filter>Header Files\Universe\Chunks</Filter>
+    </ClInclude>
+    <ClInclude Include="Universe\CChunkWorkspace.h">
+      <Filter>Header Files\Universe\Chunks</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoWorkspace.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Workspace</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoChunkGrid.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Workspace</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoRotate.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoScale.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoTranslate.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoNode.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CGizmoPivot_.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\IGizmoPivot.h">
+      <Filter>Header Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CEditorKeybinds.h">
+      <Filter>Header Files\Application\Input\Bindings</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CNodeVersion.h">
+      <Filter>Header Files\Application\Editor\Nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -458,9 +509,6 @@
     <ClCompile Include="Application\CGizmoPivot.cpp">
       <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
     </ClCompile>
-    <ClCompile Include="Application\CGizmoTranslate.cpp">
-      <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
-    </ClCompile>
     <ClCompile Include="Application\CGizmoCube.cpp">
       <Filter>Source Files\Application\Editor\Gizmos\Draw</Filter>
     </ClCompile>
@@ -472,12 +520,6 @@
     </ClCompile>
     <ClCompile Include="Application\CGIzmoInteract.cpp">
       <Filter>Source Files\Application\Editor\Gizmos\Interaction</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\CGizmoScale.cpp">
-      <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\CGizmoRotate.cpp">
-      <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
     </ClCompile>
     <ClCompile Include="Application\CGizmoCircle.cpp">
       <Filter>Source Files\Application\Editor\Gizmos\Draw</Filter>
@@ -495,6 +537,39 @@
       <Filter>Source Files\Graphics\Rendering\Geometry\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Application\CNodeObjectEx.cpp">
+      <Filter>Source Files\Application\Editor\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CChunkGrid.cpp">
+      <Filter>Source Files\Universe\Chunks</Filter>
+    </ClCompile>
+    <ClCompile Include="Universe\CChunkWorkspace.cpp">
+      <Filter>Source Files\Universe\Chunks</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoWorkspace.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Workspace</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoChunkGrid.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Workspace</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoNode.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoRotate.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoTranslate.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoScale.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CGizmoPivot_.cpp">
+      <Filter>Source Files\Application\Editor\Gizmos\Pivot</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CEditorKeybinds.cpp">
+      <Filter>Source Files\Application\Input\Bindings</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CNodeVersion.cpp">
       <Filter>Source Files\Application\Editor\Nodes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -561,6 +636,15 @@
     </None>
     <None Include="..\Resources\Materials\VoxelEditor\GizmoTriUnlit.mat">
       <Filter>Resource Files\Materials\Editor</Filter>
+    </None>
+    <None Include="..\Resources\Shaders\VoxelEditor\ChunkGrid.shader">
+      <Filter>Resource Files\Shaders\World</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\ChunkGrid.mat">
+      <Filter>Resource Files\Materials\World</Filter>
+    </None>
+    <None Include="..\Resources\Materials\VoxelEditor\ChunkGridUnderlay.mat">
+      <Filter>Resource Files\Materials\World</Filter>
     </None>
   </ItemGroup>
 </Project>

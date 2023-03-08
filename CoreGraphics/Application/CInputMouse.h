@@ -60,6 +60,9 @@ namespace App
 	class CInputMouse : public CInputDevice
 	{
 	public:
+		static const std::unordered_map<std::wstring, VM_MOUSE> CODE_MAP;
+
+	public:
 		CInputMouse();
 		~CInputMouse();
 		CInputMouse(const CInputMouse&) = delete;

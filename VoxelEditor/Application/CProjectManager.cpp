@@ -130,6 +130,7 @@ namespace App
 		{
 			ClearPaths();
 			m_projectName = CLocalization::Instance().Get(LOC_KEY_PROJECT_UNTITLED).Get();
+			App::CCommandManager::Instance().ResetRecorder();
 			if(!App::CCommandManager::Instance().MarkSavedChanges()) UpdateTitle(true);
 			return true;
 		}
@@ -147,6 +148,7 @@ namespace App
 				FillPaths();
 				if(VerifyPaths())
 				{
+					App::CCommandManager::Instance().ResetRecorder();
 					if(!App::CCommandManager::Instance().MarkSavedChanges()) UpdateTitle(true);
 					return true;
 				}
@@ -196,6 +198,7 @@ namespace App
 		{
 			Util::CFileSystem::Instance().NewDirectory(m_buildPath.c_str());
 			Util::CFileSystem::Instance().NewDirectory((m_buildDataPath = m_buildPath + BUILD_DIR_DATA).c_str());
+			Util::CFileSystem::Instance().NewDirectory((m_buildConfigPath = m_buildPath + BUILD_DIR_CONFIG).c_str());
 			Util::CFileSystem::Instance().NewDirectory((m_buildResourcePath = m_buildPath + BUILD_DIR_RESOURCE).c_str());
 
 			{	// Copy binaries.
@@ -236,6 +239,7 @@ namespace App
 
 		m_buildPath.clear();
 		m_buildDataPath.clear();
+		m_buildConfigPath.clear();
 		m_buildResourcePath.clear();
 	}
 

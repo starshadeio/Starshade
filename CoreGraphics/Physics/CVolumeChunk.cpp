@@ -24,8 +24,7 @@ namespace Physics
 	
 	void CVolumeChunk::UpdateBounds()
 	{
-		m_minExtents = m_data.pChunkNode->GetMinExtents();
-		m_maxExtents = m_data.pChunkNode->GetMaxExtents();
+		m_data.pChunkNode->GetExtentsPhysics(m_minExtents, m_maxExtents);
 	}
 
 	bool CVolumeChunk::MotionSolver(CVolume* pOther)
@@ -35,8 +34,8 @@ namespace Physics
 		Math::Vector3 center = *(Math::Vector3*)GetPosition().ToFloat();
 
 		Math::Vector3 origin = *reinterpret_cast<const Math::Vector3*>(pOther->GetSolverPosition().ToFloat());
-		Math::Vector3 mn = m_data.pChunkNode->GetMinExtents();
-		Math::Vector3 mx = m_data.pChunkNode->GetMaxExtents();
+		Math::Vector3 mn, mx;
+		m_data.pChunkNode->GetExtentsPhysics(mn, mx);
 		Math::Vector3 dir = *reinterpret_cast<const Math::Vector3*>(pOther->GetSolverVelocity().ToFloat());
 		RaycastInfo info { };
 
@@ -75,8 +74,8 @@ namespace Physics
 		bool bAdjusted = false;
 
 		Math::Vector3 origin = *reinterpret_cast<const Math::Vector3*>(pOther->GetSolverPosition().ToFloat());
-		Math::Vector3 mn = m_data.pChunkNode->GetMinExtents();
-		Math::Vector3 mx = m_data.pChunkNode->GetMaxExtents();
+		Math::Vector3 mn, mx;
+		m_data.pChunkNode->GetExtentsPhysics(mn, mx);
 
 		struct HitInfo
 		{
@@ -108,8 +107,9 @@ namespace Physics
 
 		Math::Vector3 origin = *reinterpret_cast<const Math::Vector3*>(query.ray.GetOrigin().ToFloat());
 		Math::Vector3 dir = *reinterpret_cast<const Math::Vector3*>(query.ray.GetDirection().ToFloat());
-		Math::Vector3 mn = m_data.pChunkNode->GetMinExtents();
-		Math::Vector3 mx = m_data.pChunkNode->GetMaxExtents();
+		Math::Vector3 mn, mx;
+		m_data.pChunkNode->GetExtentsWorking(mn, mx);
+
 		info.distance = query.ray.GetDistance();
 		
 		if(!OctreeRayTest(origin, dir, mn, mx, 0.0f, 0.0f, -1.0f, info, true, [](float a, float b){ return a < b; }, nullptr))
@@ -138,14 +138,22 @@ namespace Physics
 
 			// Find Block.
 			Math::Vector3 hit = origin + dir * tmax - center;
-			
-			float largestCoord = 0.0f;
+			float closestCoord = FLT_MAX;
+			Universe::SIDE side = Universe::SIDE::SIDE_TOP;
+
+			for(u32 i = 0; i < 3; ++i)
+			{
+				if(fabsf(hit[i] - mn[i]) < closestCoord) { closestCoord = fabsf(hit[i] - mn[i]); side = static_cast<Universe::SIDE>((i << 1) + 1); }
+				if(fabsf(hit[i] - mx[i]) < closestCoord) { closestCoord = fabsf(hit[i] - mx[i]); side = static_cast<Universe::SIDE>((i << 1)); }
+			}
+
+			/*float largestCoord = 0.0f;
 			Universe::SIDE side = Universe::SIDE::SIDE_TOP;
 			for(u32 i = 0; i < 3; ++i)
 			{
 				if(-hit[i] > largestCoord) { largestCoord = -hit[i]; side = static_cast<Universe::SIDE>((i << 1) + 1); }
 				if( hit[i] > largestCoord) { largestCoord =  hit[i]; side = static_cast<Universe::SIDE>((i << 1)); }
-			}
+			}*/
 
 			auto indices = m_data.pChunkNode->GetIndex(hit * m_blockSizeInv + Universe::SIDE_NORMAL[side] * 0.5f);
 
@@ -229,7 +237,7 @@ namespace Physics
 				std::pair<Math::VectorInt3, u32> indices;
 				const Universe::Block block = m_data.pChunkNode->GetBlock(mn * m_blockSizeInv + 0.5f, &indices);
 				
-				if(!block.bEmpty)
+				if(block.bFilled)
 				{
 					if(bGenerateNormal)
 					{
@@ -334,11 +342,12 @@ namespace Physics
 					{ mn.x + half[1].x, mn.y + half[1].y, mn.z },
 					{ mn.x, mn.y + half[1].y, mn.z + half[1].z },
 					{ mn.x + half[1].x, mn.y + half[1].y, mn.z + half[1].z },
-				}; // FIX
+				};
 
 				for(u32 i = 0; i < 8; ++i)
 				{
-					if(mnMask & (0x1 << i)) { bResult |= OctreeRayTest(origin, dir, mnList[i], mnList[i] + half[0], mnOffset, mxOffset, distMax, info, bGenerateNormal, comp, onFound); }
+					if(mnMask & (0x1 << i)) { bResult |= OctreeRayTest(origin, dir, mnList[i], mnList[i] + Math::Vector3(half[!(i & 1)].x, half[!((i >> 2) & 1)].y, half[!((i >> 1) & 1)].z), 
+						mnOffset, mxOffset, distMax, info, bGenerateNormal, comp, onFound); }
 				}
 			}
 		}
@@ -367,7 +376,7 @@ namespace Physics
 			std::pair<Math::VectorInt3, u32> indices;
 			const Universe::Block block = m_data.pChunkNode->GetBlock(mn * m_blockSizeInv + 0.5f, &indices);
 			
-			if(!block.bEmpty)
+			if(block.bFilled)
 			{
 				if(onFound) onFound(indices, mn * m_blockSizeInv + 0.5f);
 				return true;
@@ -420,11 +429,12 @@ namespace Physics
 				{ mn.x + half[1].x, mn.y + half[1].y, mn.z },
 				{ mn.x, mn.y + half[1].y, mn.z + half[1].z },
 				{ mn.x + half[1].x, mn.y + half[1].y, mn.z + half[1].z },
-			}; // FIX
+			};
 
 			for(u32 i = 0; i < 8; ++i)
 			{
-				if(mnMask & (0x1 << i)) { bResult |= OctreeIntersectionTest(origin, mnList[i], mnList[i] + half[0], mnOffset, mxOffset, onFound); }
+				if(mnMask & (0x1 << i)) { bResult |= OctreeIntersectionTest(origin, mnList[i], mnList[i] + Math::Vector3(half[!(i & 1)].x, half[!((i >> 2) & 1)].y, half[!((i >> 1) & 1)].z),
+					mnOffset, mxOffset, onFound); }
 			}
 		}
 

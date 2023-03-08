@@ -45,8 +45,9 @@ cbuffer DataBuffer : register(b0)
 
 cbuffer MatrixBuffer : register(b1)
 {
-	float4x4 VP;
 	float4x4 World;
+	float4x4 View;
+	float4x4 Proj;
 };
 
 struct a2v
@@ -81,7 +82,9 @@ v2p VShader(in a2v input)
 	
 	input.Position.w = 1.0f;
 	output.Position = mul(input.Position, World);
-	output.Position = mul(output.Position, VP);
+	output.Position.xyz -= float3(View._41, View._42, View._43);
+	output.Position.xyz = mul(output.Position.xyz, transpose((float3x3)View));
+	output.Position = mul(output.Position, Proj);
 
 	output.Normal.xyz = mul(input.Normal.xyz, (float3x3)World);
 	

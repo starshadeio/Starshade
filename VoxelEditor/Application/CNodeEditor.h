@@ -19,12 +19,17 @@
 #include "../Universe/CChunkEditor.h"
 #include "../Graphics/CMeshSpawnPoint.h"
 #include <Universe/CEnvironment.h>
+#include <Math/CMathFNV.h>
 #include <fstream>
 
 namespace App
 {
 	class CNodeEditor
 	{
+	public:
+		static const u64 CMD_KEY_EDITOR_AUDIO_PLAY = Math::FNV1a_64(L"editor_audio_play");
+		static const u64 CMD_KEY_EDITOR_AUDIO_STOP = Math::FNV1a_64(L"editor_audio_stop");
+
 	public:
 		CNodeEditor();
 		~CNodeEditor();
@@ -43,7 +48,7 @@ namespace App
 		void OnResize(const Math::Rect& rect);
 
 		void New();
-		void Save() const;
+		void Save();
 		void Load();
 		void Build() const;
 		
@@ -52,10 +57,17 @@ namespace App
 		
 		// Accessors.
 		inline const CNodeSelect& GetSelector() const { return m_nodeSelect; }
+		inline const Universe::CChunkEditor& GetChunkEditor() const { return m_chunkEditor; }
 
 		inline CGizmo& Gizmo() { return m_gizmo; }
 
 	private:
+		bool EditorAudioPlay();
+		bool EditorAudioStop();
+
+	private:
+		bool m_bEditorAudioPlaying;
+
 		CGizmo m_gizmo;
 
 		CNodeEx m_rootNode;
@@ -64,7 +76,6 @@ namespace App
 		Graphics::CMeshSpawnPoint m_meshSpawnPoint;
 		
 		Actor::CUser m_user;
-		Universe::CNodeGrid m_grid;
 		Universe::CChunkEditor m_chunkEditor;
 		Universe::CEnvironment m_environment;
 

@@ -16,6 +16,7 @@
 #include "../Application/CInput.h"
 #include "../Application/CInputMouse.h"
 #include "../Application/CInputDeviceList.h"
+#include "../Application/CKeybinds.h"
 #include "../Factory/CFactory.h"
 #include "../Graphics/CGraphicsAPI.h"
 
@@ -71,19 +72,24 @@ namespace UI
 			}
 		}
 	}
+
+	void CUIEventSystem::Release()
+	{
+		m_commandList.Release();
+	}
 	
 	bool CUIEventSystem::ProcessInput(u32 code, const App::InputCallbackData& callback)
 	{
 		if(m_pHoveredElement == nullptr) return false;
 
-		switch(code)
+		static const u32 SELECT_HASH = Math::FNV1a_32(App::CKeybinds::INPUT_KEY_SELECT);
+		if(code == SELECT_HASH)
 		{
-			case Actor::MOTOR_INPUT_SELECT:
-				m_pHoveredElement->OnSelect(callback);
-				return true;
-			default:
-				return false;
+			m_pHoveredElement->OnSelect(callback);
+			return true;
 		}
+
+		return false;
 	}
 
 	//-----------------------------------------------------------------------------------------------

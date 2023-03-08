@@ -11,6 +11,10 @@
 #include "Engine.res"
 
 @EDITOR {
+	CONFIG {
+		( CONFIG_KEYBINDS, "/VoxelEditor/keybinds.cfg")
+	}
+
 	LOCALIZATION {
 		( LOC_EN, "Localization/VoxelEditor/localizedText_en.loc" )
 	}
@@ -36,6 +40,8 @@
 		( TEXTURE_UI_ICONS, "Textures/VoxelEditor/UI/ui_icons.dds" )
 
 		( TEXTURE_UI_PANEL_ARROW, "Textures/VoxelEditor/UI/ui_panel_arrow.dds" )
+
+		( TEXTURE_CHUNK_GRID, "Textures/VoxelEditor/World/chunk_grid.dds" )
 	}
 
 	SHADERS {
@@ -44,6 +50,7 @@
 		( SHADER_CYBER_GRID, "Shaders/VoxelEditor/CyberGrid.shader" )
 		( SHADER_CYBER_NODE, "Shaders/VoxelEditor/CyberNode.shader" )
 		( SHADER_NODE_GRID, "Shaders/VoxelEditor/NodeGrid.shader" )
+		( SHADER_CHUNK_GRID, "Shaders/VoxelEditor/ChunkGrid.shader" )
 		( SHADER_TEXTURED_QUAD, "Shaders/VoxelEditor/TexturedQuad.shader" )
 
 		( SHADER_GIZMO, "Shaders/VoxelEditor/Gizmo.shader" )
@@ -57,6 +64,8 @@
 		( MATERIAL_CYBER_GRID, "Materials/VoxelEditor/CyberGrid.mat" )
 		( MATERIAL_CYBER_NODE, "Materials/VoxelEditor/CyberNode.mat" )
 		( MATERIAL_NODE_GRID, "Materials/VoxelEditor/NodeGrid.mat" )
+		( MATERIAL_CHUNK_GRID, "Materials/VoxelEditor/ChunkGrid.mat" )
+		( MATERIAL_CHUNK_GRID_UNDERLAY, "Materials/VoxelEditor/ChunkGridUnderlay.mat" )
 		( MATERIAL_PLACEMENT_QUAD, "Materials/VoxelEditor/PlacementQuad.mat" )
 		( MATERIAL_DELETION_QUAD, "Materials/VoxelEditor/DeletionQuad.mat" )
 

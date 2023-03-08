@@ -9,6 +9,10 @@
 //-------------------------------------------------------------------------------------------------
 
 @ENGINE {
+	CONFIG {
+		( CONFIG_KEYBINDS_APP, "/VoxelApp/keybinds.cfg")
+	}
+
 	SCRIPTS {
 		( SCRIPT_WUI_APP_MAIN, "UI/WUI/VoxelApp/Main.wui" )
 	}

@@ -19,6 +19,8 @@
 #include "CDX12RootSignature.h"
 #include "d3dx12.h"
 #include "../Factory/CFactory.h"
+#include "../Application/CSceneManager.h"
+#include "../Utilities/CGarbage.h"
 #include <Utilities/CDebugError.h>
 #include <Utilities/CMemoryFree.h>
 
@@ -33,7 +35,7 @@ namespace Graphics
 		m_pInstanceBufferUpload(nullptr),
 		m_pIndexBuffer(nullptr),
 		m_pIndexBufferUpload(nullptr),
-		m_pBundle(nullptr),
+		m_pBundleList(nullptr),
 		m_pDX12Graphics(nullptr) {
 	}
 
@@ -106,33 +108,41 @@ namespace Graphics
 			m_pDX12Graphics->GetAssetCommandList()->ResourceBarrier(barrierCount, barrierList);
 		}
 
-		{ // Create bundle for rendering.
-			m_pBundle = m_pDX12Graphics->CreateBundle(m_data.pMaterial);
-			m_pBundle->IASetPrimitiveTopology(ConvertPrimitiveTopologyToD3D12(m_data.pMeshData->GetTopology()));
+		// Create bundle for rendering.
+		m_pBundleList = new ID3D12GraphicsCommandList*[m_pMaterialList.size()];
+		for(size_t i = 0; i < m_pMaterialList.size(); ++i)
+		{
+			m_pBundleList[i] = m_pDX12Graphics->CreateBundle(m_pMaterialList[i]);
+			m_pBundleList[i]->IASetPrimitiveTopology(ConvertPrimitiveTopologyToD3D12(m_data.pMeshData->GetTopology()));
 
 			// Index buffer and draw setup.
 			if(m_data.pMeshData->GetIndexSize())
 			{
-				m_pBundle->IASetIndexBuffer(&m_indexBufferView);
+				m_pBundleList[i]->IASetIndexBuffer(&m_indexBufferView);
 			}
 
 			if(!m_data.bDynamicInstances || !m_data.bDynamicInstanceCount)
 			{ // Bundle based drawing is only supported for renderers without a dynamically counted instance buffer.
-				SetupDraw(m_pBundle);
+				SetupDraw(m_pBundleList[i]);
 			}
 
-			ASSERT_HR_R(m_pBundle->Close());
+			ASSERT_HR_R(m_pBundleList[i]->Close());
 		}
+
+		auto pIndexBufferUpload = m_pIndexBufferUpload;
+		auto pInstanceBufferUpload = m_pInstanceBufferUpload;
+		auto pVertexBufferUpload = m_pVertexBufferUpload;
+
+		App::CSceneManager::Instance().Garbage().Dispose([pIndexBufferUpload, pInstanceBufferUpload, pVertexBufferUpload](){
+			if(pIndexBufferUpload) pIndexBufferUpload->Release();
+			if(pInstanceBufferUpload) pInstanceBufferUpload->Release();
+			if(pVertexBufferUpload) pVertexBufferUpload->Release();
+		});
+
+		m_pIndexBufferUpload = m_pInstanceBufferUpload = m_pVertexBufferUpload = nullptr;
 	}
 
-	void CDX12MeshRenderer_::PostInitialize()
-	{
-		SAFE_RELEASE(m_pIndexBufferUpload);
-		SAFE_RELEASE(m_pInstanceBufferUpload);
-		SAFE_RELEASE(m_pVertexBufferUpload);
-	}
-
-	void CDX12MeshRenderer_::Render()
+	void CDX12MeshRenderer_::RenderWithMaterial(size_t materialIndex)
 	{
 		const bool bPreFrameUpdate = m_data.bDynamicInstances && m_data.bDynamicInstanceCount;
 
@@ -144,9 +154,9 @@ namespace Graphics
 			}
 		}
 
-		CMeshRenderer_::Render();
+		CMeshRenderer_::RenderWithMaterial(materialIndex);
 
-		m_pDX12Graphics->GetRealtimeCommandList()->ExecuteBundle(m_pBundle);
+		m_pDX12Graphics->GetRealtimeCommandList()->ExecuteBundle(m_pBundleList[materialIndex]);
 
 		if(bPreFrameUpdate)
 		{ // Dynamic instance buffers require pre-frame draw configuration.
@@ -158,15 +168,18 @@ namespace Graphics
 	{
 		CMeshRenderer_::Release();
 
-		SAFE_RELEASE(m_pBundle);
+		for(size_t i = 0; i < m_pMaterialList.size(); ++i)
+		{
+			SAFE_RELEASE(m_pBundleList[i]);
+		} SAFE_DELETE_ARRAY(m_pBundleList);
 
 		SAFE_RELEASE(m_pIndexBuffer);
 		SAFE_RELEASE(m_pInstanceBuffer);
 		SAFE_RELEASE(m_pVertexBuffer);
 
-		SAFE_RELEASE(m_pIndexBufferUpload);
+		/*SAFE_RELEASE(m_pIndexBufferUpload);
 		SAFE_RELEASE(m_pInstanceBufferUpload);
-		SAFE_RELEASE(m_pVertexBufferUpload);
+		SAFE_RELEASE(m_pVertexBufferUpload);*/
 	}
 
 	//-----------------------------------------------------------------------------------------------

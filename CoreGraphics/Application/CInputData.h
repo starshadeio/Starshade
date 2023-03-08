@@ -16,6 +16,7 @@
 #include <Utilities/CMacroUtil.h>
 #include <functional>
 #include <string>
+#include <unordered_map>
 
 namespace App
 {
@@ -26,6 +27,13 @@ namespace App
 		INPUT_DEVICE_MOUSE,
 		INPUT_DEVICE_GAMEPAD,
 		INPUT_DEVICE_COUNT,
+	};
+
+	const std::unordered_map<std::wstring, INPUT_DEVICE> INPUT_DEVICE_MAP = {
+		{ L"NONE", INPUT_DEVICE_NONE },
+		{ L"KEYBOARD", INPUT_DEVICE_KEYBOARD },
+		{ L"MOUSE", INPUT_DEVICE_MOUSE },
+		{ L"GAMEPAD", INPUT_DEVICE_GAMEPAD },
 	};
 
 	//-----------------------------------------------------------------------------------------------
@@ -74,6 +82,17 @@ namespace App
 		L"Ctrl+Shift",
 		L"Alt+Shift",
 		L"Ctrl+Alt+Shift",
+	};
+
+	const std::unordered_map<std::wstring, INPUT_MODIFIER_FLAG> INPUT_MODIFIER_MAP = {
+		{ L"NONE", INPUT_MODIFIER_FLAG_NONE },
+		{ L"CTRL", INPUT_MODIFIER_FLAG_CTRL },
+		{ L"ALT", INPUT_MODIFIER_FLAG_ALT },
+		{ L"SHIFT", INPUT_MODIFIER_FLAG_SHIFT },
+		{ L"CTRL_ALT", INPUT_MODIFIER_FLAG_CTRL_ALT },
+		{ L"CTRL_SHIFT", INPUT_MODIFIER_FLAG_CTRL_SHIFT },
+		{ L"ALT_SHIFT", INPUT_MODIFIER_FLAG_ALT_SHIFT },
+		{ L"CTRL_ALT_SHIFT", INPUT_MODIFIER_FLAG_CTRL_ALT_SHIFT },
 	};
 
 	inline INPUT_MODIFIER_TYPE InputModifierFlagToType(INPUT_MODIFIER_FLAG flag)
@@ -133,12 +152,12 @@ namespace App
 
 	struct InputBindingSet
 	{
-		std::string name;
+		std::wstring name;
 		InputCallback callback;
 		InputBinding bindings[2];
 
 		InputBindingSet() { }
-		InputBindingSet(const std::string& name, const InputCallback& callback, const InputBinding& primary, const InputBinding& secondary)
+		InputBindingSet(const std::wstring& name, const InputCallback& callback, const InputBinding& primary, const InputBinding& secondary)
 		{
 			this->name = name;
 			this->callback = callback;

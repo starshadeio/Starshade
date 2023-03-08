@@ -20,7 +20,10 @@ namespace Graphics
 
 	void CRenderer_::Initialize()
 	{
-		App::CSceneManager::Instance().RenderingSystem().Register(this);
+		for(size_t i = 0; i < GetMaterialCount(); ++i)
+		{
+			App::CSceneManager::Instance().RenderingSystem().Register(this, i);
+		}
 	}
 
 	void CRenderer_::Release()

@@ -38,8 +38,9 @@ namespace App
 			float axisWidth = 2.0f;
 			float axisHoveredWidth = 3.0f;
 			float cubeHoveredScale = 1.125f;
-
-			class CGizmoPivot* pGizmoPivot = nullptr;
+			
+			u64 onReleaseHash;
+			class IGizmoPivot* pGizmoPivot = nullptr;
 		};
 
 	public:

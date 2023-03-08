@@ -30,6 +30,7 @@
 namespace Resources
 {
 	static const std::unordered_map<std::wstring, RESOURCE_TYPE> RES_FILE_MAP {
+		{ RES_STR_CONFIG, RESOURCE_TYPE_CONFIG },
 		{ RES_STR_LOCALIZATION, RESOURCE_TYPE_LOCALIZATION },
 		{ RES_STR_SCRIPT, RESOURCE_TYPE_SCRIPT },
 		{ RES_STR_DATA, RESOURCE_TYPE_DATA },
@@ -50,9 +51,9 @@ namespace Resources
 		CResourceFile::Data resData { };
 		resData.resData.filename = m_data.filename;
 #ifndef PRODUCTION_BUILD
-		resData.resData.filepath = m_data.filepath;
+		resData.resData.filepath = m_data.resPath;
 #else
-		resData.resData.filepath = m_data.prodPath;
+		resData.resData.filepath = m_data.prodPath + m_data.resPath;
 #endif
 
 		resData.resData.addResource = std::bind(&CManager::AddResource, this, std::placeholders::_1, std::placeholders::_2);
@@ -155,14 +156,29 @@ namespace Resources
 	{
 #ifndef PRODUCTION_BUILD
 		// Delete
-		if(Util::CFileSystem::Instance().VerifyDirectory(m_data.prodPath))
+		std::wstring resPath = m_data.prodPath + m_data.resPath;
+		std::wstring cfgPath = m_data.prodPath + m_data.cfgPath;
+
+		// Reset production resources.
+		if(Util::CFileSystem::Instance().VerifyDirectory(resPath.c_str()))
 		{
-			ASSERT_R(Util::CFileSystem::Instance().DeleteDirectory(m_data.prodPath));
-			ASSERT_R(Util::CFileSystem::Instance().NewDirectory(m_data.prodPath));
+			ASSERT_R(Util::CFileSystem::Instance().DeleteDirectory(resPath.c_str()));
+			ASSERT_R(Util::CFileSystem::Instance().NewDirectory(resPath.c_str()));
 		}
 		else
 		{
-			ASSERT_R(Util::CFileSystem::Instance().NewPath(m_data.prodPath));
+			ASSERT_R(Util::CFileSystem::Instance().NewPath(resPath.c_str()));
+		}
+
+		// Reset production config.
+		if(Util::CFileSystem::Instance().VerifyDirectory(cfgPath.c_str()))
+		{
+			ASSERT_R(Util::CFileSystem::Instance().DeleteDirectory(cfgPath.c_str()));
+			ASSERT_R(Util::CFileSystem::Instance().NewDirectory(cfgPath.c_str()));
+		}
+		else
+		{
+			ASSERT_R(Util::CFileSystem::Instance().NewPath(cfgPath.c_str()));
 		}
 
 		{ // Even though WUI scripts are separate from the resource manager, this will still handle moving them over.
@@ -170,10 +186,11 @@ namespace Resources
 		}
 
 		{ // Copy resource file over to production.
-			Util::WriteFileUTF8((std::wstring(m_data.prodPath) + m_data.filename).c_str(), m_resFile.GetResScript().GetCode());
+			Util::WriteFileUTF8((resPath + m_data.filename).c_str(), m_resFile.GetResScript().GetCode());
 		}
 
-		App::CLocalization::Instance().SaveProductionFile(m_data.filepath, m_data.prodPath);
+		App::CLocalization::Instance().SaveProductionFile(m_data.resPath.c_str(), resPath.c_str());
+		SaveProductionConfig();
 		SaveProductionScripts();
 		SaveProductionData();
 
@@ -222,6 +239,13 @@ namespace Resources
 	{
 		switch(type)
 		{
+			case RESOURCE_TYPE_CONFIG: {
+				auto elem = m_configMap.find(key);
+				if(elem != m_configMap.end())
+				{
+					return const_cast<void*>(reinterpret_cast<const void*>(&elem->second));
+				}
+			} break;
 			case RESOURCE_TYPE_SCRIPT: {
 				auto elem = m_scriptMap.find(key);
 				if(elem != m_scriptMap.end())
@@ -320,23 +344,27 @@ namespace Resources
 
 		switch(elem->second)
 		{
+			case RESOURCE_TYPE_CONFIG:
+			{
+				RegisterConfig(res.GetElement(0), m_data.cfgPath + res.GetElement(1));
+			} break;
 			case RESOURCE_TYPE_LOCALIZATION:
 			{
-				App::CLocalization::Instance().RegisterFile(res.GetElement(0), m_data.filepath + res.GetElement(1));
+				App::CLocalization::Instance().RegisterFile(res.GetElement(0), m_data.resPath + res.GetElement(1));
 			} break;
 			case RESOURCE_TYPE_SCRIPT:
 			{
-				RegisterScript(res.GetElement(0), m_data.filepath + res.GetElement(1));
+				RegisterScript(res.GetElement(0), m_data.resPath + res.GetElement(1));
 			} break;
 			case RESOURCE_TYPE_DATA:
 			{
-				RegisterData(res.GetElement(0), m_data.filepath + res.GetElement(1));
+				RegisterData(res.GetElement(0), m_data.resPath + res.GetElement(1));
 			} break;
 			case RESOURCE_TYPE_SHADER:
 			{
 				Graphics::CShaderTrie* pShaderTrie = new Graphics::CShaderTrie();
 				Graphics::CShaderTrie::Data data { };
-				data.filename = m_data.filepath + res.GetElement(1);
+				data.filename = m_data.resPath + res.GetElement(1);
 				pShaderTrie->SetData(data);
 				ASSERT(m_shaderTrieMap.insert({ Math::FNV1a_64(res.GetElement(0).c_str(), res.GetElement(0).size()), pShaderTrie }).second);
 
@@ -345,7 +373,7 @@ namespace Resources
 			{
 				Graphics::CMaterial* pMaterial = new Graphics::CMaterial();
 				Graphics::CMaterial::Data data { };
-				data.filename = m_data.filepath + res.GetElement(1);
+				data.filename = m_data.resPath + res.GetElement(1);
 				pMaterial->SetData(data);
 				ASSERT(m_materialMap.insert({ Math::FNV1a_64(res.GetElement(0).c_str(), res.GetElement(0).size()), pMaterial }).second);
 
@@ -354,7 +382,7 @@ namespace Resources
 			{
 				Graphics::CTexture* pTexture = CFactory::Instance().CreateTexture();
 				Graphics::CTexture::Data data { };
-				data.filename = m_data.filepath + res.GetElement(1);
+				data.filename = m_data.resPath + res.GetElement(1);
 				pTexture->SetData(data);
 				ASSERT(m_textureMap.insert({ Math::FNV1a_64(res.GetElement(0).c_str(), res.GetElement(0).size()), pTexture }).second);
 
@@ -363,7 +391,7 @@ namespace Resources
 			{
 				UI::CFont* pTexture = new UI::CFont();
 				UI::CFont::Data data { };
-				data.filename = m_data.filepath + res.GetElement(1);
+				data.filename = m_data.resPath + res.GetElement(1);
 				pTexture->SetData(data);
 				ASSERT(m_fontMap.insert({ Math::FNV1a_64(res.GetElement(0).c_str(), res.GetElement(0).size()), pTexture }).second);
 
@@ -372,7 +400,7 @@ namespace Resources
 			{
 				Audio::CAudioClip* pAudioClip = new Audio::CAudioClip();
 				Audio::CAudioClip::Data data { };
-				data.filename = m_data.filepath + res.GetElement(1);
+				data.filename = m_data.resPath + res.GetElement(1);
 				data.meta = res.GetElement(2);
 				pAudioClip->SetData(data);
 				ASSERT(m_audioMap.insert({ Math::FNV1a_64(res.GetElement(0).c_str(), res.GetElement(0).size()), pAudioClip }).second);
@@ -382,7 +410,7 @@ namespace Resources
 			{
 				Graphics::CMesh* pMesh = new Graphics::CMesh();
 				Graphics::CMesh::Data data { };
-				data.filename = m_data.filepath + res.GetElement(1);
+				data.filename = m_data.resPath + res.GetElement(1);
 				pMesh->SetData(data);
 				ASSERT(m_meshMap.insert({ Math::FNV1a_64(res.GetElement(0).c_str(), res.GetElement(0).size()), pMesh }).second);
 			} break;
@@ -396,6 +424,14 @@ namespace Resources
 	//-----------------------------------------------------------------------------------------------
 	// Script/Data.
 	//-----------------------------------------------------------------------------------------------
+	
+	void CManager::RegisterConfig(const std::wstring& key, const std::wstring& filepath)
+	{
+		const u64 hash = Math::FNV1a_64(key.c_str(), key.size());
+		auto elem = m_configMap.find(hash);
+		assert(elem == m_configMap.end());
+		m_configMap.insert({ hash, filepath });
+	}
 	
 	void CManager::RegisterScript(const std::wstring& key, const std::wstring& filepath)
 	{
@@ -413,6 +449,24 @@ namespace Resources
 		m_dataMap.insert({ hash, filepath });
 	}
 
+	void CManager::SaveProductionConfig()
+	{
+		for(auto elem : m_configMap)
+		{
+			if(elem.second.empty()) continue;
+
+			std::wstring path;
+			std::wstring filename;
+			std::wstring extension;
+			Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(elem.second.c_str(), path, filename, extension);
+		
+			path = m_data.prodPath + path;
+			ASSERT_R(Util::CFileSystem::Instance().NewPath(path.c_str()));
+
+			Util::WriteFileUTF8((path + filename + extension).c_str(), Util::ReadFileUTF8(elem.second.c_str()));
+		}
+	}
+
 	void CManager::SaveProductionScripts()
 	{
 		for(auto elem : m_scriptMap)
@@ -424,7 +478,7 @@ namespace Resources
 			std::wstring extension;
 			Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(elem.second.c_str(), path, filename, extension);
 		
-			path = m_data.prodPath + path.substr(wcslen(m_data.filepath));
+			path = m_data.prodPath + path;//.substr(wcslen(m_data.filepath));
 			ASSERT_R(Util::CFileSystem::Instance().NewPath(path.c_str()));
 
 			Util::WriteFileUTF8((path + filename + extension).c_str(), Util::CScriptObject::FormatScript(Util::ReadFileUTF8(elem.second.c_str())));
@@ -442,7 +496,7 @@ namespace Resources
 			std::wstring extension;
 			Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(elem.second.c_str(), path, filename, extension);
 		
-			path = m_data.prodPath + path.substr(wcslen(m_data.filepath));
+			path = m_data.prodPath + path;//.substr(wcslen(m_data.filepath));
 			ASSERT_R(Util::CFileSystem::Instance().NewPath(path.c_str()));
 
 			Util::CFileSystem::Instance().CopyFileTo(elem.second.c_str(), (path + filename + extension).c_str(), true);

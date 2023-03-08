@@ -29,6 +29,7 @@ namespace UI
 		
 		void PostInitialize();
 		void Update();
+		void Release();
 
 		bool ProcessInput(u32 code, const App::InputCallbackData& callback);
 

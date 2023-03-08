@@ -13,12 +13,18 @@
 #include "CUIElement.h"
 #include <Application/CCommandManager.h>
 #include <Math/CMathFNV.h>
+#include <Utilities/CMemoryFree.h>
 #include <unordered_map>
 #include <sstream>
 #include <string>
 
 namespace UI
 {
+	static const std::unordered_map<u64, std::function<void(u64)>> ELEM_MAP = {
+		{ Math::FNV1a_64(L"cmd"), [](u64 hash){ App::CCommandManager::Instance().Execute(hash); } }
+	};
+
+
 	//-----------------------------------------------------------------------------------------------
 	// CUICommandList::State
 	//-----------------------------------------------------------------------------------------------
@@ -27,7 +33,18 @@ namespace UI
 	{
 		for(auto& elem : elemList)
 		{
-			pScript->GetElement(elem.elemHash)->CommandElement(elem(0));
+			const auto& em = ELEM_MAP.find(elem.elemHash);
+			if(em != ELEM_MAP.end())
+			{
+				if(App::CCommandManager::Instance().IsReady())
+				{
+					em->second(elem.val.h);
+				}
+			}
+			else
+			{
+				pScript->GetElement(elem.elemHash)->CommandElement(elem(0));
+			}
 		}
 	}
 
@@ -47,12 +64,25 @@ namespace UI
 	{
 		for(auto& toggle : m_commandToggleList)
 		{
-			if(Util::StringToBool(toggle.state[0].name))
+			if(Util::StringToBool(toggle->state[0].name))
 			{
-				toggle.bState = !toggle.bState;
+				toggle->bState = !toggle->bState;
 			}
 			
-			toggle.state[toggle.bState].Activate(toggle.pScript);
+			toggle->state[toggle->bState].Activate(toggle->pScript);
+		}
+	}
+
+	void CUICommandList::Release()
+	{
+		for(auto& action : m_commandActionList)
+		{
+			SAFE_DELETE(action);
+		}
+
+		for(auto& toggle : m_commandToggleList)
+		{
+			SAFE_DELETE(toggle);
 		}
 	}
 
@@ -84,12 +114,12 @@ namespace UI
 		switch(m_command.type)
 		{
 			case CommandType::Action: {
-				CommandAction& action = m_commandActionList.emplace_back(m_command.pScript, m_command.stateList[0]);
-				App::CCommandManager::Instance().RegisterCommand(m_command.cmdHash, std::bind(&CommandAction::Execute, &action));
+				m_commandActionList.push_back(new CommandAction(m_command.pScript, m_command.stateList[0]));
+				App::CCommandManager::Instance().RegisterCommand(m_command.cmdHash, std::bind(&CommandAction::Execute, m_commandActionList.back()));
 			} break;
 			case CommandType::Toggle: {
-				CommandToggle& toggle = m_commandToggleList.emplace_back(m_command.pScript, m_command.defaultState, m_command.stateList[0], m_command.stateList[1]);
-				App::CCommandManager::Instance().RegisterCommand(m_command.cmdHash, std::bind(&CommandToggle::Execute, &toggle));
+				m_commandToggleList.push_back(new CommandToggle(m_command.pScript, m_command.defaultState, m_command.stateList[0], m_command.stateList[1]));
+				App::CCommandManager::Instance().RegisterCommand(m_command.cmdHash, std::bind(&CommandToggle::Execute, m_commandToggleList.back()));
 			} break;
 			default:
 				break;
@@ -155,12 +185,19 @@ namespace UI
 					stateElem.AddSubElem(str);
 				}
 			});
-
+			
 			stateElem.valStr = elem.propList[1];
 
-			if(Util::IsLong(elem.propList[1], &stateElem.val.l)) { }
-			else if(Util::IsFloat(elem.propList[1], &stateElem.val.f)) { }
-			else if(Util::IsBool(elem.propList[1], &stateElem.val.b)) { }
+			if(ELEM_MAP.find(stateElem.elemHash) != ELEM_MAP.end())
+			{
+				stateElem.val.h = Math::FNV1a_64(elem.propList[1].c_str(), elem.propList[1].size());
+			}
+			else
+			{
+				if(Util::IsLong(elem.propList[1], &stateElem.val.l)) { }
+				else if(Util::IsFloat(elem.propList[1], &stateElem.val.f)) { }
+				else if(Util::IsBool(elem.propList[1], &stateElem.val.b)) { }
+			}
 		}
 	}
 };

@@ -82,6 +82,20 @@ namespace App
 		}
 	}
 
+	void CInput::Rebind(u32 layoutHash, u32 bindingHash, const InputBinding& primary, const InputBinding& secondary, bool bKeysOnly)
+	{
+		auto layout = m_layoutMap.find(layoutHash)->second;
+		layout->Rebind(layout->GetHash(), bindingHash, primary, secondary, bKeysOnly);
+	}
+
+	void CInput::Rebind(u32 bindingHash, const InputBinding& primary, const InputBinding& secondary, bool bKeysOnly)
+	{
+		for(auto& layout : m_layoutMap)
+		{
+			layout.second->Rebind(layout.second->GetHash(), bindingHash, primary, secondary, bKeysOnly);
+		}
+	}
+
 	//
 	// Utility methods.
 	//

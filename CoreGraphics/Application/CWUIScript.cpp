@@ -134,7 +134,7 @@ namespace App
 			std::wstring extension;
 			Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(elem.second->GetData().icon.c_str(), path, filename, extension);
 		
-			path = Resources::CManager::Instance().GetProductionPath() + path.substr(wcslen(Resources::CManager::Instance().GetFilePath()));
+			path = Resources::CManager::Instance().GetProductionPath() + path;//.substr(wcslen(Resources::CManager::Instance().GetFilePath()));
 			ASSERT_R(Util::CFileSystem::Instance().NewPath((path).c_str()));
 
 			std::ifstream fileIn(elem.second->GetData().icon, std::ios::binary | std::ios::ate);

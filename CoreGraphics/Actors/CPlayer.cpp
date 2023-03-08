@@ -15,19 +15,10 @@
 #include "../Application/CInputDeviceList.h"
 #include "../Application/CInputKeyboard.h"
 #include "../Application/CInputMouse.h"
+#include "../Application/CKeybinds.h"
 
 namespace Actor
 {
-	const char CPlayer::INPUT_KEY_MOVE_FORWARD[] = "Move Forward";
-	const char CPlayer::INPUT_KEY_MOVE_BACKWARD[] = "Move Backward";
-	const char CPlayer::INPUT_KEY_MOVE_LEFT[] = "Move Left";
-	const char CPlayer::INPUT_KEY_MOVE_RIGHT[] = "Move Right";
-
-	const char CPlayer::INPUT_KEY_LOOK_H[] = "Look Horizontal";
-	const char CPlayer::INPUT_KEY_LOOK_V[] = "Look Vertical";
-	
-	const char CPlayer::INPUT_KEY_JUMP[] = "Jump";
-
 	CPlayer::CPlayer(const wchar_t* pName, u32 viewHash) : 
 		CVObject(pName, viewHash),
 		m_pawn(L"Player Pawn", viewHash),
@@ -45,44 +36,6 @@ namespace Actor
 
 	void CPlayer::Initialize()
 	{
-		// Movement.
-		App::CInput::Instance().RegisterBinding(&m_data.inputHash, 1,
-			App::InputBindingSet(INPUT_KEY_MOVE_FORWARD, std::bind(&CPlayer::MoveForward, this, std::placeholders::_1),
-			App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_W), App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_UP))
-		);
-
-		App::CInput::Instance().RegisterBinding(&m_data.inputHash, 1,
-			App::InputBindingSet(INPUT_KEY_MOVE_BACKWARD, std::bind(&CPlayer::MoveBackward, this, std::placeholders::_1),
-			App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_S), App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_DOWN))
-		);
-
-		App::CInput::Instance().RegisterBinding(&m_data.inputHash, 1,
-			App::InputBindingSet(INPUT_KEY_MOVE_LEFT, std::bind(&CPlayer::MoveLeft, this, std::placeholders::_1),
-			App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_A), App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_LEFT))
-		);
-
-		App::CInput::Instance().RegisterBinding(&m_data.inputHash, 1,
-			App::InputBindingSet(INPUT_KEY_MOVE_RIGHT, std::bind(&CPlayer::MoveRight, this, std::placeholders::_1),
-			App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_D), App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_RIGHT))
-		);
-
-		// Look.
-		App::CInput::Instance().RegisterBinding(&m_data.inputHash, 1,
-			App::InputBindingSet(INPUT_KEY_LOOK_H, std::bind(&CPlayer::LookHorizontal, this, std::placeholders::_1),
-			App::InputBinding(App::INPUT_DEVICE_MOUSE, App::VM_MOUSE_DELTA_X), App::InputBinding(App::INPUT_DEVICE_NONE, 0))
-		);
-
-		App::CInput::Instance().RegisterBinding(&m_data.inputHash, 1,
-			App::InputBindingSet(INPUT_KEY_LOOK_V, std::bind(&CPlayer::LookVertical, this, std::placeholders::_1),
-			App::InputBinding(App::INPUT_DEVICE_MOUSE, App::VM_MOUSE_DELTA_Y), App::InputBinding(App::INPUT_DEVICE_NONE, 0))
-		);
-
-		// Actions.
-		App::CInput::Instance().RegisterBinding(&m_data.inputHash, 1,
-			App::InputBindingSet(INPUT_KEY_JUMP, std::bind(&CPlayer::Jump, this, std::placeholders::_1),
-			App::InputBinding(App::INPUT_DEVICE_KEYBOARD, App::VK_KB_SPACE), App::InputBinding(App::INPUT_DEVICE_NONE, 0))
-		);
-
 		{ // Setup the player pawn.
 			m_pawn.SetData(m_data.pawnData);
 			m_pawn.Initialize();
@@ -111,6 +64,8 @@ namespace Actor
 			m_uiNull.Initialize();
 			m_uiPlayer.Initialize();
 		}
+
+		App::CInput::Instance().Keybinds()->AddProcessor(std::bind(&CPlayerPawn::ProcessInput, &m_pawn, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	void CPlayer::PostInitialize()
@@ -165,44 +120,5 @@ namespace Actor
 		m_pawn.LoadFromFile(file);
 		m_motorNull.LoadFromFile(file);
 		m_motorHumanoid.LoadFromFile(file);
-	}
-
-	//-----------------------------------------------------------------------------------------------
-	// Input callbacks.
-	//-----------------------------------------------------------------------------------------------
-	
-	void CPlayer::MoveForward(const App::InputCallbackData& callback)
-	{
-		m_pawn.ProcessInput(MOTOR_INPUT_MOVE_FORWARD, callback);
-	}
-
-	void CPlayer::MoveBackward(const App::InputCallbackData& callback)
-	{
-		m_pawn.ProcessInput(MOTOR_INPUT_MOVE_BACKWARD, callback);
-	}
-
-	void CPlayer::MoveLeft(const App::InputCallbackData& callback)
-	{
-		m_pawn.ProcessInput(MOTOR_INPUT_MOVE_LEFT, callback);
-	}
-
-	void CPlayer::MoveRight(const App::InputCallbackData& callback)
-	{
-		m_pawn.ProcessInput(MOTOR_INPUT_MOVE_RIGHT, callback);
-	}
-
-	void CPlayer::LookHorizontal(const App::InputCallbackData& callback)
-	{
-		m_pawn.ProcessInput(MOTOR_INPUT_LOOK_HORIZONTAL, callback);
-	}
-
-	void CPlayer::LookVertical(const App::InputCallbackData& callback)
-	{
-		m_pawn.ProcessInput(MOTOR_INPUT_LOOK_VERTICAL, callback);
-	}
-
-	void CPlayer::Jump(const App::InputCallbackData& callback)
-	{
-		m_pawn.ProcessInput(MOTOR_INPUT_JUMP, callback);
 	}
 };

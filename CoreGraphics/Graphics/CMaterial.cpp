@@ -51,7 +51,7 @@ namespace Graphics
 		std::wstring extension;
 		Util::CFileSystem::Instance().SplitDirectoryFilenameExtension(m_data.filename.c_str(), path, filename, extension);
 
-		path = Resources::CManager::Instance().GetProductionPath() + path.substr(wcslen(Resources::CManager::Instance().GetFilePath()));
+		path = Resources::CManager::Instance().GetProductionPath() + path;//.substr(wcslen(Resources::CManager::Instance().GetFilePath()));
 		ASSERT_R(Util::CFileSystem::Instance().NewPath((path).c_str()));
 
 		std::ofstream file(path + filename + extension, std::ios::binary);

@@ -27,6 +27,7 @@ namespace Universe
 		
 		void Initialize();
 		void Update();
+		void LateUpdate();
 		void Release();
 
 		// Accessors.

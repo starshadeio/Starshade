@@ -43,6 +43,24 @@
     <Filter Include="Source Files\Application\Data">
       <UniqueIdentifier>{588eff9a-bcda-4208-9ec0-6753bdf7fce0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Actors">
+      <UniqueIdentifier>{c4a88c97-b69f-49a7-a536-694a98a65eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actors">
+      <UniqueIdentifier>{6752165c-8610-4ade-b405-17e97a97a294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Input">
+      <UniqueIdentifier>{8cef0990-4f86-4560-8230-7e39f37f5222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application\Input\Bindings">
+      <UniqueIdentifier>{bdaa10d5-b158-4eda-a8b3-8d590b13ad57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Input">
+      <UniqueIdentifier>{ea389b91-6a70-4964-a62a-1cf56977cd28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Application\Input\Bindings">
+      <UniqueIdentifier>{1d72427b-2d94-4d3a-a03b-cc6b95bb8742}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -59,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="Application\CAppReg.cpp">
       <Filter>Source Files\Application\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\CAppKeybinds.cpp">
+      <Filter>Source Files\Application\Input\Bindings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +105,9 @@
     </ClInclude>
     <ClInclude Include="Application\CAppData.h">
       <Filter>Header Files\Application\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\CAppKeybinds.h">
+      <Filter>Header Files\Application\Input\Bindings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

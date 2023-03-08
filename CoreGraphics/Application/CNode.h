@@ -12,6 +12,9 @@
 #define CNODE_H
 
 #include "../Universe/CChunkNode.h"
+#include "../Universe/CChunkGenNull.h"
+#include "../Universe/CChunkGenFlat.h"
+#include "../Universe/CChunkGenInf.h"
 #include <Objects/CNodeObject.h>
 #include <Globals/CGlobals.h>
 #include <Math/CMathRect.h>
@@ -37,7 +40,7 @@ namespace App
 		CNode& operator = (const CNode&) = delete;
 		CNode& operator = (CNode&&) = delete;
 		
-		void Load(std::ifstream& file);
+		void Load(const std::wstring& path, std::ifstream& file);
 		
 		u64 AddObject(const wchar_t* name, bool bForceSelect = true);
 		bool SelectObject(u64 hash);
@@ -60,7 +63,7 @@ namespace App
 		virtual void PostInitialize() { }
 
 		virtual void Update() { }
-		virtual void LateUpdate() { }
+		virtual void LateUpdate();
 
 		virtual void Release();
 
@@ -74,6 +77,8 @@ namespace App
 		u64 m_hash;
 
 		Universe::CChunkNode m_chunkNode;
+
+		Universe::CChunkGenNull m_chunkGenNull;
 		
 		std::unordered_map<u64, CNodeObject*> m_objMap;
 		CNodeObject* m_pSelectedObject;

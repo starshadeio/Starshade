@@ -30,8 +30,16 @@ namespace Graphics
 
 	void CMeshRenderer_::Render()
 	{
-		if(m_data.onPreRender) { m_data.onPreRender(); }
-		m_data.pMaterial->Bind();
+		for(size_t i = 0; i < m_pMaterialList.size(); ++i)
+		{
+			RenderWithMaterial(i);
+		}
+	}
+
+	void CMeshRenderer_::RenderWithMaterial(size_t materialIndex)
+	{
+		if(m_data.onPreRender) { m_data.onPreRender(m_pMaterialList[materialIndex]); }
+		m_pMaterialList[materialIndex]->Bind();
 	}
 
 	void CMeshRenderer_::Release()

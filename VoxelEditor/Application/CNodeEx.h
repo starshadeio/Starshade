@@ -11,6 +11,7 @@
 #ifndef CNODEEX_H
 #define CNODEEX_H
 
+#include "CNodeVersion.h"
 #include <Application/CNode.h>
 #include <string>
 #include <unordered_map>
@@ -32,7 +33,7 @@ namespace App
 
 	public:
 		void New();
-		void Save() const;
+		void Save();
 		void Load();
 		void Build() const;
 
@@ -40,6 +41,7 @@ namespace App
 		CNodeObject* CreateNodeObject(const wchar_t* name) final;
 
 	private:
+		App::CNodeVersion m_version;
 	};
 };
 

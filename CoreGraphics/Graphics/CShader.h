@@ -35,6 +35,7 @@ namespace Graphics
 			bool bAntialiasedLines = false;
 			bool bDepthRead = true;
 			bool bDepthWrite = true;
+			COMPARISON_FUNC depthComparison = COMPARISON_FUNC_LESS;
 			FILL_MODE fillMode = FILL_MODE_SOLID;
 			CULL_MODE cullMode = CULL_MODE_BACK;
 			PRIMITIVE_TOPOLOGY_TYPE topologyType;
